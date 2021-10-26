@@ -1,0 +1,10 @@
+/*=====================*/
+/*=====1920 screen=====*/
+/*=====================*/
+@media screen and (min-width: 1920px) {
+  .main_section:after{
+    background: url('../images/main_background.jpg') no-repeat bottom 0px right;
+    bottom: 0;
+    right: 0;
+  }
+}

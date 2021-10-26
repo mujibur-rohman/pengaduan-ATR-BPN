@@ -1,0 +1,86 @@
+﻿.dx-datagrid-focus-overlay {
+    border: none;
+}
+
+.dx-layout-manager .dx-label-h-align.dx-flex-layout:not(.dx-field-item-label-align) {
+    margin-bottom: unset;
+}
+
+
+#bi_box1 {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .085), 0 1px 8px rgba(0, 0, 0, .1);
+    /*width: 100px;
+    border-color: blue;
+    border-width: 1px;
+    border-style: dotted;
+    margin: 5px;*/
+    /*font-size: 10px;*/
+}
+
+#bi_box2 {
+    width: 250px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .085), 0 1px 8px rgba(0, 0, 0, .1);
+    /*border-color: blue;
+    border-width: 1px;
+    border-style: dotted;
+    margin: 5px;
+    font-size: 10px;*/
+    /*background-image: url('../images/background_statistik.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 80px 0;
+    position: relative;*/
+}
+
+/*@media (min-width: 992px) {
+    .col-md-3 {
+        width: unset;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-3 {
+        -ms-flex: unset;
+        flex: unset;
+        max-width: 30%;
+    }
+}*/
+
+/*#chart {
+    height: 340px;
+}*/
+
+/*.tooltip-header {
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c5c5c5;
+}*/
+
+/*.tooltip-body {
+    width: 170px;
+}*/
+
+    /*.tooltip-body .series-name {
+        font-weight: normal;
+        opacity: 0.6;
+        display: inline-block;
+        line-height: 1.5;
+        padding-right: 10px;
+        width: 126px;
+    }
+
+    .tooltip-body .value-text {
+        display: inline-block;
+        line-height: 1.5;
+        width: 30px;
+    }
+
+.tableImporEkspor {
+    margin-bottom: 5px;
+    font-size: 12px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #c5c5c5;
+}*/
