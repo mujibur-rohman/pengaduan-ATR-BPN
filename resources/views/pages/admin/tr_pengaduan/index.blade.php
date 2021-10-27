@@ -421,7 +421,11 @@ $(document).ready(function() {
 //
 //    new $.fn.dataTable.FixedHeader( table );
 
-    $('#dxdatagrid').DataTable();
+    var table = $('#dxdatagrid').DataTable({
+        responsive: true
+    });
+    
+    new $.fn.dataTable.FixedHeader( table );
     
     $('#txttglawal').val("2021-10-15");
     $('#txttglakhir').val("2021-10-16");
