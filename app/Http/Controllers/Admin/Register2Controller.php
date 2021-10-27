@@ -23,18 +23,18 @@ class Register2Controller extends Controller
     }
 
    
-		public function index(){
-            $roles = Roles::all();
-            return view('pages.admin.register.index', compact('roles'));
-		}
+    public function index(){
+        $roles = Roles::all();
+        return view('pages.admin.register.index', compact('roles'));
+    }
 
     public function get()
     {  
 
         $data = DB::table('users')
-        ->join('roles', 'roles.id_role', '=', 'users.id_role')
-        ->select('users.*', 'roles.name')
-        ->orderby('id_user', 'ASC')->get();
+            ->join('roles', 'roles.id_role', '=', 'users.id_role')
+            ->select('users.*', 'roles.name')
+            ->orderby('id_user', 'ASC')->get();
         echo json_encode($data);
     }
 
@@ -76,10 +76,10 @@ class Register2Controller extends Controller
     
     public function getRegister($id){
         $data = DB::table('users')
-        ->join('roles', 'roles.id_role', '=', 'users.id_role')
-        ->select('users.*', 'roles.name')
-        ->where('id_user', $id) 
-        ->orderby('id_user', 'ASC')->get();
+            ->join('roles', 'roles.id_role', '=', 'users.id_role')
+            ->select('users.*', 'roles.name')
+            ->where('id_user', $id) 
+            ->orderby('id_user', 'ASC')->get();
 
         echo json_encode($data);
     }

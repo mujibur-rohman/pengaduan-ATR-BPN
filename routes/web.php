@@ -219,14 +219,14 @@ Route::prefix('guru')->group(function(){
 
 
 	Route::prefix('register')->group(function(){
-		Route::get('/','Admin\Register2Controller@index')->name('listregister');
-		 Route::get('/dataregister', 'Admin\Register2Controller@get')->name('daftarregister');
-		 Route::get('/datajml', 'Admin\Register2Controller@getmax')->name('maxregister');
-		 Route::post('/simpanregister', 'Admin\Register2Controller@save')->name('simpanregister');
-		 Route::get('/getDataregister/{id}', 'Admin\Register2Controller@getregister');
-		 Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
-		 Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
-		});
+            Route::get('/','Admin\Register2Controller@index')->name('listregister');
+            Route::get('/dataregister', 'Admin\Register2Controller@get')->name('daftarregister');
+            Route::get('/datajml', 'Admin\Register2Controller@getmax')->name('maxregister');
+            Route::post('/simpanregister', 'Admin\Register2Controller@save')->name('simpanregister');
+            Route::get('/getDataregister/{id}', 'Admin\Register2Controller@getregister');
+            Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
+            Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
+        });
 
 		Route::prefix('pengaduan_kanal')->group(function(){
 			Route::get('/','Admin\Pengaduan_kanalController@index')->name('listpengaduan_kanal');

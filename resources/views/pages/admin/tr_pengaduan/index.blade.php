@@ -1,173 +1,159 @@
-@extends('layouts.admin_res')
+@extends('layouts.admin')
 @section('htmlheader_title')
     {{ trans('form') }}
 @endsection
 @section('main-content')
 
-     <!--==============================================================-->
-        <!-- Start right Content here main -->
+<!--==============================================================-->
+<!-- Start right Content here main -->
+<div class="main-content">
+    <div class="page-content">
+        <div class="container-fluid">
+            
+            <!--   main  ============================================================== -->
+            <div class="panel-heading" style="margin-bottom:2%">
+                <div class="panel-title col-md-12">
+                    <h4 class="col-md-4">Transaksi Pengaduan ALL</h4>
+                </div>
+            <div class="row">
+                <div class="panel-title col-md-12">
 
-        <div class="main-content">
-
-            <div class="page-content">
-                <div class="container-fluid">
-                    <!--   main  ============================================================== -->
-                   
-                <div class="panel-heading" style="margin-bottom:2%">
-                    <div class="panel-title col-md-12">
-
-                        <h4 class="col-md-4">Transaksi Pengaduan ALL</h4>
-
-                    </div>
-        <div class="row">
-            <div class="panel-title col-md-12">
-
-                 <form id="formfilter" method="POST">
-                            {{ csrf_field() }}
-                            
-                                <div class="col-md-6" style="float:left;">
-                                    <div class="fieldset" style="margin-bottom:10px;">
-
-                                    <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">Tanggal perode</div>
-                                            <div class="fiel-value" style="float:left;width:25%;">
-                                                <div> <input type="date" class="field-label" id="txttglawal" ></div></div>
-                                            <div class="field-label" style="float:left;width:10%;">s/d</div>
-                                            <div class="fiel-value" style="float:left;width:25%;"><div><input type="date" class="field-label" id="txttglakhir"  ></div></div>
-                                        </div>
-                                        <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">catagori Kanal</div>
-                                            <div class="fiel-value">
-                                                <select id="cmbcatagorikanal">
-                                                    <option value="1"> Kanal NON Medsos</option>
-                                                    <option value="2"> Kanal Medsos</option>
-                                                   
-                                                </select>
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">Kanal Pengaduan</div>
-                                            <div class="fiel-value">
-                                                <select id="cmbkanalpengaduan">
-                                                 <option value="0">Semua data</option>
-                                                    <option value="1">Facebook</option>
-                                                    <option value="2">Instagram</option>
-                                                    <option value="3">Youtube</option>
-                                                    <option value="4">Portal Pengaduan</option>
-                                                    <option value="5">Helpdesk</option>
-                                                    <option value="6">Email</option>
-                                                    <option value="7">Surat</option>
-                                                    <option value="8">Lapor.go.id</option>
-                                                    <option value="9">KPK</option>
-                                               </select>
-
-
-                                            </div>
-                                        </div>
-                                                                          </div>
-                                </div>
-
-                                <div class="col-md-6" style="float:left;">
-                                    <div class="fieldset" style="margin-bottom:10px;">
-                                       
-                                    <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">Status Pengaduan</div>
-                                            <div class="fiel-value">
-                                                <select id="cmbstatuspengaduan">
-                                                    <option value="0">Semua data</option>
-                                                    <option value="1">Laporan Diterima</option>
-                                                    <option value="2">Proses Verifikasi</option>
-                                                    <option value="3">Proses Tindak Lanjut</option>
-                                                    <option value="4">Tanggapan</option>
-                                                    <option value="5">Selesai</option>
-                                                </select>
-                                            </div>
-                                        </div>
- 
-                                    
-                                        <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">Posisi Pengaduan</div>
-                                            <div class="fiel-value">
-                                                <select id="cmbposisipengaduan">
-                                                    <option value="0">Semua data</option>
-                                                    <option value="1">Humas Pusat ATR BPN</option>
-                                                    <option value="2">Itjen 7 Pusat ATR BPN</option>
-                                                    <option value="3">Verifikator Pusat ATR BPN</option>
-                                                    <option value="4">Admin Kanwil Jawa Barat</option>
-                                                    <option value="5">Verifikator Kanwil Jawa Barat</option>
-                                                    <option value="6">Responder Kanwil Jawa Barat</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="field">
-                                            <div class="field-label" style="float:left;width:40%;">Jenis Pengaduan</div>
-                                            <div class="fiel-value">
-                                                <select id="cmbjenispengaduan">
-                                                    <option value="0">Semua data</option>
-                                                    <option value="1">Informasi</option>
-                                                    <option value="2">Pengaduan</option>
-                                                  
-                                                </select>
-                                            </div>
-                                        </div>
-                                       
+                    <form id="formfilter" method="POST">
+                        {{ csrf_field() }}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Tanggal Periode</label>
+                                    <div class="col-sm-4">
+                                        <input type="date" class="form-control" id="txttglawal" >
                                     </div>
-                                 </div>
-                         
-                    <div class="row">
-                        <div class="col-md-6">
-                           
-                            <a href="{{ route('indexPusatAdmin') }}" class="btn btn-default btn-sm btn-flat">Kembali</a>
-                            <button type="submit" class="btn btn-primary" id="btncaridata">Cari Data </button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnbatal">bersih</button>
-                           
-                         
-                           
+                                    <label for="staticEmail" class="col-sm-1 col-form-label">s/d</label>
+                                    <div class="col-sm-4">
+                                        <input type="date" class="form-control" id="txttglakhir">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Kanal</label>
+                                    <div class="col-sm-4">
+                                        <select id="cmbcatagorikanal" class="form-control">
+                                            <option value="1">Kanal NON Medsos</option>
+                                            <option value="2">Kanal Medsos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Pengaduan</label>
+                                    <div class="col-sm-4">
+                                        <select id="cmbkanalpengaduan" class="form-control">
+                                            <option value="0">Semua data</option>
+                                            <option value="1">Facebook</option>
+                                            <option value="2">Instagram</option>
+                                            <option value="3">Youtube</option>
+                                            <option value="4">Portal Pengaduan</option>
+                                            <option value="5">Helpdesk</option>
+                                            <option value="6">Email</option>
+                                            <option value="7">Surat</option>
+                                            <option value="8">Lapor.go.id</option>
+                                            <option value="9">KPK</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Status Pengaduan</label>
+                                    <div class="col-sm-4">
+                                        <select id="cmbstatuspengaduan" class="form-control">
+                                            <option value="0">Semua data</option>
+                                            <option value="1">Laporan Diterima</option>
+                                            <option value="2">Proses Verifikasi</option>
+                                            <option value="3">Proses Tindak Lanjut</option>
+                                            <option value="4">Tanggapan</option>
+                                            <option value="5">Selesai</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Posisi Pengaduan</label>
+                                    <div class="col-sm-4">
+                                        <select id="cmbposisipengaduan" class="form-control">
+                                            <option value="0">Semua data</option>
+                                            <option value="1">Humas Pusat ATR BPN</option>
+                                            <option value="2">Itjen 7 Pusat ATR BPN</option>
+                                            <option value="3">Verifikator Pusat ATR BPN</option>
+                                            <option value="4">Admin Kanwil Jawa Barat</option>
+                                            <option value="5">Verifikator Kanwil Jawa Barat</option>
+                                            <option value="6">Responder Kanwil Jawa Barat</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Jenis Pengaduan</label>
+                                    <div class="col-sm-4">
+                                        <select id="cmbjenispengaduan" class="form-control">
+                                            <option value="0">Semua data</option>
+                                            <option value="1">Informasi</option>
+                                            <option value="2">Pengaduan</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                 </form>
-         </div>
-     </div>
-                    <!-- Isi Content -->
-                        				
-							
-                    <div class="panel-body">
-                    
-					<table  id="dxdatagrid" class="table table-striped table-bordered nowrap" style="width:100%">
-                        <thead>
-                            <tr><th>NO</th>
-                                <th>ID</th>
-                                <th>Jenis Pengaduan</th>
-                                <th>Kanal Pengaduan</th>
-                                <th>Posisi Pengaduan</th>
-                                <th>Status Pengaduan</th>
-                                <th>Nama </th>
-                                <th>Alamat </th>
-                                <th>Email</th>
-                                <th>Pekerjaan</th>
-                                <th>No.Telp</th>
-                                <th>Obyek Aduan</th>
-                                <th>Hubungan</th>
-                                <th>No.Berkas</th>
-                                <th>Uraian Pengaduan</th>
-                                <th>Nama Penerima</th>
-                                <th>TGL Dibuat</th>
-                                <th> Disposisi</th>
-                            </tr>
-                                         
-                        </thead>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">&nbsp;</label>
+                                    <div class="col-sm-9">
+                                        <a href="{{ route('indexPusatAdmin') }}" class="btn btn-default btn-sm btn-flat">Kembali</a>
+                                        <button type="submit" class="btn btn-primary" id="btncaridata">Cari Data </button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnbatal">bersih</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                
+            <!-- Isi Content -->					
+            <div class="panel-body">
+                <table id="dxdatagrid" class="table table-striped table-bordered table-responsive nowrap" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>ID</th>
+                            <th>Jenis Pengaduan</th>
+                            <th>Kanal Pengaduan</th>
+                            <th>Posisi Pengaduan</th>
+                            <th>Status Pengaduan</th>
+                            <th>Nama </th>
+                            <th>Alamat </th>
+                            <th>Email</th>
+                            <th>Pekerjaan</th>
+                            <th>No.Telp</th>
+                            <th>Obyek Aduan</th>
+                            <th>Hubungan</th>
+                            <th>No.Berkas</th>
+                            <th>Uraian Pengaduan</th>
+                            <th>Nama Penerima</th>
+                            <th>TGL Dibuat</th>
+                            <th> Disposisi</th>
+                        </tr>
+                    </thead>
         
-                            <tbody>
-                            @if($tr_pengaduans->isEmpty())
-                            <tr>
-                                <td colspan="21"><h4 class="text-center">Data Kosong</h4></td>
-                            </tr>
+                    <tbody>
+                        @if($tr_pengaduans->isEmpty())
+                        <tr>
+                            <td colspan="21"><h4 class="text-center">Data Kosong</h4></td>
+                        </tr>
                         @else
-                          @foreach($tr_pengaduans as $no=>$tr_p)
+                            @foreach($tr_pengaduans as $no=>$tr_p)
 
                         <tr>
                             <td class="text-center">{{ $no+1 }}</td>
@@ -227,10 +213,9 @@
                        @endif
                     </tbody>
                           
-                     </table>
-
-         </div>
-                    <!-- end main============================================================== -->
+                </table>
+            </div>
+            <!-- end main============================================================== -->
             
 {{-- Modal Dialog Edit verifikator --}}
 <div id="modalEditverifikator" class="modal fade">
@@ -416,98 +401,76 @@
                     
                 </div>
             </div>
-        </div>
-        <!-- End Page-content main -->
+    </div>
+</div>    
+<!-- End Page-content main -->
 
-    @endsection
+@endsection
+@push('script')
 
-    @push('script')
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("body").on("click",".btnedit_Verifikator", function(){
-                vall = $(this).closest('tr').find('td');
-             $('#modalEditverifikator').modal('show');
-            });
-
-
-
-        });
-    </script>
-   <script type="text/javascript">
-        $(document).ready(function() {
-            $("body").on("click",".btnedit_Responder", function(){
-                vall = $(this).closest('tr').find('td');
-             $('#modalEditresponder').modal('show');
-            });
-
-
-            
-        });
-    </script>
- <script type="text/javascript">
-        $(document).ready(function() {
-            $("body").on("click",".btnedit_Jawab", function(){
-                vall = $(this).closest('tr').find('td');
-             $('#modalEditjawab').modal('show');
-            });
-
-
-            
-        });
-    </script>
-
-
+<style type="text/css">
+#formfilter .form-group.row {
+    margin-bottom: 10px;
+}
+</style>
 <script type="text/javascript">
-        $(document).ready(function() {
-            $("body").on("click",".btnedit_Kembali", function(){
-                vall = $(this).closest('tr').find('td');
-             $('#modalEditkembali').modal('show');
-            });
-        });
-    </script>
-    <script type="text/javascript">
+$(document).ready(function() {
+//    var table = $('#dxdatagrid').DataTable( {
+//        responsive: true
+//    } );
+//
+//    new $.fn.dataTable.FixedHeader( table );
 
-
-
+    $('#dxdatagrid').DataTable();
     
-     $('#txttglawal').val("2021-10-15");
-     $('#txttglakhir').val("2021-10-16");
-    
-
+    $('#txttglawal').val("2021-10-15");
+    $('#txttglakhir').val("2021-10-16");
      
+    $("body").on("click",".btnedit_Verifikator", function(){
+        vall = $(this).closest('tr').find('td');
+        $('#modalEditverifikator').modal('show');
+    });
 
- $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
+    $("body").on("click",".btnedit_Responder", function(){
+        vall = $(this).closest('tr').find('td');
+        $('#modalEditresponder').modal('show');
+    });
+    
+    $("body").on("click",".btnedit_Jawab", function(){
+        vall = $(this).closest('tr').find('td');
+        $('#modalEditjawab').modal('show');
+    });
+    
+    $("body").on("click",".btnedit_Kembali", function(){
+        vall = $(this).closest('tr').find('td');
+        $('#modalEditkembali').modal('show');
+    });
+    
+    $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
 
-$('#formfilter').submit(function(e) {
-  e.preventDefault();
+    $('#formfilter').submit(function(e) {
+        e.preventDefault();
 
-  alert("kita")
-  var link = $('#formfilter').attr('action');
-  var request = new FormData(this);
-   console.log(request)
-   console.log(link)
-   $.ajax({
-      url: link,
-      method: "post",
-      data: request,
-      contentType: false,
-      cache: false,
-      processData: false,
-      success: function(response) {
-             console.log(response);
-          alert("Data anda berhasil di Kirim")  
-             // $('#alert-success').html('Data User Berhasil Disimpan').fadeIn().delay(4000).fadeOut('slow');
-        //     kosongdata();  
-                  
-      }
-  });
+        var link = $('#formfilter').attr('action');
+        var request = new FormData(this);
+         console.log(request)
+         console.log(link)
+         $.ajax({
+            url: link,
+            method: "post",
+            data: request,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(response) {
+                   console.log(response);
+                alert("Data anda berhasil di Kirim")  
+                   // $('#alert-success').html('Data User Berhasil Disimpan').fadeIn().delay(4000).fadeOut('slow');
+              //     kosongdata();  
 
-
+            }
+        });
+    });
 });
-
-
-
-                     
 </script>
 @endpush
