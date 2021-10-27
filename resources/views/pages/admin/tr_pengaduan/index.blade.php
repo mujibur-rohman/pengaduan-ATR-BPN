@@ -25,29 +25,35 @@
                                 <div class="form-group row">
                                     <label for="staticEmail" class="col-sm-3 col-form-label">Tanggal Periode</label>
                                     <div class="col-sm-4">
-                                        <input type="date" class="form-control" id="txttglawal" >
+                                        <input name="start_date" type="date" class="form-control" id="txttglawal" value="{{ $txttglawal }}">
                                     </div>
                                     <label for="staticEmail" class="col-sm-1 col-form-label">s/d</label>
                                     <div class="col-sm-4">
-                                        <input type="date" class="form-control" id="txttglakhir">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Kanal</label>
-                                    <div class="col-sm-4">
-                                        <select id="cmbcatagorikanal" class="form-control">
-                                            <option value="1">Kanal NON Medsos</option>
-                                            <option value="2">Kanal Medsos</option>
-                                        </select>
+                                        <input name="end_date" type="date" class="form-control" id="txttglakhir" value="{{ $txttglakhir }}">
                                     </div>
                                 </div>
                                 
                                 <div class="form-group row">
                                     <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Pengaduan</label>
                                     <div class="col-sm-4">
-                                        <select id="cmbkanalpengaduan" class="form-control">
+                                        <select name="pengaduan_id" id="cmbcatagorikanal" class="form-control">
+                                            <option value="1" {{ $kanal_id == "1" ? "selected" : "" }}>Kanal NON Medsos</option>
+                                            <option value="2" {{ $kanal_id == "2" ? "selected" : "" }}>Kanal Medsos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row">
+                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Kanal</label>
+                                    <div class="col-sm-4">
+                                        <select name="kanal_id" id="cmbkanalpengaduan" class="form-control">
                                             <option value="0">Semua data</option>
+                                            @foreach (\App\Pengaduan_kanal::select('kanal_id','nama_kanal')->get() as $kanal)
+                                                <option value="{{ $kanal->kanal_id }}" {{ $kanal->kanal_id == $kanal_id ? 'selected' : '' }}>
+                                                    {{ $kanal->nama_kanal }}
+                                                </option>
+                                            @endforeach
+<!--                                            <option value="0">Semua data</option>
                                             <option value="1">Facebook</option>
                                             <option value="2">Instagram</option>
                                             <option value="3">Youtube</option>
@@ -56,7 +62,7 @@
                                             <option value="6">Email</option>
                                             <option value="7">Surat</option>
                                             <option value="8">Lapor.go.id</option>
-                                            <option value="9">KPK</option>
+                                            <option value="9">KPK</option>-->
                                         </select>
                                     </div>
                                 </div>
@@ -148,11 +154,7 @@
                     </thead>
         
                     <tbody>
-                        @if($tr_pengaduans->isEmpty())
-                        <tr>
-                            <td colspan="21"><h4 class="text-center">Data Kosong</h4></td>
-                        </tr>
-                        @else
+                        @if(!$tr_pengaduans->isEmpty())
                             @foreach($tr_pengaduans as $no=>$tr_p)
 
                         <tr>
@@ -415,20 +417,14 @@
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
-//    var table = $('#dxdatagrid').DataTable( {
-//        responsive: true
-//    } );
-//
-//    new $.fn.dataTable.FixedHeader( table );
-
     var table = $('#dxdatagrid').DataTable({
-        responsive: true
+        responsive: true,
+        language: {
+            emptyTable: "Data kosong"
+        }
     });
     
     new $.fn.dataTable.FixedHeader( table );
-    
-    $('#txttglawal').val("2021-10-15");
-    $('#txttglakhir').val("2021-10-16");
      
     $("body").on("click",".btnedit_Verifikator", function(){
         vall = $(this).closest('tr').find('td');
@@ -452,29 +448,29 @@ $(document).ready(function() {
     
     $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
 
-    $('#formfilter').submit(function(e) {
-        e.preventDefault();
-
-        var link = $('#formfilter').attr('action');
-        var request = new FormData(this);
-         console.log(request)
-         console.log(link)
-         $.ajax({
-            url: link,
-            method: "post",
-            data: request,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function(response) {
-                   console.log(response);
-                alert("Data anda berhasil di Kirim")  
-                   // $('#alert-success').html('Data User Berhasil Disimpan').fadeIn().delay(4000).fadeOut('slow');
-              //     kosongdata();  
-
-            }
-        });
-    });
+//    $('#formfilter').submit(function(e) {
+//        e.preventDefault();
+//
+//        var link = $('#formfilter').attr('action');
+//        var request = new FormData(this);
+//         console.log(request)
+//         console.log(link)
+//         $.ajax({
+//            url: link,
+//            method: "post",
+//            data: request,
+//            contentType: false,
+//            cache: false,
+//            processData: false,
+//            success: function(response) {
+//                   console.log(response);
+//                alert("Data anda berhasil di Kirim")  
+//                   // $('#alert-success').html('Data User Berhasil Disimpan').fadeIn().delay(4000).fadeOut('slow');
+//              //     kosongdata();  
+//
+//            }
+//        });
+//    });
 });
 </script>
 @endpush

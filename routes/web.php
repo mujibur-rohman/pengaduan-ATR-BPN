@@ -37,11 +37,40 @@ Route::get('test', function(){
 
 //begin group admin
 Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], function(){
-	Route::prefix('profile')->group(function(){
-		Route::get('/','Admin\ProfilController@index')->name('indexProfileAdmin');
-		Route::get('edit','Admin\ProfilController@edit')->name('editProfileAdmin');
-		Route::post('update','Admin\ProfilController@update')->name('updateProfileAdmin');
-	});
+    
+    Route::prefix('tr_pengaduan')->group(function () {
+        Route::match(['get', 'post'], '/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
+//        Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
+        
+        
+        Route::get('/datatr_pengaduan', 'Admin\Tr_pengaduanController@get')->name('daftartr_pengaduan');
+        Route::get('/datajml', 'Admin\Tr_pengaduanController@getmax')->name('maxtr_pengaduan');
+        Route::post('/simpantr_pengaduan', 'Admin\Tr_pengaduanController@save')->name('simpantr_pengaduan');
+        Route::get('/getDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@gettr_pengaduan');
+        Route::post('Admin/editDatatr_pengaduan/{`id`}', 'Admin\Tr_pengaduanController@update');
+        Route::get('/hapusDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@delete');
+        Route::get('/non_medsos', 'Admin\Tr_pengaduanController@index_non_medsos')->name('tampil_filter');
+        Route::get('/medsos/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('filter_facebook');
+        Route::get('/pengaduan_verifikasi/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_verifikasi');
+        Route::get('/pengaduan_disposisi/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_disposisi');
+        Route::get('/pengaduan_responder/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_responder');
+
+        //route get sosialmedia
+        Route::get('/facebookget', 'Admin\Tr_pengaduanController@facebookget')->name('list_facebook');
+        Route::get('/twitterget', 'Admin\Tr_pengaduanController@twitterget')->name('list_twitter');
+        Route::get('/instagramget', 'Admin\Tr_pengaduanController@instagramget')->name('list_instagram');
+        Route::get('/youtubeget', 'Admin\Tr_pengaduanController@youtubeget')->name('list_youtube');
+        Route::get('/emailget', 'Admin\Tr_pengaduanController@emailget')->name('list_email');
+        Route::get('/suratget', 'Admin\Tr_pengaduanController@suratget')->name('list_surat');
+        Route::get('/portalget', 'Admin\Tr_pengaduanController@portalget')->name('list_portal');
+    });
+            
+    
+    Route::prefix('profile')->group(function(){
+        Route::get('/','Admin\ProfilController@index')->name('indexProfileAdmin');
+        Route::get('edit','Admin\ProfilController@edit')->name('editProfileAdmin');
+        Route::post('update','Admin\ProfilController@update')->name('updateProfileAdmin');
+    });
 
 	Route::prefix('tahunajaran')->group(function(){
 		Route::get('/','Admin\TahunAjaranController@index')->name('indexTahunAjaranAdmin');
@@ -258,33 +287,6 @@ Route::prefix('guru')->group(function(){
 			 Route::get('/hapusDatapengaduan_jenis/{id}', 'Admin\Pengaduan_jenisController@delete');
 			});
 
-			
-			Route::prefix('tr_pengaduan')->group(function () {
-    		Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
-    		Route::get('/datatr_pengaduan', 'Admin\Tr_pengaduanController@get')->name('daftartr_pengaduan');
-    		Route::get('/datajml', 'Admin\Tr_pengaduanController@getmax')->name('maxtr_pengaduan');
-    		Route::post('/simpantr_pengaduan', 'Admin\Tr_pengaduanController@save')->name('simpantr_pengaduan');
-    		Route::get('/getDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@gettr_pengaduan');
-    		Route::post('Admin/editDatatr_pengaduan/{`id`}', 'Admin\Tr_pengaduanController@update');
-    		Route::get('/hapusDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@delete');
-			Route::get('/non_medsos', 'Admin\Tr_pengaduanController@index_non_medsos')->name('tampil_filter');
-			Route::get('/medsos/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('filter_facebook');
-			Route::get('/pengaduan_verifikasi/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_verifikasi');
-			Route::get('/pengaduan_disposisi/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_disposisi');
-			Route::get('/pengaduan_responder/{id}', 'Admin\Tr_pengaduanController@index_medsos')->name('pengaduan_responder');
-
-			//route get sosialmedia
-		Route::get('/facebookget', 'Admin\Tr_pengaduanController@facebookget')->name('list_facebook');
-		Route::get('/twitterget', 'Admin\Tr_pengaduanController@twitterget')->name('list_twitter');
-		Route::get('/instagramget', 'Admin\Tr_pengaduanController@instagramget')->name('list_instagram');
-		Route::get('/youtubeget', 'Admin\Tr_pengaduanController@youtubeget')->name('list_youtube');
-	    Route::get('/emailget', 'Admin\Tr_pengaduanController@emailget')->name('list_email');
-		Route::get('/suratget', 'Admin\Tr_pengaduanController@suratget')->name('list_surat');
-		Route::get('/portalget', 'Admin\Tr_pengaduanController@portalget')->name('list_portal');
-
-		
-
-		});
 	Route::prefix('kota')->group(function () {
 		Route::get('Admin/kota/{id}', 'Admin\KotaController@postIndex')->name('listkota');
 		Route::get('/datakota', 'Admin\KotaController@get')->name('daftarkota');
