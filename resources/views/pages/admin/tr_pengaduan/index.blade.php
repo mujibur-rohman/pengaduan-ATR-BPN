@@ -15,44 +15,36 @@
                 <div class="panel-title col-md-12">
                     <h4 class="col-md-4">Transaksi Pengaduan ALL</h4>
                 </div>
-            <div class="row">
-                <div class="panel-title col-md-12">
-
-                    <form id="formfilter" method="POST">
-                        {{ csrf_field() }}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Tanggal Periode</label>
-                                    <div class="col-sm-4">
-                                        <input name="start_date" type="date" class="form-control" id="txttglawal" value="{{ $txttglawal }}">
-                                    </div>
-                                    <label for="staticEmail" class="col-sm-1 col-form-label">s/d</label>
-                                    <div class="col-sm-4">
-                                        <input name="end_date" type="date" class="form-control" id="txttglakhir" value="{{ $txttglakhir }}">
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Pengaduan</label>
-                                    <div class="col-sm-4">
-                                        <select name="pengaduan_id" id="cmbcatagorikanal" class="form-control">
-                                            <option value="1" {{ $kanal_id == "1" ? "selected" : "" }}>Kanal NON Medsos</option>
-                                            <option value="2" {{ $kanal_id == "2" ? "selected" : "" }}>Kanal Medsos</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Katagori Kanal</label>
-                                    <div class="col-sm-4">
-                                        <select name="kanal_id" id="cmbkanalpengaduan" class="form-control">
-                                            <option value="0">Semua data</option>
-                                            @foreach (\App\Pengaduan_kanal::select('kanal_id','nama_kanal')->get() as $kanal)
-                                                <option value="{{ $kanal->kanal_id }}" {{ $kanal->kanal_id == $kanal_id ? 'selected' : '' }}>
-                                                    {{ $kanal->nama_kanal }}
-                                                </option>
-                                            @endforeach
+            </div>
+            <div class="box-filter border p-4 rounded mb-3">
+                <form id="formfilter" method="POST">
+                    {{ csrf_field() }}
+                    <div class="row mb-3">
+                        <div class="col-4 row">
+                            <label for="tanggal" class="form-label">Tanggal Periode</label>
+                            <div class="d-flex align-items-center mb-3">
+                                <input name="start_date" type="date" class="form-control" id="txttglawal" value="{{ $txttglawal }}">
+                                <i class="fas fa-arrow-right px-1"></i>
+                                <input name="end_date" type="date" class="form-control" id="txttglakhir" value="{{ $txttglakhir }}">
+                            </div>
+                            <label class="form-label">Kategori Pengaduan</label>
+                            <div class="d-flex">
+                                <select name="pengaduan_id" id="cmbcatagorikanal" class="form-control form-select">
+                                    <option value="1" {{ $kanal_id == "1" ? "selected" : "" }}>Kanal NON Medsos</option>
+                                    <option value="2" {{ $kanal_id == "2" ? "selected" : "" }}>Kanal Medsos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <label class="form-label">Kategori Kanal</label>
+                            <div class="d-flex mb-3">
+                                <select name="kanal_id" id="cmbkanalpengaduan" class="form-control form-select">
+                                    <option value="0">Semua data</option>
+                                    @foreach (\App\Pengaduan_kanal::select('kanal_id','nama_kanal')->get() as $kanal)
+                                    <option value="{{ $kanal->kanal_id }}" {{ $kanal->kanal_id == $kanal_id ? 'selected' : '' }}>
+                                    {{ $kanal->nama_kanal }}
+                                    </option>
+                                    @endforeach
 <!--                                            <option value="0">Semua data</option>
                                             <option value="1">Facebook</option>
                                             <option value="2">Instagram</option>
@@ -64,92 +56,62 @@
                                             <option value="8">Lapor.go.id</option>
                                             <option value="9">KPK</option>-->
                                         </select>
-                                    </div>
-                                </div>
                             </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Status Pengaduan</label>
-                                    <div class="col-sm-4">
-                                        <select id="cmbstatuspengaduan" class="form-control">
-                                            <option value="0">Semua data</option>
-                                            <option value="1">Laporan Diterima</option>
-                                            <option value="2">Proses Verifikasi</option>
-                                            <option value="3">Proses Tindak Lanjut</option>
-                                            <option value="4">Tanggapan</option>
-                                            <option value="5">Selesai</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Posisi Pengaduan</label>
-                                    <div class="col-sm-4">
-                                        <select id="cmbposisipengaduan" class="form-control">
-                                            <option value="0">Semua data</option>
-                                            <option value="1">Humas Pusat ATR BPN</option>
-                                            <option value="2">Itjen 7 Pusat ATR BPN</option>
-                                            <option value="3">Verifikator Pusat ATR BPN</option>
-                                            <option value="4">Admin Kanwil Jawa Barat</option>
-                                            <option value="5">Verifikator Kanwil Jawa Barat</option>
-                                            <option value="6">Responder Kanwil Jawa Barat</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">Jenis Pengaduan</label>
-                                    <div class="col-sm-4">
-                                        <select id="cmbjenispengaduan" class="form-control">
-                                            <option value="0">Semua data</option>
-                                            <option value="1">Informasi</option>
-                                            <option value="2">Pengaduan</option>
-                                        </select>
-                                    </div>
-                                </div>
+                            <label class="form-label">Status Pengaduan</label>
+                            <div class="d-flex">
+                                <select id="cmbstatuspengaduan" class="form-control form-select">
+                                    <option value="0">Semua data</option>
+                                    <option value="1">Laporan Diterima</option>
+                                    <option value="2">Proses Verifikasi</option>
+                                    <option value="3">Proses Tindak Lanjut</option>
+                                    <option value="4">Tanggapan</option>
+                                    <option value="5">Selesai</option>
+                                </select>
                             </div>
                         </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    <label for="staticEmail" class="col-sm-3 col-form-label">&nbsp;</label>
-                                    <div class="col-sm-9">
-                                        <a href="{{ route('indexPusatAdmin') }}" class="btn btn-default btn-sm btn-flat">Kembali</a>
-                                        <button type="submit" class="btn btn-primary" id="btncaridata">Cari Data </button>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnbatal">bersih</button>
-                                    </div>
-                                </div>
+                        <div class="col-4">
+                            <label class="form-label">Posisi Pengaduan</label>
+                            <div class="d-flex mb-3">
+                                <select id="cmbposisipengaduan" class="form-control form-select">
+                                    <option value="0">Semua data</option>
+                                    <option value="1">Humas Pusat ATR BPN</option>
+                                    <option value="2">Itjen 7 Pusat ATR BPN</option>
+                                    <option value="3">Verifikator Pusat ATR BPN</option>
+                                    <option value="4">Admin Kanwil Jawa Barat</option>
+                                    <option value="5">Verifikator Kanwil Jawa Barat</option>
+                                    <option value="6">Responder Kanwil Jawa Barat</option>
+                                </select>
+                            </div>
+                            <label class="form-label">Jenis Pengaduan</label>
+                            <div class="d-flex">
+                                <select id="cmbjenispengaduan" class="form-control form-select">
+                                    <option value="0">Semua data</option>
+                                    <option value="1">Informasi</option>
+                                    <option value="2">Pengaduan</option>
+                                </select>
                             </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <a href="{{ route('indexPusatAdmin') }}" class="btn btn-default btn-sm btn-flat btn-warning"><i class="fas fa-chevron-left"></i> Kembali</a>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btnbatal">Reset</button>
+                            <button type="submit" class="btn btn-primary" id="btncaridata">Cari Data</button>
+                        </div>
+                    </div>
+                </form>
             </div>
                 
             <!-- Isi Content -->					
-            <div class="panel-body">
-                <table id="dxdatagrid" class="table table-striped table-bordered table-responsive nowrap" style="width:100%;">
+            <div class="panel-body table-responsive">
+                <table id="dxdatagrid" class="table table-striped table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
                     <thead>
                         <tr>
-                            <th>NO</th>
-                            <th>ID</th>
-                            <th>Jenis Pengaduan</th>
+                            <th>No Pengadu</th>
+                            <th>Nama </th>
                             <th>Kanal Pengaduan</th>
                             <th>Posisi Pengaduan</th>
                             <th>Status Pengaduan</th>
-                            <th>Nama </th>
-                            <th>Alamat </th>
-                            <th>Email</th>
-                            <th>Pekerjaan</th>
-                            <th>No.Telp</th>
-                            <th>Obyek Aduan</th>
-                            <th>Hubungan</th>
-                            <th>No.Berkas</th>
-                            <th>Uraian Pengaduan</th>
-                            <th>Nama Penerima</th>
-                            <th>TGL Dibuat</th>
-                            <th> Disposisi</th>
                         </tr>
                     </thead>
         
@@ -158,9 +120,8 @@
                             @foreach($tr_pengaduans as $no=>$tr_p)
 
                         <tr>
-                            <td class="text-center">{{ $no+1 }}</td>
                             <td class="text-capitalize"> {{ $tr_p->pengaduan_id }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->nama_jenis }}</td>
+                            <td class="text-capitalize"> {{ $tr_p->nama }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_kanal }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_posisi }}</td>
                             @if($tr_p->nama_status == "Proses Verifikasi")
@@ -171,46 +132,7 @@
                               @else
                               <td class="text-capitalize" style="color:#ffffff;background-color:#99FF00" > {{ $tr_p->nama_status }}</td>
                             @endif
-                            @endif  
-                            <td class="text-capitalize"> {{ $tr_p->nama }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->alamat }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->email }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->pekerjaan }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->no_telp }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->obyek_aduan }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->hubungan }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->no_berkas }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->uraian_pengaduan }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->username }}</td>
-                            <!-- <td class="text-capitalize"> {{ $tr_p->leadtime1 }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->leadtime2 }}</td>
-                            <td class="text-capitalize"> {{ $tr_p->leadtime3 }}</td> -->
-                            <td class="text-capitalize"> {{ $tr_p->created_at }}</td>
-                         
-                            <td>
-                                @if($tr_p->nama_status == "Proses Verifikasi")
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Verifikator" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#FFFFCC;" disabled><i class="fa fa-edit"></i>Verifikator</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Responder" data-toggle="modal" data-target="#modalEditJurusan"style="color:#000000 ;background-color:#FFCCFF"><i class="fa fa-edit"></i>Responder</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Jawab" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#99FF00" disabled><i class="fa fa-edit"></i>Respon</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Kembali" data-toggle="modal" data-target="#modalEditJurusan"><i class="fa fa-edit"></i>Kembali</button>
-   
-                                @else 
-                                @if($tr_p->nama_status == "Laporan Diterima")
-
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Verifikator" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#FFFFCC;"><i class="fa fa-edit"></i>Verifikator</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Responder" data-toggle="modal" data-target="#modalEditJurusan"style="color:#000000 ;background-color:#FFCCFF"  disabled><i class="fa fa-edit"></i>Responder</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Jawab" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#99FF00" disabled><i class="fa fa-edit"></i>Respon</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Kembali" data-toggle="modal" data-target="#modalEditJurusan" disabled><i class="fa fa-edit"></i>Kembali</button>  
-                                @else
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Verifikator" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#FFFFCC;" disabled><i class="fa fa-edit"></i>Verifikator</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Responder" data-toggle="modal" data-target="#modalEditJurusan"style="color:#000000 ;background-color:#FFCCFF" disabled><i class="fa fa-edit"></i>Responder</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Jawab" data-toggle="modal" data-target="#modalEditJurusan" style="color:#000000 ;background-color:#99FF00" ><i class="fa fa-edit"></i>Respon</button>
-                                <button type="button" class="btn btn-primary btn-sm btn-flat btnedit_Kembali" data-toggle="modal" data-target="#modalEditJurusan"><i class="fa fa-edit"></i>Kembali</button>
-                               
-                                @endif
-                                @endif
-                            </td>
-                        </tr>
+                            @endif                         
                         @endforeach
                        @endif
                     </tbody>
