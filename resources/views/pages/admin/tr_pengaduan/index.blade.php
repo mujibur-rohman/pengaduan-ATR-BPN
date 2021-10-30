@@ -112,13 +112,13 @@
                             <th>Kanal Pengaduan</th>
                             <th>Posisi Pengaduan</th>
                             <th>Status Pengaduan</th>
+                            <th width="5%">&nbsp;</th>
                         </tr>
                     </thead>
         
                     <tbody>
                         @if(!$tr_pengaduans->isEmpty())
                             @foreach($tr_pengaduans as $no=>$tr_p)
-
                         <tr>
                             <td class="text-capitalize"> {{ $tr_p->pengaduan_id }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama }}</td>
@@ -132,7 +132,10 @@
                               @else
                               <td class="text-capitalize" style="color:#ffffff;background-color:#99FF00" > {{ $tr_p->nama_status }}</td>
                             @endif
-                            @endif                         
+                            @endif
+                            <td class="text-center">
+                                <a href="{{ URL::to('/admin/tr_pengaduan/view/' . $tr_p->pengaduan_id) }}"><i class="fa fa-eye"></i></a>
+                            </td>
                         @endforeach
                        @endif
                     </tbody>

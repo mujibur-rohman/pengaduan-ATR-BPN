@@ -55,7 +55,7 @@
             </div>
             <div class="form-group col-sm-6">
                 <label class="form__labels" for="relation">Hubungan hukum dengan tanah</label>
-                <input type="text" class="form-control form__items" id="relation" required>
+                <input type="text" class="form-control form__items" name="txthubungan" id="relation" required>
             </div>
             <div class="form-group col-sm-12">
                 <label class="form__labels" for="berkas">No Berkas Permohonan (Untuk pelayanan)</label>

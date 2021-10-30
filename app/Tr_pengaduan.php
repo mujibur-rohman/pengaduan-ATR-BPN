@@ -28,19 +28,19 @@ class Tr_pengaduan extends Model {
   ];
 
   public function kanal() {
-      return $this->hasOne(Pengaduan_kanal::class, 'kanal_id');
+      return $this->belongsTo(Pengaduan_kanal::class, 'kanal_id');
   }
 
   public function jenis() {
-    return $this->hasOne(Pengaduan_jenis::class, 'jenis_id');
+    return $this->belongsTo(Pengaduan_jenis::class, 'jenis_id');
   }
 
   public function status() {
-    return $this->hasOne(Pengaduan_status::class, 'status_id');
+    return $this->belongsTo(Pengaduan_status::class, 'status_id');
   }
 
   public function posisi() {
-    return $this->hasOne(Pengaduan_posisi::class, 'posisi_id');
+    return $this->belongsTo(Pengaduan_posisi::class, 'posisi_id');
   }
 
   public function lampiran() {
