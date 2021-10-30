@@ -53,16 +53,6 @@
                                                     {{ $kanal->nama_kanal }}
                                                 </option>
                                             @endforeach
-<!--                                            <option value="0">Semua data</option>
-                                            <option value="1">Facebook</option>
-                                            <option value="2">Instagram</option>
-                                            <option value="3">Youtube</option>
-                                            <option value="4">Portal Pengaduan</option>
-                                            <option value="5">Helpdesk</option>
-                                            <option value="6">Email</option>
-                                            <option value="7">Surat</option>
-                                            <option value="8">Lapor.go.id</option>
-                                            <option value="9">KPK</option>-->
                                         </select>
                                     </div>
                                 </div>
@@ -72,13 +62,13 @@
                                 <div class="form-group row">
                                     <label for="staticEmail" class="col-sm-3 col-form-label">Status Pengaduan</label>
                                     <div class="col-sm-4">
-                                        <select id="cmbstatuspengaduan" class="form-control">
+                                        <select name="status_id" id="cmbstatuspengaduan" class="form-control">
                                             <option value="0">Semua data</option>
-                                            <option value="1">Laporan Diterima</option>
-                                            <option value="2">Proses Verifikasi</option>
-                                            <option value="3">Proses Tindak Lanjut</option>
-                                            <option value="4">Tanggapan</option>
-                                            <option value="5">Selesai</option>
+                                            @foreach (\App\Pengaduan_status::select('status_id','nama_status')->get() as $status)
+                                                <option value="{{ $status->status_id }}" {{ $status->status_id == $status_id ? 'selected' : '' }}>
+                                                    {{ $status->nama_status }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -88,12 +78,11 @@
                                     <div class="col-sm-4">
                                         <select id="cmbposisipengaduan" class="form-control">
                                             <option value="0">Semua data</option>
-                                            <option value="1">Humas Pusat ATR BPN</option>
-                                            <option value="2">Itjen 7 Pusat ATR BPN</option>
-                                            <option value="3">Verifikator Pusat ATR BPN</option>
-                                            <option value="4">Admin Kanwil Jawa Barat</option>
-                                            <option value="5">Verifikator Kanwil Jawa Barat</option>
-                                            <option value="6">Responder Kanwil Jawa Barat</option>
+                                            @foreach (\App\Pengaduan_posisi::select('posisi_id','nama_posisi')->get() as $posisi)
+                                                <option value="{{ $posisi->posisi_id }}" {{ $posisi->posisi_id == $status_id ? 'selected' : '' }}>
+                                                    {{ $posisi->nama_posisi }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

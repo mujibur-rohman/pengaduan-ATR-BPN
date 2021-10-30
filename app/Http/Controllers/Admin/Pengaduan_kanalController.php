@@ -4,105 +4,91 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
-use App\Users;
 use App\Pengaduan_kanal;
-use DB;
+use Auth;
 
 
-class Pengaduan_kanalController extends Controller
-{
-    private $users;private $pengaduan_kanal;
-
-
-	
-    public function allPengaduan_kanal()
-    {
+class Pengaduan_kanalController extends Controller {
+    
+    public function allPengaduan_kanal() {
+        return view('pages.admin.Pengaduan_kanal.index');
+    }
+   
+    public function list() {
+        echo json_encode([
+            'data' => Pengaduan_kanal::all()
+        ]);
+    }
+    
+    public function index(Request $r) {
         return view('pages.admin.Pengaduan_kanal.index');
     }
 
-   
-		public function index(){
-            $pengaduan_kanal = Pengaduan_kanal::all();
-            return view('pages.admin.Pengaduan_kanal.index', compact('pengaduan_kanal'));
-		}
-
-    public function get()
-    {  
-
-        $data = DB::table('ms_pengaduan_kanal')
-        ->join('users', 'ms_pengaduan_kanal.created_by', '=', 'users.id_user')
-        ->select('ms_pengaduan_kanal.*', 'users.username')
-        ->orderby('kanal_id', 'ASC')->get();
-        echo json_encode($data);
-    }
-
-    public function create()
-    {
-        $users = Users::all();
-        return view('pages.admin.pengaduan_kanal.index', compact('users'));
-    }
-
-    public function getmax()
-    {   $data = DB::table('ms_pengaduan_kanal')
-        ->selectRaw('max(kanal_id) + 1 as jml')
-        ->get();
-        echo json_encode($data);
-    }
-
-    public function save(Request $r)
-    {
-        $Pengaduan_kanal = new Pengaduan_kanal;
-        $Pengaduan_kanal->kanal_id = $r->input('txtkanal_id');
-        $Pengaduan_kanal->nama_kanal = $r->input('txtnama_kanal');
-        $Pengaduan_kanal->created_by = $r->input('txtcreated_by');
-       
+    public function save(Request $r) {
+        $kanal_id = $r->post('kanal_id');
+        $nama_kanal = $r->post('nama_kanal');
+        $user_id = Auth::id();
         
-        $Users->save();
-        $msg['success'] = FALSE;
-        
-        if ($Pengaduan_kanal) {
-            $msg['success'] = TRUE;
+        if (empty($nama_kanal)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Nama Kanal tidak boleh kosong'
+            ]);
+            return;
         }
-          echo json_encode($msg);
-     
         
+        $model = null;
+        if (!empty($kanal_id)) {
+            $model = Pengaduan_kanal::find($kanal_id);
+            if ($model == null) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Data tidak ada'
+                ]);
+                return;
+            }
+        } else {
+            $model = new Pengaduan_kanal();
+            $model->created_by = $user_id;
+            $model->created_at = date('Y-m-d H:i:s');
+        }
+        
+        $model->nama_kanal = $nama_kanal;
+        $model->update_by = $user_id;
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->save();
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan'
+        ]);
     }
-
-
-    // Panggil data untuk edit data Pengaduan_kanal 
     
-    public function getPengaduan_kanal($id){
-       
-        $data = DB::table('ms_pengaduan_kanal')
-        ->join('users', 'ms_pengaduan_kanal.created_by', '=', 'users.id_user')
-        ->select('ms_pengaduan_kanal.*', 'users.username')
-        ->orderby('kanal_id', 'ASC')->get();
-        echo json_encode($data);
-    }
-
-    // .--Panggil data untuk edit data Pengaduan_kanal 
-
-
-    public function update(Request $r, $id)
-    {
-        $Users = Users::find($id);
-        $Users->kanal_id   = $r->input('txtkanal_id');
-        $Users->nama_kanal = $r->input('txtnama_kanal');  
-        $Users->created_by = $r->input('txtcreated_by');  
+    public function delete(Request $r) {
+        $kanal_id = $r->post('kanal_id', '');
         
-        $Users->save();
-        echo "sukses";
-    }
-
-    public function delete($id)
-    {
-        $Users = DB::table('ms_pengaduan_kanal')->where('kanal_id', $id)->delete();
-        $msg['success'] = FALSE;
-        if ($Users) {
-            $msg['success'] = TRUE;
+        if (empty($kanal_id)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
         }
-        echo json_encode($msg);
+        
+        $model = Pengaduan_kanal::find($kanal_id);
+        if ($model == null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+        
+        $model->delete();
+        echo json_encode([
+            'success' => true,
+            'message' => 'Data berhasil di hapus'
+        ]);
+        return;
     }
 }

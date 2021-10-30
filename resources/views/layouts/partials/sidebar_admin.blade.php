@@ -1,7 +1,4 @@
 <!-- ========== Left Sidebar Start menu ========== -->
-
-
-
 <div class="vertical-menu mm-active">
 
     <div data-simplebar="init" class="h-100 mm-show">
@@ -171,9 +168,10 @@
                                                 <span data-key="t-invoice-detail">Posisi Pengaduan</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#">
-                                                <i _ngcontent-uqw-c196="" class="far fa-chart-bar"></i>
-                                                <span data-key="t-invoice-detail">Kanal Pengaduan</span>
+                                            <li>
+                                                <a href="{{ route('listpengaduan_kanal') }}">
+                                                    <i _ngcontent-uqw-c196="" class="far fa-chart-bar"></i>
+                                                    <span data-key="t-invoice-detail">Kanal Pengaduan</span>
                                                 </a>
                                             </li>
                                             <li><a href="#">

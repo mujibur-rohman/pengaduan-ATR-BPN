@@ -38,6 +38,21 @@ Route::get('test', function(){
 //begin group admin
 Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], function(){
     
+    // Router untuk master data ms_pengaduan_kanal
+    Route::prefix('pengaduan_kanal')->group(function(){
+        Route::get('/','Admin\Pengaduan_kanalController@index')->name('listpengaduan_kanal');
+        Route::get('/list','Admin\Pengaduan_kanalController@list')->name('listpengaduan_kanal');
+        Route::post('/save','Admin\Pengaduan_kanalController@save')->name('listpengaduan_kanal');
+        Route::post('/delete', 'Admin\Pengaduan_kanalController@delete')->name('listpengaduan_kanal');
+        
+//        Route::get('/datapengaduan_kanal', 'Admin\Pengaduan_kanalController@get')->name('daftarpengaduan_kanal');
+//        Route::get('/datajml', 'Admin\Pengaduan_kanalController@getmax')->name('maxpengaduan_kanal');
+//        Route::post('/simpanpengaduan_kanal', 'Admin\Pengaduan_kanalController@save')->name('simpanpengaduan_kanal');
+//        Route::get('/getDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@getpengaduan_kanal');
+//        Route::post('Admin/editDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@update');
+//        Route::get('/hapusDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@delete');
+    });
+        
     Route::prefix('tr_pengaduan')->group(function () {
         Route::match(['get', 'post'], '/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
 //        Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
@@ -72,14 +87,6 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
         Route::post('update','Admin\ProfilController@update')->name('updateProfileAdmin');
     });
 
-	Route::prefix('tahunajaran')->group(function(){
-		Route::get('/','Admin\TahunAjaranController@index')->name('indexTahunAjaranAdmin');
-		Route::get('add','Admin\TahunAjaranController@add')->name('addTahunAjaranAdmin');
-		Route::post('add','Admin\TahunAjaranController@postAdd')->name('postAddTahunAjaranAdmin');
-		Route::get('delete/{id}','Admin\TahunAjaranController@delete')->name('deleteTahunAjaranAdmin');
-		Route::get('/search/{id}','Admin\TahunAjaranController@search')->name('searchTahunAjaranAdmin');
-		// Route::get('detail','Admin\TahunAjaranControllern@index')->name('detailTahunAjaranAdmin');
-	});
 	Route::get('/','Admin\AdminController@index')->name('indexAdmin');
 
 	Route::prefix('pendaftaran')->group(function(){
@@ -110,82 +117,7 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
 		Route::get('detail/{id}','Admin\PembayaranController@detail')->name('detailPembayaranAdmin');
 		Route::post('verifikasi','Admin\PembayaranController@postVerifikasi')->name('postVerifikasiPembayaranAdmin');
 	});
-
-   Route::prefix('guru')->group(function(){
-		Route::get('/','Admin\GuruController@index')->name('indexGuruAdmin');
-		Route::get('add','Admin\GuruController@add')->name('addGuruAdmin');
-		Route::post('add','Admin\GuruController@postAdd')->name('postAddGuruAdmin');
-		Route::get('edit/{id}','Admin\GuruController@edit')->name('editGuruAdmin');
-		Route::post('update','Admin\GuruController@update')->name('updateGuruAdmin');
-		Route::get('detail/{id}','Admin\GuruController@detail')->name('detailGuruAdmin');
-		Route::post('delete','Admin\GuruController@delete')->name('postDeleteGuruAdmin');
-	});
 	
-Route::prefix('guru')->group(function(){
-		Route::get('/','Admin\JadwalController@index')->name('indexJadwalAdmin');
-		Route::get('add','Admin\JadwalController@add')->name('addJadwalAdmin');
-		Route::post('add','Admin\JadwalController@postAdd')->name('postAddJadwalAdmin');
-		Route::get('edit/{id}','Admin\JadwalController@edit')->name('editJadwalAdmin');
-		Route::post('update','Admin\JadwalController@update')->name('updateJadwalAdmin');
-		Route::get('detail/{id}','Admin\JadwalController@detail')->name('detailJadwalAdmin');
-		Route::post('delete','Admin\JadwalController@delete')->name('postDeleteJadwalAdmin');
-	});
-	
-	
-	Route::prefix('jurusankelas')->group(function(){
-		Route::get('/','Admin\JurusanKelasController@index')->name('indexJurusanKelasAdmin');
-		Route::get('/kelas/{kd_kelas}','Admin\JurusanKelasController@indexKelas')->name('indexKelasAdmin');
-		Route::post('/','Admin\JurusanKelasController@postIndex')->name('postIndexJurusanKelasAdmin');
-		// Route::get('add','Admin\JurusanKelasController@add')->name('addJurusanKelasAdmin');
-		Route::post('addJurusan','Admin\JurusanKelasController@postAddJurusan')->name('postAddJurusanAdmin');
-		Route::post('addKelas','Admin\JurusanKelasController@postAddKelas')->name('postAddKelasAdmin');
-		Route::post('showData','Admin\JurusanKelasController@showData')->name('showDataKelasAdmin');
-		Route::post('updateJurusan','Admin\JurusanKelasController@postUpdateJurusan')->name('postUpdateJurusanAdmin');
-		Route::post('updateKelas','Admin\JurusanKelasController@postUpdateKelas')->name('postUpdateKelasAdmin');
-		// Route::get('deleteJurusan/{id}','Admin\JurusanKelasController@deleteJurusan')->name('deleteJurusanAdmin');
-		// Route::get('deleteKelas/{id}','Admin\JurusanKelasController@deleteKelas')->name('deleteKelasAdmin');
-		Route::post('deleteJurusan','Admin\JurusanKelasController@deleteJurusan')->name('postDeleteJurusanAdmin');
-		Route::post('deleteKelas','Admin\JurusanKelasController@deleteKelas')->name('postDeleteKelasAdmin');
-		Route::get('detail/{id}','Admin\JurusanKelasController@detail')->name('detailJurusanKelasAdmin');
-		Route::get('siswa/{no_pendf}','Admin\JurusanKelasController@detailSiswa')->name('detailSiswaKelasAdmin');
-		Route::get('siswa/edit/{no_pendf}','Admin\JurusanKelasController@editSiswa')->name('editSiswaKelasAdmin');
-		Route::post('siswa/update/{no_pendf}','Admin\JurusanKelasController@updateSiswa')->name('updateSiswaKelasAdmin');
-	});
-
-	Route::prefix('tesseleksi')->group(function(){
-		Route::get('/','Admin\TesSeleksiAkademikController@index')->name('indexTesSeleksiAkademikAdmin');
-		Route::post('/','Admin\TesSeleksiAkademikController@postIndex')->name('postIndexTesSeleksiAkademikAdmin');
-		Route::post('/nilai','Admin\TesSeleksiAkademikController@postNilai')->name('postNilaiTesSeleksiAkademikAdmin');
-		Route::post('/updateNilai','Admin\TesSeleksiAkademikController@updateNilai')->name('updateNilaiTesSeleksiAkademikAdmin');
-		Route::post('ajax/search','Admin\TesSeleksiAkademikController@ajaxSearch')->name('ajaxSearchTesSeleksiAkademikAdmin');
-		Route::get('paginate/index/{id}/{status}','Admin\TesSeleksiAkademikController@paginatePostIndex')->name('paginatePostIndexTesSeleksiAkademikAdmin');
-		// Route::get('add','Admin\JurusanKelasController@add')->name('addJurusanKelasAdmin');
-		// Route::post('add','Admin\JurusanKelasController@postAdd')->name('postAddJurusanKelasAdmin');
-		// Route::get('edit/{id}','Admin\JurusanKelasController@edit')->name('editJurusanKelasAdmin');
-		// Route::post('update/{id}','Admin\JurusanKelasController@update')->name('updateJurusanKelasAdmin');
-		// Route::get('delete/{id}','Admin\JurusanKelasController@delete')->name('deleteJurusanKelasAdmin');
-		// Route::get('detail/{id}','Admin\JurusanKelasController@detail')->name('detailJurusanKelasAdmin');
-			Route::prefix('soal')->group(function(){
-				Route::get('/','Admin\SoalController@index')->name('indexSoalAdmin');
-				Route::get('/add','Admin\SoalController@add')->name('addSoalAdmin');
-				Route::post('/add','Admin\SoalController@postAdd')->name('postAddSoalAdmin');
-				Route::get('/edit/{id_pertanyaan}','Admin\SoalController@edit')->name('editSoalAdmin');
-				Route::post('/update/{id_pertanyaan}','Admin\SoalController@update')->name('updateSoalAdmin');
-				Route::get('/detail/{id_pertanyaan}','Admin\SoalController@detail')->name('detailSoalAdmin');
-				Route::get('/delete/{id_pertanyaan}','Admin\SoalController@delete')->name('deleteSoalAdmin');
-
-				Route::post('/jenis/add','Admin\SoalController@postAddJenisPertanyaan')->name('postAddJenisPertanyaanAdmin');
-			});
-
-	});
-
-	Route::prefix('seleksipenerimaan')->group(function(){
-		Route::get('/','Admin\SeleksiPenerimaanController@index')->name('indexSeleksiPenerimaanAdmin');
-		Route::post('/penerimaan','Admin\SeleksiPenerimaanController@postPenerimaan')->name('postPenerimaanAdmin');
-		
-	});
-
-
 	Route::prefix('pusat')->group(function(){
 		Route::get('/','Admin\PusatController@index')->name('indexPusatAdmin');
 		Route::post('/','Admin\PusatController@postIndex')->name('postIndexPusatAdmin');
@@ -256,16 +188,6 @@ Route::prefix('guru')->group(function(){
             Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
             Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
         });
-
-		Route::prefix('pengaduan_kanal')->group(function(){
-			Route::get('/','Admin\Pengaduan_kanalController@index')->name('listpengaduan_kanal');
-			 Route::get('/datapengaduan_kanal', 'Admin\Pengaduan_kanalController@get')->name('daftarpengaduan_kanal');
-			 Route::get('/datajml', 'Admin\Pengaduan_kanalController@getmax')->name('maxpengaduan_kanal');
-			 Route::post('/simpanpengaduan_kanal', 'Admin\Pengaduan_kanalController@save')->name('simpanpengaduan_kanal');
-			 Route::get('/getDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@getpengaduan_kanal');
-			 Route::post('Admin/editDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@update');
-			 Route::get('/hapusDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@delete');
-			});
 
 			Route::prefix('pengaduan_status')->group(function(){
 				Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');

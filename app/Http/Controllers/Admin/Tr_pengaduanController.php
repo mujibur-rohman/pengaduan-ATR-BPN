@@ -4,17 +4,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
-
 use App\Tr_pengaduan;
-use App\Users;
 use DB;
 use Auth;
 
 class Tr_pengaduanController extends Controller
 {
-    private $tr_pengaduans ;private $disposisi_verifikator;private $disposisi_responder;
+    private $tr_pengaduans ;
+    private $disposisi_verifikator;
+    private $disposisi_responder;
 
     public function alltr_pengaduan()
     {
@@ -240,39 +238,42 @@ public function index_responder($idu){ //facebook
         $txttglawal = $request->post('start_date', date('Y-m-d'));
         $txttglakhir = $request->post('end_date', date('Y-m-d'));
         $kanal_id = (int) $request->post('kanal_id', 0);
+        $status_id = (int) $request->post('status_id', 0);
+        $posisi_id = (int) $request->post('posisi_id', 0);
         
         $disposisi_verifikator = DB::select("call sp_cmduser_flag_role('".$nama_status."')"); 
         $disposisi_responder = DB::select("call sp_cmduser_flag_role('".$nama_status1."')");
 
-        $query = DB::table('tr_pengaduan')
+        $tr_pengaduans = DB::table('tr_pengaduan')
             ->join('ms_pengaduan_jenis', 'tr_pengaduan.jenis_id', 'ms_pengaduan_jenis.jenis_id')
             ->join('ms_pengaduan_kanal', 'tr_pengaduan.kanal_id', 'ms_pengaduan_kanal.kanal_id')
             ->join('ms_pengaduan_posisi', 'tr_pengaduan.posisi_id', 'ms_pengaduan_posisi.posisi_id')
             ->join('ms_pengaduan_status', 'tr_pengaduan.status_id', 'ms_pengaduan_status.status_id')
             ->leftjoin('users', 'tr_pengaduan.create_by', 'users.id_user')
             ->select('tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
-            'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
-            'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
-            'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' );
-        
-        $query->where(function($q) use ($kanal_id) {
-            return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
-        });
-        
-        $tr_pengaduans = $query->wheredate('tr_pengaduan.created_at', '>=', $txttglawal)
+                'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
+                'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
+                'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
+            ->where(function($q) use ($kanal_id) {
+                return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
+            })
+            ->where(function($q) use ($status_id) {
+                return $status_id != 0 ? $q->where('tr_pengaduan.status_id', $status_id) : '';
+            })
+            ->where(function($q) use ($posisi_id) {
+                return $posisi_id != 0 ? $q->where('tr_pengaduan.posisi_id', $posisi_id) : '';
+            })
+            ->wheredate('tr_pengaduan.created_at', '>=', $txttglawal)
             ->wheredate('tr_pengaduan.created_at', '<=', $txttglakhir)   
             ->orderby('pengaduan_id', 'ASC')->get();
 
-        $kanal = DB::table('ms_pengaduan_kanal')->get();
-        
         return view('pages.admin.tr_pengaduan.index', compact(
             'tr_pengaduans',
             'disposisi_verifikator',
             'disposisi_responder',
             'txttglawal',
             'txttglakhir',
-            'kanal_id',
-            'kanal'
+            'kanal_id', 'status_id'
         ));
     }    
 
