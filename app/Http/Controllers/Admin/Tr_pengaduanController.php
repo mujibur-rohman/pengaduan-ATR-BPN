@@ -16,7 +16,12 @@ class Tr_pengaduanController extends Controller
 
     public function view($id) {
         $model = Tr_Pengaduan::find($id);
-        return view('pages.admin.tr_pengaduan.view', compact('id', 'model'));
+        $lampiran = null;
+        if ($model != null) {
+            $lampiran = $model->lampiran->all();
+        }
+
+        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran'));
     }
 
     public function alltr_pengaduan()
