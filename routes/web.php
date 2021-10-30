@@ -19,7 +19,6 @@ Route::prefix('ajax')->group(function(){
 // End Ajax Route
 Route::get('/', 'LandingController@index')->name('indexHomepage');
 
-	
 
 Route::group(['middleware' => 'auth'], function () {
     //    Route::get('/link1', function ()    {
@@ -44,16 +43,10 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
         Route::get('/list','Admin\Pengaduan_kanalController@list');
         Route::post('/save','Admin\Pengaduan_kanalController@save');
         Route::post('/delete', 'Admin\Pengaduan_kanalController@delete');
-        
-//        Route::get('/datapengaduan_kanal', 'Admin\Pengaduan_kanalController@get')->name('daftarpengaduan_kanal');
-//        Route::get('/datajml', 'Admin\Pengaduan_kanalController@getmax')->name('maxpengaduan_kanal');
-//        Route::post('/simpanpengaduan_kanal', 'Admin\Pengaduan_kanalController@save')->name('simpanpengaduan_kanal');
-//        Route::get('/getDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@getpengaduan_kanal');
-//        Route::post('Admin/editDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@update');
-//        Route::get('/hapusDatapengaduan_kanal/{id}', 'Admin\Pengaduan_kanalController@delete');
     });
         
     Route::prefix('tr_pengaduan')->group(function () {
+		Route::get('/view/{id}', 'Admin\Tr_pengaduanController@view')->name('view_pengaduan');
         Route::match(['get', 'post'], '/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
 //        Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
         

@@ -14,6 +14,11 @@ class Tr_pengaduanController extends Controller
     private $disposisi_verifikator;
     private $disposisi_responder;
 
+    public function view($id) {
+        $model = Tr_Pengaduan::find($id);
+        return view('pages.admin.tr_pengaduan.view', compact('id', 'model'));
+    }
+
     public function alltr_pengaduan()
     {
         return view('pages.admin.tr_pengaduan.index');
