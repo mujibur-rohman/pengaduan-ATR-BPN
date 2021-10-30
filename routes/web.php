@@ -41,9 +41,9 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
     // Router untuk master data ms_pengaduan_kanal
     Route::prefix('pengaduan_kanal')->group(function(){
         Route::get('/','Admin\Pengaduan_kanalController@index')->name('listpengaduan_kanal');
-        Route::get('/list','Admin\Pengaduan_kanalController@list')->name('listpengaduan_kanal');
-        Route::post('/save','Admin\Pengaduan_kanalController@save')->name('listpengaduan_kanal');
-        Route::post('/delete', 'Admin\Pengaduan_kanalController@delete')->name('listpengaduan_kanal');
+        Route::get('/list','Admin\Pengaduan_kanalController@list');
+        Route::post('/save','Admin\Pengaduan_kanalController@save');
+        Route::post('/delete', 'Admin\Pengaduan_kanalController@delete');
         
 //        Route::get('/datapengaduan_kanal', 'Admin\Pengaduan_kanalController@get')->name('daftarpengaduan_kanal');
 //        Route::get('/datajml', 'Admin\Pengaduan_kanalController@getmax')->name('maxpengaduan_kanal');
