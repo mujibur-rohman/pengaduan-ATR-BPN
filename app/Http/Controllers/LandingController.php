@@ -3,113 +3,151 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Routing\Controller;
+use App\MailTemplate;
 use App\Tr_pengaduan;
-
+use App\Mail\Gmail;
 use DB;
 use Image;
 use Carbon\Carbon;
 
-class LandingController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return view('pages.landing.index');
+class LandingController extends Controller {
+    
+    public function index(Request $request) {
+        $model = $request->old('pengaduan');
+        return view('pages.landing.index', compact('model'));
     }
 
+    public function simpan(Request $request) {
+        $rules = [
+            'pengaduan.nama' => ['required', 'max:50'],
+            'pengaduan.nik' => ['required'],
+            'pengaduan.alamat' => ['required'],
+            'pengaduan.email' => ['email', 'required'],
+            'pengaduan.phone' => ['required'],
+            'pengaduan.pekerjaan' => ['required'],
+            'pengaduan.objek_aduan' => ['required'],
+            'pengaduan.hubungan' => ['required'],
+            'pengaduan.no_berkas' => ['required'],
+            'pengaduan.uraian' => ['required'],
+            'bukti1' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+            'bukti2' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+            'bukti3' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+            'bukti4' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+            'bukti5' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+        ];
+        $msg = [
+            'required' => ':attribute harus diisi.',
+            'mimetypes' => 'Bukti lampiran harus dalam format jpeg atau pdf',
+            'max' => 'Ukuran bukti lampiran maksimal 1Mb'
+        ];
+        $field = [
+            'pengaduan.nik' => 'NIK',
+            'pengaduan.alamat' => 'alamat',
+            'pengaduan.email' => 'alamat email',
+            'pengaduan.phone' => 'nomor handphone',
+            'pengaduan.objek_aduan' => 'Objek Aduan (No. SHM/Letak Tanah)',
+            'pengaduan.uraian' => 'Uraian Pengaduan',
+            'pengaduan.no_berkas' => 'Nomor Berkas Permohonan (untuk pelayanan)'
+        ];
+        $validator = Validator::make($request->all(), $rules, $msg, $field);
 
-    public function getmax_form()
-    {
-        $tr_pengaduans = DB::table('tr_pengaduan')
-        ->selectRaw('max(pengaduan_id) + 1 as jml')
-        ->get();
-      
-        view('pages.landing.index',compact('tr_pengaduans'));
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        $pengaduan = new tr_pengaduanss;
-        $pengaduan->nik = $r->input('txtnik');
-        $pengaduan->no_berkas = $r->input('txtno_berkas');
-
-        $pengaduan->save();
-        $msg['success'] = FALSE;
-        
-        if ($tr_pengaduan) {
-            $msg['success'] = TRUE;
+        if ($validator->fails()) {
+            return redirect('/#form')
+                        ->withErrors($validator)
+                        ->withInput();
         }
-          echo json_encode($msg);
-     
 
+        $data = $request->post('pengaduan');
+        $code = md5(date('YmdHis') . $data['email'] . rand(10, 99) . rand(10, 99)) . '_' . time();
+        
+        $model = new Tr_pengaduan();
+        $model->jenis_id = 1;
+        $model->kanal_id = 5;
+        $model->status_id = 1;
+        $model->posisi_id = 1;
+        $model->nik = $data['nik'];
+        $model->nama = $data['nama'];
+        $model->alamat = $data['alamat'];
+        $model->email = $data['email'];
+        $model->pekerjaan = $data['pekerjaan'];
+        $model->no_telp = $data['phone'];
+        $model->obyek_aduan = $data['objek_aduan'];
+        $model->hubungan = $data['hubungan'];
+        $model->no_berkas = $data['no_berkas'];
+        $model->uraian_pengaduan = $data['uraian'];
+        $model->create_by = 0;
+        $model->created_at = date('Y-m-d H:i:s');
+        $model->update_by = 0;
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->verified_email = 'N';
+        $model->verified_code = $code;
+        $model->kode_tiket = '';
+        $model->save();
+        
+        if ($request->file()) {
+            $this->saveLampiran($model->pengaduan_id, 'bukti1', $request, $request->bukti1);
+            $this->saveLampiran($model->pengaduan_id, 'bukti2', $request, $request->bukti2);
+            $this->saveLampiran($model->pengaduan_id, 'bukti3', $request, $request->bukti3);
+            $this->saveLampiran($model->pengaduan_id, 'bukti4', $request, $request->bukti4);
+            $this->saveLampiran($model->pengaduan_id, 'bukti5', $request, $request->bukti5);
+        }
+        
+        // send email
+        $params = [
+            '{url}' => \Illuminate\Support\Facades\URL::to('/verifikasi?token=' . $code)
+        ];
+        MailTemplate::sendWith('pengaduan_verified', $model->email, $params);
+        
+        return view('pages.landing.simpan', compact('model'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $tr_pengaduans = DB::table('tr_pengaduan')
-        ->selectRaw('max(pengaduan_id) + 1 as jml')
-        ->get();
-      
-        view('pages.landing.index',compact('tr_pengaduans'));
+    private function saveLampiran($pengaduan_id, $field, $request, $request_field) {
+        if (isset($request_field)) {
+            $name = time().'_'.$request_field->getClientOriginalName();
+            $path = $request->file($field)->store('public/files');
+            
+            $model = new \App\Tr_pengaduan_dokumen();
+            $model->pengaduan_id = $pengaduan_id;
+            $model->nama_file = $name;
+            $model->file_path = $path;
+            $model->create_date = date('Y-m-d H:i:s');
+            $model->create_by = 0;
+            $model->save();
+        }
+    }
+    
+    public function verifikasi(Request $request) {
+        $token = $request->get('token');
+        
+        $kode_tiket = '';
+        $model = Tr_pengaduan::where('verified_code', $token)->first();
+        if ($model != null) {
+            $kode_tiket = substr(base64_encode(md5(date('YmdHis') . $model->email . rand(10, 99) . rand(10, 99))), 0, 8);
+            
+            $model->kode_tiket = $kode_tiket;
+            $model->verified_code = '';
+            $model->verified_email_date = date('Y-m-d H:i:s');
+            $model->verified_email = 'Y';
+            $model->save();
+
+            $params = [
+                '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
+                '{kode_tiket}' => $kode_tiket
+            ];
+            MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
+        } else {
+            $token = null;
+        }
+        
+        return view('pages.landing.verifikasi', compact('token', 'kode_tiket'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+    public function tiket(Request $request) {
+        $kode_tiket = $request->get('kode_tiket');
+        
+        return view('pages.landing.tiket', compact('kode_tiket'));
     }
 }

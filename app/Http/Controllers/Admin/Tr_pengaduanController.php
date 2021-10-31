@@ -264,6 +264,7 @@ public function index_responder($idu){ //facebook
                 'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
                 'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
                 'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
+            ->where('tr_pengaduan.verified_email', 'Y')
             ->where(function($q) use ($kanal_id) {
                 return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
             })

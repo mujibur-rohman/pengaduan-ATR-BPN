@@ -2,37 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Route::post('/simpantr_pengaduan2', 'Admin\Tr_pengaduanController@save2')->name('simpanformpengaduan');
-
-Route::group(['prefix' => 'print','middleware' => ['auth','role:siswa']], function () {
-	Route::get('/{jenis}/{id}','PrintController@index')->name('printBukti');
-});
-
-
-// End Route Test
-
-// Start Ajax Route
-Route::prefix('ajax')->group(function(){
-	Route::post('/sekolah-asal','AjaxController@ajaxDataSekolahAsal')->name('ajaxDataSekolahAsal');
-	Route::post('/tahun-ajaran','AjaxController@ajaxTahunAjaran')->name('ajaxTahunAjaran');
-});
-// End Ajax Route
-Route::get('/', 'LandingController@index')->name('indexHomepage');
-
-
-Route::group(['middleware' => 'auth'], function () {
-    //    Route::get('/link1', function ()    {
-//        // Uses Auth Middleware
-//    });
-
-    //Please do not remove this if you want adminlte:route and adminlte:link commands to works correctly.
-    #adminlte_routes
-});
-
-Route::get('test', function(){
-	dd(bcrypt('(*#&42#4(*&))'));
-});
-
+Route::match(['get'], '/', 'LandingController@index');
+Route::match(['get', 'post'], '/simpan', 'LandingController@simpan');
+Route::match(['get'], '/verifikasi', 'LandingController@verifikasi');
+Route::match(['get'], '/tiket', 'LandingController@tiket');
 
 //begin group admin
 Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], function(){
