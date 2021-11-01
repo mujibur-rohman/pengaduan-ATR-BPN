@@ -8,15 +8,25 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Routing\Controller;
 use App\MailTemplate;
 use App\Tr_pengaduan;
-use App\Mail\Gmail;
-use DB;
-use Image;
-use Carbon\Carbon;
 
 class LandingController extends Controller {
     
     public function index(Request $request) {
         $model = $request->old('pengaduan');
+        if (empty($model)) {
+            $model = [
+                'nama' => '',
+                'nik' => '',
+                'alamat' => '',
+                'email' => '',
+                'phone' => '',
+                'pekerjaan' => '',
+                'objek_aduan' => '',
+                'hubungan' => '',
+                'no_berkas' => '',
+                'uraian' => ''
+            ];
+        }
         return view('pages.landing.index', compact('model'));
     }
 
