@@ -107,7 +107,7 @@
                     @else
                     <ul>
                         @foreach($lampiran as $item)
-                        <li><a target="_blank" href="{{ URL::to('/' . $item->file_path) }}">{{ $item->nama_file }}</a></li>
+                        <li><a target="_blank" href="{{ URL::to('/') . Storage::url($item->file_path) }}">{{ $item->nama_file }}</a></li>
                         @endforeach
                     </ul>
                     @endif

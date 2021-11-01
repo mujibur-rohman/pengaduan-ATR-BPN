@@ -146,8 +146,19 @@ class LandingController extends Controller {
     }
 
     public function tiket(Request $request) {
-        $kode_tiket = $request->get('kode_tiket');
+        $kode_tiket = $request->get('kode');
+
+        $lampiran = null;
+        $model = null;
         
-        return view('pages.landing.tiket', compact('kode_tiket'));
+        if (!empty($kode_tiket)) {
+            $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
+            
+            if ($model != null) {
+                $lampiran = $model->lampiran->all();
+            }
+        }
+        
+        return view('pages.landing.tiket', compact('model', 'lampiran', 'kode_tiket'));
     }
 }
