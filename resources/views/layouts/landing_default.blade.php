@@ -13,13 +13,8 @@
 
     <!-- Header 
     ============================================= -->
-    <header id="home">
-     	@include('layouts.partials.mainheader_landing')	
-    </header>
        
-	 	@yield('main-content')
-	
-    @include('layouts.partials.footer_landing_default')
+	@yield('main-content-mailsent')
 
 @section('scripts')
     @include('layouts.partials.scripts_landing')

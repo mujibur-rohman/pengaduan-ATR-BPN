@@ -14,7 +14,7 @@
                 <p class="subtitle-home">
                     Pengaduan ATR/BPN - Tempat menyalurkan Aspirasi dan Pelayanan  Aduan Kementerian Agraria dan Tata Ruang/Badan Pertanahan Nasional adalah sebuah portal untuk mengakomodir segala Pengaduan pelayanan , dan media penyalur aspirasi untuk semua pelayanan di Kementerian Agraria dan Tata Ruang/Badan Pertanahan Nasional. Gunakan menampung Pengaduan layanan masyarakat Indonesia.
                 </p>
-                <a href="" class="btn btn-color btn-laporan">Buat Laporan/Pengaduan</a>
+                <a href="#form" class="btn btn-color btn-laporan">Buat Laporan/Pengaduan</a>
             </div>
         </div>
         <div class="section-2">

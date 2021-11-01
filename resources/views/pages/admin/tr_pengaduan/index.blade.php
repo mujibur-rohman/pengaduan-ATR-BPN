@@ -104,7 +104,7 @@
                 
             <!-- Isi Content -->					
             <div class="panel-body table-responsive">
-                <table id="dxdatagrid" class="table table-striped table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
+                <table id="dxdatagrid" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
                     <thead>
                         <tr>
                             <th>No Pengadu</th>

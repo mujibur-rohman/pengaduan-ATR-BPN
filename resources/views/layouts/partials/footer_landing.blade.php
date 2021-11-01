@@ -2,7 +2,7 @@
 <!-- Start Footer    baru   ============================================= -->
 <div id="form">
     <!-- Side Bg --> 
-    <h1 id="form" class="text-center site-heading form__title">form pengaduan</h1>
+    <h1 class="text-center form__title">form pengaduan</h1>
     <form id="formSave" method="POST" enctype="multipart/form-data" action="{{ URL::to('/simpan') }}">
     {{ csrf_field() }}      
         
@@ -19,21 +19,10 @@
             </div>
         @endif
 
-        <div class="row" style="margin-bottom: 3rem">
-            <div class="form-group col-sm-6">
-                <label class="form__labels" for="nomor">Nomor</label>
-                <input type="text" class="form-control form__items" id="nomor" value="00000XXXXX" disabled>
-            </div>
-            <div class="form-group col-sm-6">
-                <label class="form__labels" for="tanggal">Tanggal</label>
-                <input type="text" class="form-control form__items" id="tanggal" value="01/01/2000" disabled>
-            </div>
-        </div>
-
         <h2>I. Identitas Pengadu</h2>
         <div class="row">
             <div class="form-group col-sm-6">
-                <label class="form__labels" for="number">Nama</label>
+                <label class="form__labels" for="number">Nama <span style="color: red">*</span></label>
                 <input name="pengaduan[nama]" value="{{ $model['nama'] }}" type="text" class="form-control form__items" id="number" placeholder="Nama" required>
                 @if ($errors->has('nama'))
                 <div class="form-text error">
@@ -42,7 +31,7 @@
                 @endif
             </div>
             <div class="form-group col-sm-6">
-                <label class="form__labels" for="date">NIK</label>
+                <label class="form__labels" for="date">NIK <span style="color: red">*</span></label>
                 <input name="pengaduan[nik]" value="{{ $model['nik'] }}" type="text" class="form-control form__items" id="date" placeholder="NIK" required>
                 @if ($errors->has('nik'))
                 <div class="form-text error">
@@ -52,7 +41,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="address" class="form__labels">Alamat</label>
+            <label for="address" class="form__labels">Alamat <span style="color: red">*</span></label>
             <textarea name="pengaduan[alamat]" class="form-control form__items" id="address" rows="3" required>{{ $model['alamat'] }}</textarea>
             @if ($errors->has('alamat'))
             <div class="form-text error">
@@ -62,8 +51,8 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6 col-lg-4">
-                <label class="form__labels" for="email">Email</label>
-                <input name="pengaduan[email]" value="{{ $model['email'] }}" type="text" class="form-control form__items" id="email" placeholder="Email" required>
+                <label class="form__labels" for="email">Email <span style="color: red">*</span></label>
+                <input name="pengaduan[email]" value="{{ $model['email']}}" type="text" class="form-control form__items" id="email" placeholder="Email" required>
                 @if ($errors->has('email'))
                 <div class="form-text error">
                     {{ $errors->first('email') }}
@@ -71,7 +60,7 @@
                 @endif
             </div>
             <div class="form-group col-sm-6 col-lg-4">
-                <label class="form__labels" for="phone">No Telepon</label>
+                <label class="form__labels" for="phone">No Telepon <span style="color: red">*</span></label>
                 <input name="pengaduan[phone]" value="{{ $model['phone'] }}" type="text" class="form-control form__items" id="phone" placeholder="Phone" required>
                 @if ($errors->has('phone'))
                 <div class="form-text error">
@@ -80,7 +69,7 @@
                 @endif
             </div>
             <div class="form-group col-sm-12 col-lg-4">
-                <label class="form__labels" for="profession">Pekerjaan</label>
+                <label class="form__labels" for="profession">Pekerjaan <span style="color: red">*</span></label>
                 <input name="pengaduan[pekerjaan]" value="{{ $model['pekerjaan'] }}" type="text" class="form-control form__items" id="profession" placeholder="Pekerjaan" required>
                 @if ($errors->has('pekerjaan'))
                 <div class="form-text error">
@@ -91,7 +80,7 @@
         </div>
         <div class="row">
             <div class="form-group col-sm-6">
-                <label class="form__labels" for="txtobyek_aduan">Objek Aduan (No. SHM/Letak Tanah)</label>
+                <label class="form__labels" for="txtobyek_aduan">Objek Aduan (No. SHM/Letak Tanah) <span style="color: red">*</span></label>
                 <input name="pengaduan[objek_aduan]" value="{{ $model['objek_aduan'] }}" type="text" class="form-control form__items" id="txtobyek_aduan" required>
                 @if ($errors->has('objek_aduan'))
                 <div class="form-text error">
@@ -100,8 +89,8 @@
                 @endif
             </div>
             <div class="form-group col-sm-6">
-                <label class="form__labels" for="relation">Hubungan hukum dengan tanah</label>
-                <input type="text" class="form-control form__items" name="pengaduan[hubungan]" value="{{ $model['hubungan'] }}" id="relation" required>
+                <label class="form__labels" for="relation">Hubungan hukum dengan tanah <span style="color: red">*</span></label>
+                <input type="text" class="form-control form__items" name="pengaduan[hubungan]" value="{{$model['hubungan']}}" id="relation" required>
                 @if ($errors->has('hubungan'))
                 <div class="form-text error">
                     {{ $errors->first('hubungan') }}
@@ -109,7 +98,7 @@
                 @endif
             </div>
             <div class="form-group col-sm-12">
-                <label class="form__labels" for="berkas">No Berkas Permohonan (Untuk pelayanan)</label>
+                <label class="form__labels" for="berkas">No Berkas Permohonan (Untuk pelayanan) <span style="color: red">*</span></label>
                 <input name="pengaduan[no_berkas]" value="{{ $model['no_berkas'] }}" type="text" class="form-control form__items" id="berkas" required>
                 @if ($errors->has('no_berkas'))
                 <div class="form-text error">
@@ -118,9 +107,9 @@
                 @endif
             </div>
         </div>
-        <h2>II. Uraian Pengaduan</h2>
+        <h2>II. Uraian Pengaduan <span style="color: red">*</span></h2>
         <div class="form-group">
-            <textarea name="pengaduan[uraian]" class="form-control form__items" rows="5" placeholder="Uraikan pengaduan anda disini.." required>{{ $model['uraian'] }}</textarea>
+            <textarea name="pengaduan[uraian]" class="form-control form__items" rows="5" placeholder="Uraikan pengaduan anda disini.." required>{{$model['uraian']}}</textarea>
             @if ($errors->has('uraian'))
             <div class="form-text error">
                 {{ $errors->first('uraian') }}
@@ -137,14 +126,8 @@
             <div class="form-group col-12">
                 <input class="file__upload" type="file" name="bukti2" id="file">
             </div>
-                <div class="form-group col-12">
-                <input class="file__upload" type="file" name="bukti3" id="file">
-            </div>
-                <div class="form-group col-12">
-                <input class="file__upload" type="file" name="bukti4" id="file">
-            </div>
             <div class="form-group col-12">
-                <input class="file__upload" type="file" name="bukti5" id="file">
+                <input class="file__upload" type="file" name="bukti3" id="file">
             </div>
         </div>
 

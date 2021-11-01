@@ -4,107 +4,91 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
-use App\Users;
 use App\Pengaduan_status;
-use DB;
+use Auth;
 
 
-class Pengaduan_statusController extends Controller
-{
-    private $pengaduan_status;
-    private $users;
-
-
-
-    public function allpengaduan_status()
-    {
-        return view('pages.admin.pengaduan_status.index');
+class Pengaduan_statusController extends Controller {
+    
+    public function allPengaduan_status() {
+        return view('pages.admin.Pengaduan_status.index');
+    }
+   
+    public function list() {
+        echo json_encode([
+            'data' => Pengaduan_status::all()
+        ]);
+    }
+    
+    public function index(Request $r) {
+        return view('pages.admin.Pengaduan_status.index');
     }
 
-
-    public function index()
-    {
-        $pengaduan_status = Pengaduan_status::all();
-        return view('pages.admin.pengaduan_status.index', compact('pengaduan_status'));
-    }
-
-    public function get()
-    {
-        $data = DB::table('ms_pengaduan_status')
-            ->select('ms_pengaduan_status.*')
-            ->orderby('status_id', 'ASC')->get();
-        echo json_encode($data);
-    }
-
-    public function create()
-    {
-        $pengaduan_status = Pengaduan_status::all();
-        return view('pages.admin.pengaduan_status.index', compact('pengaduan_status'));
-    }
-
-    public function getmax()
-    {
-        $data = DB::table('ms_pengaduan_status')
-            ->selectRaw('max(status_id) + 1 as jml')
-            ->get();
-        echo json_encode($data);
-    }
-
-    public function save(Request $r)
-    {
-        $pengaduan_status = new Pengaduan_status;
-        $pengaduan_status->status_id = $r->input('txtstatus_id');
-        $pengaduan_status->nama_status = $r->input('txtnama_status');
-        $pengaduan_status->standar_wkt = $r->input('txtstandar_wkt');
-        $pengaduan_status->create_by = $r->input('txtcreate_by');
-        $pengaduan_status->update_by = $r->input('txtupdate_by');
-
-        $pengaduan_status->save();
-        $msg['success'] = FALSE;
-
-        if ($pengaduan_status) {
-            $msg['success'] = TRUE;
+    public function save(Request $r) {
+        $status_id = $r->post('status_id');
+        $nama_status = $r->post('nama_status');
+        $user_id = Auth::id();
+        
+        if (empty($nama_status)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Nama status tidak boleh kosong'
+            ]);
+            return;
         }
-        echo json_encode($msg);
-    }
-
-
-    // Panggil data untuk edit data pengaduan_status 
-
-    public function getpengaduan_status($id)
-    {
-        $data = DB::table('ms_pengaduan_status')
-            ->select('ms_pengaduan_status.*')
-            ->where('status_id', $id)
-            ->orderby('status_id', 'ASC')->get();
-
-        echo json_encode($data);
-    }
-
-    // .--Panggil data untuk edit data pengaduan_status 
-
-
-    public function update(Request $r, $id)
-    {
-        $pengaduan_status = Pengaduan_status::find($id);
-        $pengaduan_status->status_id   = $r->input('txtstatus_id');
-        $pengaduan_status->nama_status = $r->input('txtnama_status');
-        $pengaduan_status->standar_wkt = $r->input('txtstandar_wkt');
-        $pengaduan_status->create_by = $r->input('txtcreate_by');
-        $pengaduan_status->update_by = $r->input('txtupdate_by');
-        $pengaduan_status->save();
-        echo "sukses";
-    }
-
-    public function delete($id)
-    {
-        $pengaduan_status = DB::table('ms_pengaduan_status')->where('status_id', $id)->delete();
-        $msg['success'] = FALSE;
-        if ($pengaduan_status) {
-            $msg['success'] = TRUE;
+        
+        $model = null;
+        if (!empty($status_id)) {
+            $model = Pengaduan_status::find($status_id);
+            if ($model == null) {
+                echo json_encode([
+                    'success' => false,
+                    'message' => 'Data tidak ada'
+                ]);
+                return;
+            }
+        } else {
+            $model = new Pengaduan_status();
+            $model->create_by = $user_id;
+            $model->create_date = date('Y-m-d H:i:s');
+            $model->nama_status = $nama_status;
+            $model->update_by = $user_id;
+            $model->update_date = date('Y-m-d H:i:s');
         }
-        echo json_encode($msg);
+        
+        $model->save();
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Data berhasil disimpan'
+        ]);
+    }
+    
+    public function delete(Request $r) {
+        $status_id = $r->post('status_id', '');
+        
+        if (empty($status_id)) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+        
+        $model = Pengaduan_status::find($status_id);
+        if ($model == null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+            return;
+        }
+        
+        $model->delete();
+        echo json_encode([
+            'success' => true,
+            'message' => 'Data berhasil di hapus'
+        ]);
+        return;
     }
 }

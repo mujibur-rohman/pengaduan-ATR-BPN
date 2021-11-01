@@ -9,10 +9,12 @@ use Illuminate\Routing\Controller;
 use App\MailTemplate;
 use App\Tr_pengaduan;
 
+
 class LandingController extends Controller {
     
     public function index(Request $request) {
         $model = $request->old('pengaduan');
+
         if (empty($model)) {
             $model = [
                 'nama' => '',
@@ -27,6 +29,7 @@ class LandingController extends Controller {
                 'uraian' => ''
             ];
         }
+
         return view('pages.landing.index', compact('model'));
     }
 

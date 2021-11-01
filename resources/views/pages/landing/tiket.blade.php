@@ -4,7 +4,7 @@
     {{ trans('Pelayanan Pengaduan ATR/BPN') }}
 @endsection
 
-@section('main-content') 
+@section('main-content-mailsent') 
 
 <div class="section-1" id="beranda">
     @if ($model == null)

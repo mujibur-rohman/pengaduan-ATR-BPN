@@ -4,15 +4,18 @@
     {{ trans('Pelayanan Pengaduan ATR/BPN') }}
 @endsection
 
-@section('main-content') 
+@section('main-content-mailsent') 
 
-<div class="section-1" id="beranda">
+<div class="row mail_sent">
     @if (empty($token))
-    <div class="alert alert-danger">
-        <p>Maaf token sudah expired atau tidak ada</p>
+    <img src="{{asset('assets_fron/images/empty.png')}}" alt="empty">
+    <div class="alert" style="width: 100%; ">        
+        <p>Maaf token sudah expired atau tidak ada!</p>
+        <a href="{{url('/')}}" class="btn">Kembali ke Home</a>
     </div>
     @else
-    <div class="alert alert-info">
+    <img src="{{asset('assets_fron/images/verified.png')}}" alt="verified">
+    <div class="alert">
         <p>Terima kasih telah melakukan verifikasi email</p>
         <p>
             Laporan pengaduan anda telah kami terima dan akan segera kami proses. 
@@ -25,6 +28,7 @@
         <p>
             Kami juga telah mengirimkan sebuah email berisi informasi cara melihat proses pengaduan dan memberikan tanggapan.
         </p>
+        <a href="{{url('/')}}" class="btn">Lihat Pengaduan</a>
     </div>
     @endif
 </div>

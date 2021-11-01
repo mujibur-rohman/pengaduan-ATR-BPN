@@ -17,6 +17,12 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
         Route::post('/save','Admin\Pengaduan_kanalController@save');
         Route::post('/delete', 'Admin\Pengaduan_kanalController@delete');
     });
+    Route::prefix('pengaduan_status')->group(function(){
+        Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');
+        Route::get('/list','Admin\Pengaduan_statusController@list');
+        Route::post('/save','Admin\Pengaduan_statusController@save');
+        Route::post('/delete', 'Admin\Pengaduan_statusController@delete');
+    });
         
     Route::prefix('tr_pengaduan')->group(function () {
 		Route::get('/view/{id}', 'Admin\Tr_pengaduanController@view')->name('view_pengaduan');
@@ -155,15 +161,15 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
             Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
         });
 
-			Route::prefix('pengaduan_status')->group(function(){
-				Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');
-				 Route::get('/datapengaduan_status', 'Admin\Pengaduan_statusController@get')->name('daftarpengaduan_status');
-				 Route::get('/datajml', 'Admin\Pengaduan_statusController@getmax')->name('maxpengaduan_status');
-				 Route::post('/simpanpengaduan_status', 'Admin\Pengaduan_statusController@save')->name('simpanpengaduan_status');
-				 Route::get('/getDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@getpengaduan_status');
-				 Route::post('Admin/editDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@update');
-				 Route::get('/hapusDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@delete');
-				});
+			// Route::prefix('pengaduan_status')->group(function(){
+			// 	Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');
+			// 	 Route::get('/datapengaduan_status', 'Admin\Pengaduan_statusController@get')->name('daftarpengaduan_status');
+			// 	 Route::get('/datajml', 'Admin\Pengaduan_statusController@getmax')->name('maxpengaduan_status');
+			// 	 Route::post('/simpanpengaduan_status', 'Admin\Pengaduan_statusController@save')->name('simpanpengaduan_status');
+			// 	 Route::get('/getDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@getpengaduan_status');
+			// 	 Route::post('Admin/editDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@update');
+			// 	 Route::get('/hapusDatapengaduan_status/{id}', 'Admin\Pengaduan_statusController@delete');
+			// 	});
 
 			Route::prefix('pengaduan_jenis')->group(function(){
 			Route::get('/','Admin\Pengaduan_jenisController@index')->name('listpengaduan_jenis');
