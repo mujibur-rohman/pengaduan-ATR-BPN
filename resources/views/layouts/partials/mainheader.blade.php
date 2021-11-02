@@ -18,7 +18,7 @@
                                     <img src="{{ asset('assets_back/images/logo.png') }}" alt="" height="24">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets_back/images/logo.png') }}" alt="" height="24"> <span class="logo-txt">ART BPN</span>
+                                    <img src="{{ asset('assets_back/images/logo.png') }}" alt="" height="24"> <span class="logo-txt">ATR BPN</span>
                                 </span>
                             </a>
 
@@ -27,7 +27,7 @@
                                     <img src="{{ asset('assets_back/images/logo-sm.svg') }}" alt="" height="24">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets_back/images/logo-sm.svg') }}" alt="" height="24"> <span class="logo-txt">ATR BPN</span>
+                                    <img src="{{ asset('assets_back/images/logo-sm.svg') }}" alt="" height="24"> <span class="logo-txt">ATR/BPN</span>
                                 </span>
                             </a>
                         </div>

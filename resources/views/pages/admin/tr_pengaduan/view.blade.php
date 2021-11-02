@@ -18,12 +18,6 @@
                 @if ($model == null)
                 <div class="alert alert-danger">Data tidak ditemukan</div>
                 @else
-                {{-- <div class="row" style="margin-bottom: 20px;">
-                    <div class="col-md-12">
-                        <button id="btnVerifikator" class="btn btn-primary" type="button">Verifikator</button>
-                        <button id="btnResponder" class="btn btn-primary" type="button">Responder</button>
-                    </div>
-                </div> --}}
                 <fieldset class="border rounded py-3 px-4">
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
@@ -50,9 +44,6 @@
                         <div class="col-md-6 col-lg-4">
                             <h5>Posisi Pengaduan</h5>
                             <p class="fs-5">{{ $model->posisi->nama_posisi }}</p>
-                        </div>
-                        <div class="col-md-6 col-lg-4">
-                            <a href="#" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#logModal"><i class="fas fa-info-circle" style="padding-right: 10px"></i><b>Log Pengaduan</b></a>
                         </div>
                     </div>
                 </fieldset>
@@ -112,6 +103,59 @@
                     </ul>
                     @endif
                 </fieldset>
+                <fieldset class="border px-4 py-3 rounded mt-3">
+                    <legend>Log Pengaduan</legend>
+                    <div class="rb-container">
+                      <ul class="rb">
+                        <li class="rb-item" ng-repeat="itembx">
+                          <div class="timestamp">
+                            21 Oktober 2021<br> <span class="disposisi btn-secondary rounded">Laporan Diterima</span>
+                          </div>
+                          <div class="item-title">Nama User</div>
+                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
+                          <div class="attach-group">
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
+                          </div>
+                        </li>
+                        <li class="rb-item" ng-repeat="itembx">
+                          <div class="timestamp">
+                            23 Oktober 2021<br> <span class="disposisi btn-warning rounded">Proses Verifikasi</span>
+                          </div>
+                          <div class="item-title">Nama User</div>
+                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
+                          <div class="attach-group">
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
+                          </div>
+                        </li>
+                        <li class="rb-item" ng-repeat="itembx">
+                          <div class="timestamp">
+                            23 Oktober 2021<br> <span class="disposisi btn-info rounded">Proses Responder</span>
+                          </div>
+                          <div class="item-title">Nama User</div>
+                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
+                          <div class="attach-group">
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
+                          </div>
+                        </li>
+                        <li class="rb-item" ng-repeat="itembx">
+                          <div class="timestamp">
+                            23 Oktober 2021<br> <span class="disposisi btn-success rounded">Selesai</span>
+                          </div>
+                          <div class="item-title">Nama User</div>
+                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
+                          <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
+                          <div class="attach-group">
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
+                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
+                          </div>
+                        </li>
+                        
+                      </ul>
+                    </div>                     
+                </fieldset>
                 
                 <div class="row my-4">
                     <div class="col-md-12">
@@ -128,24 +172,6 @@
     </div>
 </div>
 
-
-<!-- Modal LOG -->
-<div class="modal fade" id="logModal" tabindex="-1" aria-labelledby="logModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="logModalLabel">Log Pengaduan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        test
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Modal Verifikator -->
 <div class="modal fade" id="verifikatorModal" tabindex="-1" aria-labelledby="verifikatorModalLabel" aria-hidden="true">

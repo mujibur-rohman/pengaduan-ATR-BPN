@@ -17,6 +17,13 @@
     <!--<div class="jvectormap-label"></div>-->
 
     <script src="{{ asset('assets_back/js/app.js') }}"></script>
+    
+    {{-- LIGHTBOX --}}
+    <script src="{{ asset('assets_back/js/lightbox-plus-jquery.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox-plus-jquery.min.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox.min.js') }}"></script>
+
 
   <!--  end  JAVASCRIPT -->
 

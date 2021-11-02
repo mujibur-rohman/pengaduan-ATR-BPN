@@ -3,7 +3,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
     <meta charset="utf-8">
-    <title> Pengaduan ART/BPN</title>
+    <title> Pengaduan ATR/BPN</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <meta content="Premium Multipurpose Admin &amp; Dashboard Template" name="description">
@@ -21,6 +21,13 @@
     <link href="{{ asset('assets_back/css/icons.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets_back/css/app.css') }}" id="app-style" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets_back/css/oscar.css') }}" id="app-style" rel="stylesheet" type="text/css">
+
+    {{-- STYLE --}}
+    <link href="{{ asset('assets_back/css/style.css') }}" id="app-style" rel="stylesheet" type="text/css">
+
+    {{-- LIGHTBOX --}}
+    <link href="{{ asset('assets_back/css/lightbox.css') }}" id="app-style" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets_back/css/lightbox.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
         
     <!-- App Css reponsive-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">

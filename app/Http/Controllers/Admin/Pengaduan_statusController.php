@@ -9,6 +9,7 @@ use Auth;
 
 
 class Pengaduan_statusController extends Controller {
+    public $timestamps = false;
     
     public function allPengaduan_status() {
         return view('pages.admin.Pengaduan_status.index');
@@ -25,11 +26,12 @@ class Pengaduan_statusController extends Controller {
     }
 
     public function save(Request $r) {
+        
         $status_id = $r->post('status_id');
         $nama_status = $r->post('nama_status');
         $user_id = Auth::id();
         
-        if (empty($nama_status)) {
+        if (empty($nama_status)) { 
             echo json_encode([
                 'success' => false,
                 'message' => 'Nama status tidak boleh kosong'
@@ -51,10 +53,10 @@ class Pengaduan_statusController extends Controller {
             $model = new Pengaduan_status();
             $model->create_by = $user_id;
             $model->create_date = date('Y-m-d H:i:s');
-            $model->nama_status = $nama_status;
-            $model->update_by = $user_id;
-            $model->update_date = date('Y-m-d H:i:s');
         }
+        $model->nama_status = $nama_status;
+        $model->update_by = $user_id;
+        $model->update_date = date('Y-m-d H:i:s');
         
         $model->save();
         

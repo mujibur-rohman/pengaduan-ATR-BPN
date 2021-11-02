@@ -1,0 +1,79 @@
+
+
+.rb-container {
+  display: block;
+  position: relative;
+}
+
+.rb-container ul.rb {
+  margin: 1.5em 0;
+  padding: 0;
+  display: inline-block;
+}
+
+.rb-container ul.rb li {
+  list-style: none;
+  margin-left: 3em;
+  /* min-height: 50px; */
+  border-left: 1px dashed black;
+  padding: 0 0 20px 30px;
+  position: relative;
+}
+
+.rb-container ul.rb li:last-child {
+  border-left: 0;
+}
+
+.rb-container ul.rb li::before {
+  position: absolute;
+  left: -13px;
+  content: "";
+  border: 8px solid #5156be;
+  border-radius: 500%;
+  background: white;
+  height: 25px;
+  width: 25px;
+  transition: all 500ms ease-in-out;
+}
+
+.rb-container ul.rb li:hover::before {
+  border-color: white;
+  background: #5156be;
+  transition: all 500ms ease-in-out;
+}
+
+ul.rb li .timestamp {
+  color: black;
+  position: relative;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.item-title {
+  color: black;
+  font-weight: bold;
+}
+
+.disposisi {
+    padding: 0 1rem;
+    margin: .5rem 0;
+    display: inline-block;
+}
+
+.attach-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: flex-start;
+}
+
+.attach {
+    background-color: rgb(209, 209, 209);
+    display: inline-block;
+    padding: 0.2rem 1rem;
+    margin-top: .5rem;
+}
+
+.attach i {
+    padding-right: .3rem;
+}
