@@ -9,6 +9,8 @@
     <!-- apexcharts -->
     <!--<script src="{{ asset('assets_back/js/apexcharts.js') }}"></script>-->
 
+    
+
     <!-- Plugins js-->
     <!--<script src="{{ asset('assets_back/js/jquery-jvectormap-1.js') }}"></script>-->
     <!--<script src="{{ asset('assets_back/js/jquery-jvectormap-world-mill-en.js') }}"></script>-->
@@ -23,6 +25,7 @@
     <script src="{{ asset('assets_back/js/lightbox-plus-jquery.min.js') }}"></script>
     <script src="{{ asset('assets_back/js/lightbox.js') }}"></script>
     <script src="{{ asset('assets_back/js/lightbox.min.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/sc-2.0.5/sb-1.3.0/datatables.min.js"></script>
 
 
   <!--  end  JAVASCRIPT -->

@@ -31,6 +31,7 @@
         
     <!-- App Css reponsive-->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.3/sc-2.0.5/sb-1.3.0/datatables.min.css"/>
     {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css"> --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.2.0/css/fixedHeader.bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets_respon/css/tambah.css')}}">

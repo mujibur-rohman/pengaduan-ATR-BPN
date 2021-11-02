@@ -5,7 +5,7 @@
 @endsection
 
 @section('main-content-mailsent') 
-    <div class="row mail_sent">
+    <div class="row mail_sent"> 
         <img src="{{asset('assets_fron/images/mail_sent.png')}}" alt="mail_sent">
         <div class="alert">
             <p>

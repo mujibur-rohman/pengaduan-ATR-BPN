@@ -16,12 +16,13 @@ class Tr_pengaduanController extends Controller
 
     public function view($id) {
         $model = Tr_Pengaduan::find($id);
+        $posisi = DB::table('ms_pengaduan_posisi')->get();
         $lampiran = null;
         if ($model != null) {
             $lampiran = $model->lampiran->all();
         }
 
-        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran'));
+        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran', 'posisi'));
     }
 
     public function alltr_pengaduan()

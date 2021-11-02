@@ -98,7 +98,7 @@
                     @else
                     <ul>
                         @foreach($lampiran as $item)
-                        <li><a target="_blank" href="{{ URL::to('/') . Storage::url($item->file_path) }}">{{ $item->nama_file }}</a></li>
+                        <li><a target="_blank" href="{{ URL::to('/') . Storage::url($item->file_path) }}" data-lightbox="image-1">{{ $item->nama_file }}</a></li>
                         @endforeach
                     </ul>
                     @endif
@@ -152,7 +152,6 @@
                             <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
                           </div>
                         </li>
-                        
                       </ul>
                     </div>                     
                 </fieldset>
@@ -177,16 +176,68 @@
 <div class="modal fade" id="verifikatorModal" tabindex="-1" aria-labelledby="verifikatorModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+    <form action="" method="post">
+      {{ csrf_field() }}
       <div class="modal-header">
         <h5 class="modal-title" id="verifikatorModalLabel">Disposisi Tujuan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        test
+      <div class="modal-body">        
+        <div class="panel-body table-responsive">
+          <table id="data_verif" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama</th>
+                <th>&nbsp;</th>
+              </tr>
+            </thead>
+            <tbody>
+              @foreach ($posisi as $pos)
+                  <tr>
+                    <td>{{$pos->posisi_id}}</td>
+                    <td><label for="{{$pos->posisi_id}}">{{$pos->nama_posisi}}</label></td>
+                    <td><input type="radio" name="posisi" id="{{$pos->posisi_id}}"></td>
+                  </tr>
+              @endforeach
+            </tbody>
+          </table>
+          <div class="form-group mb-3">
+            <label for="ket" class="form-label">Keterangan</label>
+            <textarea name="" id="ket" cols="4" rows="2" class="form-control"></textarea>
+          </div>
+          <div class="form-group mb-3">
+            <label for="upload-file" class="form-label">Lampiran</label>
+            <input class="form-control form-control-sm mb-2" id="upload-file" type="file">
+            <input class="form-control form-control-sm" id="upload-file" type="file">
+          </div>
+          <div class="d-flex">
+            <div style="flex: 1">
+              <label class="form-label">Klasifikasi</label>
+              <select class="form-select form-select-sm" aria-label=".form-select-sm">
+                <option selected>Open this select menu</option>
+                <option value="1">One</option>
+                <option value="2">Two</option>
+                <option value="3">Three</option>
+              </select>
+          </div>
+          <div style="flex: 1; margin-left: 1rem;">
+            <label class="form-label">Kategori</label>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm">
+              <option selected>Open this select menu</option>
+              <option value="1">One</option>
+              <option value="2">Two</option>
+              <option value="3">Three</option>
+            </select>
+          </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" type="submit">Kirim</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
@@ -214,5 +265,11 @@
 
 @endsection
 @push('script')
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#data_verif').DataTable();
+} );
+</script>
 
 @endpush
