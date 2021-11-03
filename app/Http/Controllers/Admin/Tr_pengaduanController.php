@@ -3,17 +3,73 @@
 namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Storage;
+use App\Http\MyController;
 use App\Tr_pengaduan;
+use App\MailTemplate;
 use DB;
 use Auth;
 
-class Tr_pengaduanController extends Controller
+class Tr_pengaduanController extends MyController
 {
     private $tr_pengaduans ;
     private $disposisi_verifikator;
     private $disposisi_responder;
 
+    public function index(Request $request){
+        $nama_status = "verifikator"; 
+        $nama_status1="responder";
+        
+        $txttglawal = $request->get('start_date', date('Y-m-d'));
+        $txttglakhir = $request->get('end_date', date('Y-m-d'));
+        $kanal_id = (int) $request->get('kanal_id', 0);
+        $status_id = (int) $request->get('status_id', 0);
+        $posisi_id = (int) $request->get('posisi_id', 0);
+        $klasifikasi_id = (int) $request->get('klasifikasi_id', 0);
+        $kategori_id = (int) $request->get('kategori_id', 0);
+        
+//        $disposisi_verifikator = DB::select("call sp_cmduser_flag_role('".$nama_status."')"); 
+//        $disposisi_responder = DB::select("call sp_cmduser_flag_role('".$nama_status1."')");
+
+        $tr_pengaduans = DB::table('tr_pengaduan')
+            ->join('ms_pengaduan_jenis', 'tr_pengaduan.jenis_id', 'ms_pengaduan_jenis.jenis_id')
+            ->join('ms_pengaduan_kanal', 'tr_pengaduan.kanal_id', 'ms_pengaduan_kanal.kanal_id')
+            ->join('ms_pengaduan_posisi', 'tr_pengaduan.posisi_id', 'ms_pengaduan_posisi.posisi_id')
+            ->join('ms_pengaduan_status', 'tr_pengaduan.status_id', 'ms_pengaduan_status.status_id')
+            ->leftjoin('users', 'tr_pengaduan.create_by', 'users.id_user')
+            ->select('tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
+                'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
+                'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
+                'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
+            ->where('tr_pengaduan.verified_email', 'Y')
+            ->where(function($q) use ($kanal_id) {
+                return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
+            })
+            ->where(function($q) use ($status_id) {
+                return $status_id != 0 ? $q->where('tr_pengaduan.status_id', $status_id) : '';
+            })
+            ->where(function($q) use ($posisi_id) {
+                return $posisi_id != 0 ? $q->where('tr_pengaduan.posisi_id', $posisi_id) : '';
+            })
+            ->where(function($q) use ($kategori_id) {
+                return $kategori_id != 0 ? $q->where('tr_pengaduan.kategori_id', $kategori_id) : '';
+            })
+            ->where(function($q) use ($klasifikasi_id) {
+                return $klasifikasi_id != 0 ? $q->where('tr_pengaduan.klasifikasi_id', $klasifikasi_id) : '';
+            })
+            ->wheredate('tr_pengaduan.created_at', '>=', $txttglawal)
+            ->wheredate('tr_pengaduan.created_at', '<=', $txttglakhir)   
+            ->orderby('pengaduan_id', 'ASC')->get();
+
+        return view('pages.admin.tr_pengaduan.index', compact(
+            'tr_pengaduans',
+            'txttglawal', 'txttglakhir',
+            'kanal_id', 'status_id', 'klasifikasi_id', 'kategori_id'
+        ));
+    }
+    
     public function view($id) {
         $model = Tr_Pengaduan::find($id);
         $posisi = DB::table('ms_pengaduan_posisi')->get();
@@ -25,6 +81,186 @@ class Tr_pengaduanController extends Controller
         return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran', 'posisi'));
     }
 
+    public function getPosisi() {
+        $posisi = DB::table('ms_pengaduan_posisi')->get();
+        return json_encode([
+            'data' => $posisi
+        ]);
+    }
+    
+    public function saveVerifikator(Request $request) {
+        $pengaduan_id = $request->post('pengaduan_id');
+        $posisi_id = $request->post('posisi_id');
+        $keterangan = $request->post('keterangan');
+        $klasifikasi_id = $request->post('klasifikasi_id');
+        $kategori_id = $request->post('kategori_id');
+        
+        $rules = [
+            'pengaduan_id' => ['required'],
+            'posisi_id' => ['required'],
+            'klasifikasi_id' => ['required'],
+            'kategori_id' => ['required'],
+            'lampiran_1' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+            'lampiran_2' => ['file', 'max:1024', 'mimetypes:image/jpg,image/png,image/jpeg,application/pdf'],
+        ];
+        $msg = [
+            'required' => ':attribute harus diisi.',
+            'mimetypes' => 'Bukti lampiran harus dalam format jpeg atau pdf',
+            'max' => 'Ukuran bukti lampiran maksimal 1Mb'
+        ];
+        $validator = Validator::make($request->all(), $rules, $msg);
+        
+        if ($validator->fails()) {
+            echo json_encode([
+                'success' => false,
+                'message' => $validator->errors()->first()
+            ]);
+            return;
+        }
+        
+        $model = Tr_pengaduan::find($pengaduan_id);
+        if ($model == null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data pengaduan tidak ada'
+            ]);
+            return;
+        }
+        
+        $status_id = config('pengaduan.status_id_verifikator');
+        
+        try {
+            DB::beginTransaction();
+            
+            // update data pengaduan
+            $model->klasifikasi_id = $klasifikasi_id;
+            $model->posisi_id = $posisi_id;
+            $model->kategori_id = $kategori_id;
+            $model->status_id = $status_id;
+            $model->update_by = Auth::id();
+            $model->updated_at = date('Y-m-d H:i:s');
+            $model->save();
+
+            // update log
+            $modelLog = new \App\Tr_pengaduan_log();
+            $modelLog->pengaduan_id = $pengaduan_id;
+            $modelLog->id_status = $status_id;
+            $modelLog->id_posisi = $posisi_id;
+            $modelLog->waktu = date('Y-m-d H:i:s');
+            $modelLog->keterangan = $keterangan;
+            $modelLog->user_id = Auth::id();
+            
+            if ($request->file()) {
+                if ($request->lampiran_1) {
+                    $modelLog->lampiran_1_nama = time().'_'.$request->lampiran_1->getClientOriginalName();
+                    $modelLog->lampiran_1_path = $request->file('lampiran_1')->store('public/files');
+                }
+                
+                if ($request->lampiran_2) {
+                    $modelLog->lampiran_2_nama = time().'_'.$request->lampiran_2->getClientOriginalName();
+                    $modelLog->lampiran_2_path = $request->file('lampiran_2')->store('public/files');
+                }
+            }
+
+            $modelLog->save();
+            DB::commit();
+            
+            // send email
+            $params = [];
+            MailTemplate::sendWith('disposisi_ke_verifikator', $model->email, $params);
+        
+            echo json_encode([
+                'success' => true,
+                'message' => 'Berhasil menyimpan'
+            ]);
+        } catch (\PDOException $e) {
+            // Woopsy
+            DB::rollBack();
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+    
+    public function getLog(Request $request) {
+        $pengaduan_id = $request->get('pengaduan_id');
+        
+        $model = Tr_pengaduan::find($pengaduan_id);
+        if ($model == null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data pengaduan tidak ada'
+            ]);
+            return;
+        }
+        $data = [];
+        $log = $model->log()->get();
+        if (!empty($log)) {
+            foreach($log as $row) {
+                $lampiran = [];
+                if (!empty($row['lampiran_1_path'])) {
+                    $lampiran[] = [
+                        'name' => $row['lampiran_1_nama'],
+                        'path' => URL::to('/') . Storage::url($row['lampiran_1_path'])
+                    ];
+                }
+                
+                if (!empty($row['lampiran_2_path'])) {
+                    $lampiran[] = [
+                        'name' => $row['lampiran_2_nama'],
+                        'path' =>URL::to('/') . Storage::url($row['lampiran_2_path'])
+                    ];
+                }
+                
+                $temp = [
+                    'created_at' => date('d M Y H:i', strtotime($row['waktu'])),
+                    'status_id' => $row['id_status'],
+                    'status_name' => $row->status->nama_status,
+                    'user_name' => isset($row->user) ? $row->user->username : '',
+                    'keterangan' => $row['keterangan'],
+                    'lampiran' => $lampiran
+                ];
+                $data[] = $temp;
+            }
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'data' => $data
+        ]);
+    }
+    
+    private function createResponse($pengaduan_id, $posisi_id, $keterangan) {
+        $model = new \App\Tr_pengaduan_respon();
+        $model->pengaduan_id = $pengaduan_id;
+        $model->posisi_id = $posisi_id;
+        $model->user_id = Auth::id();
+        $model->jawaban = $keterangan;
+        $model->create_date = date('Y-m-d H:i:s');
+        $model->create_by = Auth::id();
+        $model->update_date = date('Y-m-d H:i:s');
+        $model->update_by = Auth::id();
+        $model->save();
+        
+        return $model;
+    }
+    
+    private function saveLampiran($response_id, $field, $request, $request_field) {
+        if (isset($request_field)) {
+            $name = time().'_'.$request_field->getClientOriginalName();
+            $path = $request->file($field)->store('public/files');
+            
+            $model = new \App\Tr_pengaduan_respon_dokumen();
+            $model->respon_id = $response_id;
+            $model->nama_file = $name;
+            $model->file_path = $path;
+            $model->create_date = date('Y-m-d H:i:s');
+            $model->create_by = Auth::id();
+            $model->save();
+        }
+    }
+    
     public function alltr_pengaduan()
     {
         return view('pages.admin.tr_pengaduan.index');
@@ -242,53 +478,6 @@ public function index_responder($idu){ //facebook
    ->orderby('pengaduan_id', 'ASC')->get();
   return view('pages.admin.tr_pengaduan.index', compact('tr_pengaduans'));
 } 
-    public function index(Request $request){
-        $nama_status = "verifikator"; 
-        $nama_status1="responder";
-        
-        $txttglawal = $request->post('start_date', date('Y-m-d'));
-        $txttglakhir = $request->post('end_date', date('Y-m-d'));
-        $kanal_id = (int) $request->post('kanal_id', 0);
-        $status_id = (int) $request->post('status_id', 0);
-        $posisi_id = (int) $request->post('posisi_id', 0);
-        
-        $disposisi_verifikator = DB::select("call sp_cmduser_flag_role('".$nama_status."')"); 
-        $disposisi_responder = DB::select("call sp_cmduser_flag_role('".$nama_status1."')");
-
-        $tr_pengaduans = DB::table('tr_pengaduan')
-            ->join('ms_pengaduan_jenis', 'tr_pengaduan.jenis_id', 'ms_pengaduan_jenis.jenis_id')
-            ->join('ms_pengaduan_kanal', 'tr_pengaduan.kanal_id', 'ms_pengaduan_kanal.kanal_id')
-            ->join('ms_pengaduan_posisi', 'tr_pengaduan.posisi_id', 'ms_pengaduan_posisi.posisi_id')
-            ->join('ms_pengaduan_status', 'tr_pengaduan.status_id', 'ms_pengaduan_status.status_id')
-            ->leftjoin('users', 'tr_pengaduan.create_by', 'users.id_user')
-            ->select('tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
-                'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
-                'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
-                'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
-            ->where('tr_pengaduan.verified_email', 'Y')
-            ->where(function($q) use ($kanal_id) {
-                return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
-            })
-            ->where(function($q) use ($status_id) {
-                return $status_id != 0 ? $q->where('tr_pengaduan.status_id', $status_id) : '';
-            })
-            ->where(function($q) use ($posisi_id) {
-                return $posisi_id != 0 ? $q->where('tr_pengaduan.posisi_id', $posisi_id) : '';
-            })
-            ->wheredate('tr_pengaduan.created_at', '>=', $txttglawal)
-            ->wheredate('tr_pengaduan.created_at', '<=', $txttglakhir)   
-            ->orderby('pengaduan_id', 'ASC')->get();
-
-        return view('pages.admin.tr_pengaduan.index', compact(
-            'tr_pengaduans',
-            'disposisi_verifikator',
-            'disposisi_responder',
-            'txttglawal',
-            'txttglakhir',
-            'kanal_id', 'status_id'
-        ));
-    }    
-
  //      ->whereDate('tgl_mulai_pendf','<=',$this->carbon)
    //    ->whereDate('tgl_hasil_seleksi','>=',$this->carbon)
 

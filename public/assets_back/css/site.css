@@ -1,0 +1,14 @@
+/*.select2-container .select2-choice, .select2-result-label {
+  font-size: 1.5em;
+  height: 41px; 
+  overflow: auto;
+}
+.select2-arrow, .select2-chosen {
+  padding-top: 6px;
+}
+.select2-container .select2-selection--single {
+    height: 37px;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+    padding: .47rem 1.75rem .47rem .75rem;
+}*/

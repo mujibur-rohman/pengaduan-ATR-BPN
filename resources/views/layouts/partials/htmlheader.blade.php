@@ -40,6 +40,8 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
     {{-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script> --}}
     
+    <link href="{{ asset('assets_back/css/site.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
+    
     <link href="{{ asset('assets_back/css/bootstrap.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets_back/js/bootstrap.js') }}"></script>
 </head>

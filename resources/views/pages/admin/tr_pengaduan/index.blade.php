@@ -17,8 +17,7 @@
                 </div>
             </div>
             <div class="box-filter border p-4 rounded mb-3">
-                <form id="formfilter" method="POST">
-                    {{ csrf_field() }}
+                <form id="formfilter" method="GET">
                     <div class="row mb-3">
                         <div class="col-4 row">
                             <label for="tanggal" class="form-label">Tanggal Periode</label>
@@ -29,9 +28,13 @@
                             </div>
                             <label class="form-label">Kategori Pengaduan</label>
                             <div class="d-flex">
-                                <select name="pengaduan_id" id="cmbcatagorikanal" class="form-control form-select">
-                                    <option value="1" {{ $kanal_id == "1" ? "selected" : "" }}>Kanal NON Medsos</option>
-                                    <option value="2" {{ $kanal_id == "2" ? "selected" : "" }}>Kanal Medsos</option>
+                                <select name="kategori_id" id="cmbcatagorikanal" class="form-control form-select">
+                                    <option value="0">Semua data</option>
+                                    @foreach (\App\Pengaduan_kategori::select('kategori_id','nama_kategori')->get() as $kategori)
+                                    <option value="{{ $kategori->kategori_id }}" {{ $kategori->kategori_id == $kategori_id ? 'selected' : '' }}>
+                                    {{ $kategori->nama_kategori }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -45,34 +48,24 @@
                                     {{ $kanal->nama_kanal }}
                                     </option>
                                     @endforeach
-<!--                                            <option value="0">Semua data</option>
-                                            <option value="1">Facebook</option>
-                                            <option value="2">Instagram</option>
-                                            <option value="3">Youtube</option>
-                                            <option value="4">Portal Pengaduan</option>
-                                            <option value="5">Helpdesk</option>
-                                            <option value="6">Email</option>
-                                            <option value="7">Surat</option>
-                                            <option value="8">Lapor.go.id</option>
-                                            <option value="9">KPK</option>-->
-                                        </select>
+                                </select>
                             </div>
                             <label class="form-label">Status Pengaduan</label>
                             <div class="d-flex">
-                                <select id="cmbstatuspengaduan" class="form-control form-select">
+                                <select id="cmbstatuspengaduan" name="status_id" class="form-control form-select">
                                     <option value="0">Semua data</option>
-                                    <option value="1">Laporan Diterima</option>
-                                    <option value="2">Proses Verifikasi</option>
-                                    <option value="3">Proses Tindak Lanjut</option>
-                                    <option value="4">Tanggapan</option>
-                                    <option value="5">Selesai</option>
+                                    @foreach (\App\Pengaduan_status::select('status_id','nama_status')->get() as $status)
+                                    <option value="{{ $status->status_id }}" {{ $status->status_id == $status_id ? 'selected' : '' }}>
+                                    {{ $status->nama_status }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="col-4">
                             <label class="form-label">Posisi Pengaduan</label>
                             <div class="d-flex mb-3">
-                                <select id="cmbposisipengaduan" class="form-control form-select">
+                                <select id="posisi_select2" name="posisi_id" class="form-control form-select">
                                     <option value="0">Semua data</option>
                                     <option value="1">Humas Pusat ATR BPN</option>
                                     <option value="2">Itjen 7 Pusat ATR BPN</option>
@@ -82,12 +75,15 @@
                                     <option value="6">Responder Kanwil Jawa Barat</option>
                                 </select>
                             </div>
-                            <label class="form-label">Jenis Pengaduan</label>
+                            <label class="form-label">Klasifikasi Pengaduan</label>
                             <div class="d-flex">
-                                <select id="cmbjenispengaduan" class="form-control form-select">
+                                <select id="klasifikasi_pengaduan" name="klasifikasi_id" class="form-control form-select">
                                     <option value="0">Semua data</option>
-                                    <option value="1">Informasi</option>
-                                    <option value="2">Pengaduan</option>
+                                    @foreach (\App\Pengaduan_klasifikasi::select('klasifikasi_id','nama_klasifikasi')->get() as $klasifikasi)
+                                    <option value="{{ $klasifikasi->klasifikasi_id }}" {{ $klasifikasi->klasifikasi_id == $klasifikasi_id ? 'selected' : '' }}>
+                                    {{ $klasifikasi->nama_klasifikasi }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -143,197 +139,17 @@
                 </table>
             </div>
             <!-- end main============================================================== -->
-            
-{{-- Modal Dialog Edit verifikator --}}
-<div id="modalEditverifikator" class="modal fade">
-    <div class="modal-dialog modal-sm"   style="width:700px;">
-    {{-- <form action="{{ route('postUpdateverifikatorAdmin') }}" method="POST"> --}}
-        <form action="" method="POST">
-            {{ csrf_field() }}
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Disposisi Tujuan</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                                
-                <table  id="dxdatagridpilih" class="table table-striped table-bordered nowrap" >
-                        <thead>
-                            <tr>
-                                
-                                <th>Penerima Disposisi</th>
-                                <th>Status Dokumen</th>
-                                <th>Posisi Dokumen</th>
-                                <th>Disposisi</th>
-                            </tr>
-                                         
-                        </thead>
-        
-                            <tbody>
-                           
-                          @foreach($disposisi_verifikator as $no=>$tr_p)
-
-                             <tr>
-                                <td class="text-capitalize"> {{ $tr_p->username }}</td>
-                                <td class="text-capitalize"> {{ $tr_p->name }}</td>
-                                <td class="text-capitalize"> {{ $tr_p->nama_posisi }}</td>
-                             <td>
-                             <a href="{{ route('pengaduan_verifikasi', $tr_p->gab_flag_role) }}" data-target="" class="btn btn-default btn-sm btn-flat"  >Ok</a>
-                           
-                            </td>
-                        </tr>
-                        @endforeach
                     
-                    </tbody>
-                          
-                     </table>
-
-                </div>
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Keluar</button>
-            </div>
         </div>
-        </form>
-    <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-
-           
-{{-- Modal Dialog Edit responder --}}
-<div id="modalEditresponder" class="modal fade">
-    <div class="modal-dialog modal-sm"   style="width:700px;">
-    {{-- <form action="{{ route('postUpdateresponderAdmin') }}" method="POST"> --}}
-        <form action="" method="POST">
-            {{ csrf_field() }}
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Pilih Responder</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                <table  id="dxdatagrid_responder" class="table table-striped table-bordered nowrap" >
-                        <thead>
-                            <tr>
-                                
-                                <th>Penerima Disposisi</th>
-                                <th>Status Dokumen</th>
-                                <th>Posisi Dokumen</th>
-                                <th>Disposisi</th>
-                            </tr>
-                                         
-                        </thead>
-        
-                            <tbody>
-                           
-                          @foreach($disposisi_responder as $no=>$tr_p)
-
-                             <tr>
-                                <td class="text-capitalize"> {{ $tr_p->username }}</td>
-                                <td class="text-capitalize"> {{ $tr_p->name }}</td>
-                                <td class="text-capitalize"> {{ $tr_p->nama_posisi }}</td>
-                             <td>
-                             <a href="{{ route('pengaduan_responder', $tr_p->gab_flag_role) }}" data-target="" class="btn btn-default btn-sm btn-flat"  >Ok</a>
-                           
-                            </td>
-                        </tr>
-                        @endforeach
-                    
-                    </tbody>
-                          
-                     </table>
-
-                </div>
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Keluar</button>
-                
-            </div>
-        </div>
-        </form>
-    <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
-           
-{{-- Modal Dialog Edit jawab --}}
-<div id="modalEditjawab" class="modal fade">
-    <div class="modal-dialog modal-sm" style="width:350px;">
-    {{-- <form action="{{ route('postUpdatejawabAdmin') }}" method="POST"> --}}
-        <form action="" method="POST">
-            {{ csrf_field() }}
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Rekomendasi jawaban ke pengadu</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label> Respon</label>
-                    <textarea  rows="7" cols="50" id="txtjawaban" name="txtjawaban"></textarea>
-                </div>
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Kirim</button>
-            </div>
-        </div>
-        </form>
-    <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
-
-
-{{-- Modal Dialog Edit jawab --}}
-<div id="modalEditkembali" class="modal fade">
-    <div class="modal-dialog modal-sm" style="width:450px;">
-    {{-- <form action="{{ route('postUpdatekembaliAdmin') }}" method="POST"> --}}
-        <form action="" method="POST">
-            {{ csrf_field() }}
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">Rekomendasi dokumen dikembalikan</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Berita acara</label>
-                      <textarea  rows="7" cols="50" id="txtberitaacara" name="txtberitaacara"></textarea>
-                </div>
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left btn-flat" data-dismiss="modal">Keluar</button>
-                <button type="submit" class="btn btn-primary btn-flat"><i class="fa fa-save"></i> Kirim</button>
-            </div>
-        </div>
-        </form>
-    <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-                    
-                </div>
-            </div>
-    </div>
-</div>    
 <!-- End Page-content main -->
 
 @endsection
 @push('script')
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <style type="text/css">
 #formfilter .form-group.row {
@@ -349,8 +165,25 @@ $(document).ready(function() {
         }
     });
     
-    new $.fn.dataTable.FixedHeader( table );
+//    new $.fn.dataTable.FixedHeader( table );
      
+//    $('#posisi_select2').select2({
+//        dropdownAutoWidth : true,
+//        width: '100%',
+//        ajax: {
+//            url: "{{ URL::to('/admin/get_posisi') }}",
+//            data: function (params) {
+//                var query = {
+//                  search: params.term,
+//                  type: 'public'
+//                };
+//
+//                // Query parameters will be ?search=[term]&type=public
+//                return query;
+//            }
+//        }
+//    });
+    
     $("body").on("click",".btnedit_Verifikator", function(){
         vall = $(this).closest('tr').find('td');
         $('#modalEditverifikator').modal('show');
@@ -371,7 +204,7 @@ $(document).ready(function() {
         $('#modalEditkembali').modal('show');
     });
     
-    $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
+//    $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
 
 //    $('#formfilter').submit(function(e) {
 //        e.preventDefault();

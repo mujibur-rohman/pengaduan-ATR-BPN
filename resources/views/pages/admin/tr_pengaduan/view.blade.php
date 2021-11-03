@@ -45,6 +45,14 @@
                             <h5>Posisi Pengaduan</h5>
                             <p class="fs-5">{{ $model->posisi->nama_posisi }}</p>
                         </div>
+                        <div class="col-md-6 col-lg-4">
+                            <h5>Kategori Pengaduan</h5>
+                            <p class="fs-5">{{ isset($model->kategori) ? $model->kategori->nama_kategori : '-' }}</p>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <h5>Klasifikasi Pengaduan</h5>
+                            <p class="fs-5">{{ isset($model->klasifikasi) ? $model->klasifikasi->nama_klasifikasi : '-' }}</p>
+                        </div>
                     </div>
                 </fieldset>
 
@@ -103,58 +111,8 @@
                     </ul>
                     @endif
                 </fieldset>
-                <fieldset class="border px-4 py-3 rounded mt-3">
-                    <legend>Log Pengaduan</legend>
-                    <div class="rb-container">
-                      <ul class="rb">
-                        <li class="rb-item" ng-repeat="itembx">
-                          <div class="timestamp">
-                            21 Oktober 2021<br> <span class="disposisi btn-secondary rounded">Laporan Diterima</span>
-                          </div>
-                          <div class="item-title">Nama User</div>
-                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
-                          <div class="attach-group">
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
-                          </div>
-                        </li>
-                        <li class="rb-item" ng-repeat="itembx">
-                          <div class="timestamp">
-                            23 Oktober 2021<br> <span class="disposisi btn-warning rounded">Proses Verifikasi</span>
-                          </div>
-                          <div class="item-title">Nama User</div>
-                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
-                          <div class="attach-group">
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
-                          </div>
-                        </li>
-                        <li class="rb-item" ng-repeat="itembx">
-                          <div class="timestamp">
-                            23 Oktober 2021<br> <span class="disposisi btn-info rounded">Proses Responder</span>
-                          </div>
-                          <div class="item-title">Nama User</div>
-                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
-                          <div class="attach-group">
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
-                          </div>
-                        </li>
-                        <li class="rb-item" ng-repeat="itembx">
-                          <div class="timestamp">
-                            23 Oktober 2021<br> <span class="disposisi btn-success rounded">Selesai</span>
-                          </div>
-                          <div class="item-title">Nama User</div>
-                          <div class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum unde, voluptate, consequuntur mollitia deserunt expedita illo ipsam molestias animi vero, voluptatem quaerat magnam quod porro vel. Perferendis quas sit quo?</div>
-                          <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
-                          <div class="attach-group">
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file.png</a>
-                            <a href="#" class="attach rounded"><i class="fas fa-paperclip"></i>nama_file2.png</a>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>                     
-                </fieldset>
+                
+                @include('pages.admin.tr_pengaduan.view_log_pengaduan', ['id' => $id])
                 
                 <div class="row my-4">
                     <div class="col-md-12">
@@ -171,105 +129,10 @@
     </div>
 </div>
 
-
-<!-- Modal Verifikator -->
-<div class="modal fade" id="verifikatorModal" tabindex="-1" aria-labelledby="verifikatorModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-    <form action="" method="post">
-      {{ csrf_field() }}
-      <div class="modal-header">
-        <h5 class="modal-title" id="verifikatorModalLabel">Disposisi Tujuan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">        
-        <div class="panel-body table-responsive">
-          <table id="data_verif" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
-            <thead>
-              <tr>
-                <th>No</th>
-                <th>Nama</th>
-                <th>&nbsp;</th>
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($posisi as $pos)
-                  <tr>
-                    <td>{{$pos->posisi_id}}</td>
-                    <td><label for="{{$pos->posisi_id}}">{{$pos->nama_posisi}}</label></td>
-                    <td><input type="radio" name="posisi" id="{{$pos->posisi_id}}"></td>
-                  </tr>
-              @endforeach
-            </tbody>
-          </table>
-          <div class="form-group mb-3">
-            <label for="ket" class="form-label">Keterangan</label>
-            <textarea name="" id="ket" cols="4" rows="2" class="form-control"></textarea>
-          </div>
-          <div class="form-group mb-3">
-            <label for="upload-file" class="form-label">Lampiran</label>
-            <input class="form-control form-control-sm mb-2" id="upload-file" type="file">
-            <input class="form-control form-control-sm" id="upload-file" type="file">
-          </div>
-          <div class="d-flex">
-            <div style="flex: 1">
-              <label class="form-label">Klasifikasi</label>
-              <select class="form-select form-select-sm" aria-label=".form-select-sm">
-                <option selected>Open this select menu</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-              </select>
-          </div>
-          <div style="flex: 1; margin-left: 1rem;">
-            <label class="form-label">Kategori</label>
-            <select class="form-select form-select-sm" aria-label=".form-select-sm">
-              <option selected>Open this select menu</option>
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
-            </select>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" type="submit">Kirim</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
-
-<!-- Modal Responder -->
-<div class="modal fade" id="responderModal" tabindex="-1" aria-labelledby="responderModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="responderModalLabel">Disposisi Tujuan</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        test
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
+@include('pages.admin.tr_pengaduan.view_modal_verifikator', ['id' => $id])
+@include('pages.admin.tr_pengaduan.view_modal_responder', ['id' => $id])
 
 @endsection
 @push('script')
-
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#data_verif').DataTable();
-} );
-</script>
 
 @endpush

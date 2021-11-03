@@ -81,6 +81,8 @@ class LandingController extends Controller {
         $model->kanal_id = 5;
         $model->status_id = 1;
         $model->posisi_id = 1;
+        $model->kategori_id = 0;
+        $model->klasifikasi_id = 0;
         $model->nik = $data['nik'];
         $model->nama = $data['nama'];
         $model->alamat = $data['alamat'];
@@ -91,7 +93,7 @@ class LandingController extends Controller {
         $model->hubungan = $data['hubungan'];
         $model->no_berkas = $data['no_berkas'];
         $model->uraian_pengaduan = $data['uraian'];
-        $model->create_by = 0;
+        $model->create_by = 1;
         $model->created_at = date('Y-m-d H:i:s');
         $model->update_by = 0;
         $model->updated_at = date('Y-m-d H:i:s');
@@ -100,6 +102,15 @@ class LandingController extends Controller {
         $model->kode_tiket = '';
         $model->save();
         
+        // log pengaduan
+        $modelLog = new \App\Tr_pengaduan_log();
+        $modelLog->pengaduan_id = $model->pengaduan_id;
+        $modelLog->id_status = $model->status_id;
+        $modelLog->id_posisi = $model->posisi_id;
+        $modelLog->waktu = date('Y-m-d H:i:s');
+        $modelLog->user_id = 1;
+        $modelLog->save();
+
         if ($request->file()) {
             $this->saveLampiran($model->pengaduan_id, 'bukti1', $request, $request->bukti1);
             $this->saveLampiran($model->pengaduan_id, 'bukti2', $request, $request->bukti2);
