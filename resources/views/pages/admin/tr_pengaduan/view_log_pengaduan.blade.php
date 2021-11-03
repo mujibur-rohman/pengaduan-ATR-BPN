@@ -26,9 +26,16 @@ $(document).ready(function(){
     function userName(name) {
         return '<div class="item-title">' + name + '</div>';
     }
-    function keterangan(text) {
+    function keterangan(text, sebelum) {
         if (text === null) { text = '&nbsp;'; }
-        return '<div>' + text + '</div>';
+        
+        var html = '<div>';
+        if (sebelum !== null) {
+            html+= '<strong>Keterangan dari ' + sebelum.user_name + '</strong><br/>';
+        }
+        html+= text;
+        html+= '</div>';
+        return html;
     }
     function lampiran(data) {
         var html = '<div class="attach-group">';
@@ -43,13 +50,15 @@ $(document).ready(function(){
     
     $.get("{{ URL::to('/admin/tr_pengaduan/get_log') }}?pengaduan_id={{ $id}}", function(resp){
         if (resp.success) {
-            var html = '';
+            var html = '', sebelum = null;
             $.each(resp.data, function(index, obj){
                 html+= '<li class="rb-item" ng-repeat="itembx">';
                 html+= header(obj.created_at, obj.status_name, obj.user_name);
-                html+= keterangan(obj.keterangan);
+                html+= keterangan(obj.keterangan, sebelum);
                 html+= lampiran(obj.lampiran);
                 html+= '</li>';
+                
+                sebelum = obj;
             });
             $('#list-log').html(html);
         }
