@@ -19,8 +19,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
     
-    function header(tanggal, status_name) {
-        return '<div class="timestamp">' + tanggal + '<br/><span class="disposisi btn-secondary rounded">' + status_name + '</span></div>';
+    function header(tanggal, status_name, nama) {
+        return '<div class="timestamp">' + tanggal + '<br/><span class="disposisi btn-secondary rounded">' + status_name + '</span>' +
+                ' oleh ' + nama + '</div>';
     }
     function userName(name) {
         return '<div class="item-title">' + name + '</div>';
@@ -45,8 +46,7 @@ $(document).ready(function(){
             var html = '';
             $.each(resp.data, function(index, obj){
                 html+= '<li class="rb-item" ng-repeat="itembx">';
-                html+= header(obj.created_at, obj.status_name);
-                html+= userName(obj.user_name);
+                html+= header(obj.created_at, obj.status_name, obj.user_name);
                 html+= keterangan(obj.keterangan);
                 html+= lampiran(obj.lampiran);
                 html+= '</li>';
