@@ -174,7 +174,7 @@
                                                     <span data-key="t-invoice-detail">Kanal Pengaduan</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#">
+                                            <li><a href="{{ route('listpengaduan_status') }}">
                                                 <i _ngcontent-uqw-c196="" class="fab fa-delicious"></i>
                                                 <span data-key="t-invoice-detail">Status Pengaduan</span>
                                                 </a>
