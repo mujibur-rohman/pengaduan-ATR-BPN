@@ -4,42 +4,57 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Pengaduan_klasifikasi;
+use App\MailTemplate;
 use Auth;
 
-
-class Pengaduan_klasifikasiController extends Controller {
+class Mail_templateController extends Controller {
     
-    public function allPengaduan_klasifikasi() {
-        return view('pages.admin.Pengaduan_klasifikasi.index');
+    public function allMailTemplate() {
+        return view('pages.admin.mail_template.index');
     }
    
     public function list() {
         echo json_encode([
-            'data' => Pengaduan_klasifikasi::all()
+            'data' => MailTemplate::all()
         ]);
     }
     
     public function index(Request $r) {
-        return view('pages.admin.Pengaduan_klasifikasi.index');
+        return view('pages.admin.mail_template.index');
     }
 
     public function save(Request $r) {
         
-        $klasifikasi_id = $r->post('klasifikasi_id');
-        $nama_klasifikasi = $r->post('nama_klasifikasi');
+        $id = $r->post('id');
+        $name = $r->post('name');
+        $subject = $r->post('subject');
+        $body = $r->post('body');
         
-        if (empty($nama_klasifikasi)) { 
+        if (empty($name)) { 
             echo json_encode([
                 'success' => false,
-                'message' => 'Nama klasifikasi tidak boleh kosong'
+                'message' => 'Name tidak boleh kosong'
+            ]);
+            return;
+        }
+        if (empty($subject)) { 
+            echo json_encode([
+                'success' => false,
+                'message' => 'Subject tidak boleh kosong'
+            ]);
+            return;
+        }
+        if (empty($body)) { 
+            echo json_encode([
+                'success' => false,
+                'message' => 'Body tidak boleh kosong'
             ]);
             return;
         }
         
         $model = null;
-        if (!empty($klasifikasi_id)) {
-            $model = Pengaduan_klasifikasi::find($klasifikasi_id);
+        if (!empty($id)) {
+            $model = MailTemplate::find($id);
             if ($model == null) {
                 echo json_encode([
                     'success' => false,
@@ -48,9 +63,11 @@ class Pengaduan_klasifikasiController extends Controller {
                 return;
             }
         } else {
-            $model = new Pengaduan_klasifikasi();
+            $model = new MailTemplate();
         }
-        $model->nama_klasifikasi = $nama_klasifikasi;
+        $model->name = $name;
+        $model->subject = $subject;
+        $model->body = $body;
         
         $model->save();
         
@@ -61,9 +78,9 @@ class Pengaduan_klasifikasiController extends Controller {
     }
     
     public function delete(Request $r) {
-        $klasifikasi_id = $r->post('klasifikasi_id', '');
+        $id = $r->post('id', '');
         
-        if (empty($klasifikasi_id)) {
+        if (empty($id)) {
             echo json_encode([
                 'success' => false,
                 'message' => 'Data tidak ditemukan'
@@ -71,7 +88,7 @@ class Pengaduan_klasifikasiController extends Controller {
             return;
         }
         
-        $model = Pengaduan_klasifikasi::find($klasifikasi_id);
+        $model = MailTemplate::find($id);
         if ($model == null) {
             echo json_encode([
                 'success' => false,

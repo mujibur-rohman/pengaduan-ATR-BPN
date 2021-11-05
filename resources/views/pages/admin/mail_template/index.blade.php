@@ -14,7 +14,7 @@
             <!--   main  ============================================================== -->  
            
             <div class="panel-heading" style="margin-bottom: 2%">
-                <h1 class="panel-title col-md-5">Master Data Jenis Pengaduan</h1>
+                <h1 class="panel-title col-md-5">Master Data Mail Template</h1>
                 <div class="text-right right col-md-4">
                     <a class="btn btn-primary btn-xs" id="btnTambah" ><i class="fa fa-edit"></i> Tambah </a> 
                 </div>
@@ -26,7 +26,9 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Jenis Pengaduan</th>
+                            <th>Name</th>
+                            <th>Subject</th>
+                            <th>Body</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -54,11 +56,23 @@
             <div class="modal-body">
                 <form class="form" id="myForm">
                     {{ csrf_field() }}
-                    <input type="hidden" name="jenis_id" id="jenis_id"/>
-                    <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label">Nama jenis</label>
-                        <div class="col-sm-9">
-                            <input id="nama_jenis" type="text" class="form-control" name="nama_jenis"/>
+                    <input type="hidden" name="id" id="id"/>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-form-label">Name</label>
+                        <div>
+                            <input type="text" name="name" id="name" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-form-label">Subject</label>
+                        <div>
+                            <input type="text" name="subject" id="subject" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-form-label">Body</label>
+                        <div>
+                            <textarea name="body" id="body" cols="10" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                 </form>
@@ -79,17 +93,21 @@ $(document).ready(function(){
     function showModal(title, data) {
         $('#myModal .modal-title').html(title);
         
-        $('#nama_jenis').val(data !== null ? data.nama_jenis : '');
-        $('#jenis_id').val(data !== null ? data.jenis_id : '');
+        $('#name').val(data !== null ? data.name : '');
+        $('#subject').val(data !== null ? data.subject : '');
+        $('#body').val(data !== null ? data.body : '');
+        $('#id').val(data !== null ? data.id : '');
         $('#myModal').modal('show');
     }
     
     var table = $('#dxdatagrid').DataTable({
         responsive: true,
-        ajax: "{{ URL::to('/admin/jenis/list') }}",
+        ajax: "{{ URL::to('/admin/mail_template/list') }}",
         columns: [
-            { "data": "jenis_id", width: '5%', className: 'text-center' },
-            { "data": "nama_jenis" },
+            { "data": "id", width: '5%', className: 'text-center' },
+            { "data": "name" },
+            { "data": "subject" },
+            { "data": "body" },
             { 
                 "data": null,
                 mRender: function(data, type, full){
@@ -113,12 +131,12 @@ $(document).ready(function(){
     
     $('#dxdatagrid tbody').on( 'click', '.delete', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        if (confirm("Apakah anda ingin menghapus data '" + data.nama_jenis + "'")) {
+        if (confirm("Apakah anda ingin menghapus")) {
             var params = {
                 _token: '{{ csrf_token() }}',
-                jenis_id: data.jenis_id
+                id: data.id
             };
-            $.post("{{ URL::to('/admin/jenis/delete') }}", params, function(resp){
+            $.post("{{ URL::to('/admin/mail_template/delete') }}", params, function(resp){
                 if (resp.success) {
                     table.ajax.reload();
                     alert('Data berhasil di hapus');
@@ -135,12 +153,20 @@ $(document).ready(function(){
     });
     $('#btnSave').click(function(e){
         e.preventDefault();
-        if ($('#nama_jenis').val() === '') {
-            alert('Nama jenis tidak boleh kosong');
+        if ($('#name').val() === '') {
+            alert('Name tidak boleh kosong');
+            return;
+        }
+        if ($('#subject').val() === '') {
+            alert('Subject tidak boleh kosong');
+            return;
+        }
+        if ($('#subject').val() === '') {
+            alert('Body tidak boleh kosong');
             return;
         }
         
-        $.post("{{ URL::to('/admin/jenis/save') }}", $('#myForm').serialize(), function(resp){
+        $.post("{{ URL::to('/admin/mail_template/save') }}", $('#myForm').serialize(), function(resp){
             if (resp.success) {
                 $('#myModal').modal('hide');
                 table.ajax.reload();

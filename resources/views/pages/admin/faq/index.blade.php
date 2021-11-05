@@ -14,19 +14,20 @@
             <!--   main  ============================================================== -->  
            
             <div class="panel-heading" style="margin-bottom: 2%">
-                <h1 class="panel-title col-md-5">Master Data Jenis Pengaduan</h1>
+                <h1 class="panel-title col-md-5">Master Data FAQ</h1>
                 <div class="text-right right col-md-4">
                     <a class="btn btn-primary btn-xs" id="btnTambah" ><i class="fa fa-edit"></i> Tambah </a> 
                 </div>
             </div>
             <!-- Isi Content -->
  
-            <div class="panel-body">
-                <table class="table table-striped table-bordered table-responsive nowrap" id="dxdatagrid" style="width:100%;">
+            <div class="panel-body table-responsive">
+                <table class="table faq-table table-striped table-bordered table-responsive nowrap" id="dxdatagrid" style="width:100%;">
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Jenis Pengaduan</th>
+                            <th>Pertanyaan</th>
+                            <th>Jawaban</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -54,11 +55,17 @@
             <div class="modal-body">
                 <form class="form" id="myForm">
                     {{ csrf_field() }}
-                    <input type="hidden" name="jenis_id" id="jenis_id"/>
-                    <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label">Nama jenis</label>
-                        <div class="col-sm-9">
-                            <input id="nama_jenis" type="text" class="form-control" name="nama_jenis"/>
+                    <input type="hidden" name="faq_id" id="faq_id"/>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-form-label">Pertanyaan</label>
+                        <div>
+                            <textarea name="faq_question" id="faq_question" cols="10" rows="5" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="staticEmail" class="col-form-label">Jawaban</label>
+                        <div>
+                            <textarea name="faq_answer" id="faq_answer" cols="10" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                 </form>
@@ -79,17 +86,19 @@ $(document).ready(function(){
     function showModal(title, data) {
         $('#myModal .modal-title').html(title);
         
-        $('#nama_jenis').val(data !== null ? data.nama_jenis : '');
-        $('#jenis_id').val(data !== null ? data.jenis_id : '');
+        $('#faq_question').val(data !== null ? data.faq_question : '');
+        $('#faq_answer').val(data !== null ? data.faq_answer : '');
+        $('#faq_id').val(data !== null ? data.faq_id : '');
         $('#myModal').modal('show');
     }
     
     var table = $('#dxdatagrid').DataTable({
         responsive: true,
-        ajax: "{{ URL::to('/admin/jenis/list') }}",
+        ajax: "{{ URL::to('/admin/faq/list') }}",
         columns: [
-            { "data": "jenis_id", width: '5%', className: 'text-center' },
-            { "data": "nama_jenis" },
+            { "data": "faq_id", width: '5%', className: 'text-center' },
+            { "data": "faq_question" },
+            { "data": "faq_answer" },
             { 
                 "data": null,
                 mRender: function(data, type, full){
@@ -113,12 +122,12 @@ $(document).ready(function(){
     
     $('#dxdatagrid tbody').on( 'click', '.delete', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        if (confirm("Apakah anda ingin menghapus data '" + data.nama_jenis + "'")) {
+        if (confirm("Apakah anda ingin menghapus faq ini?")) {
             var params = {
                 _token: '{{ csrf_token() }}',
-                jenis_id: data.jenis_id
+                faq_id: data.faq_id
             };
-            $.post("{{ URL::to('/admin/jenis/delete') }}", params, function(resp){
+            $.post("{{ URL::to('/admin/faq/delete') }}", params, function(resp){
                 if (resp.success) {
                     table.ajax.reload();
                     alert('Data berhasil di hapus');
@@ -135,12 +144,16 @@ $(document).ready(function(){
     });
     $('#btnSave').click(function(e){
         e.preventDefault();
-        if ($('#nama_jenis').val() === '') {
-            alert('Nama jenis tidak boleh kosong');
+        if ($('#faq_question').val() === '') {
+            alert('Pertanyaan tidak boleh kosong');
+            return;
+        }
+        if ($('#faq_answer').val() === '') {
+            alert('Jawaban tidak boleh kosong');
             return;
         }
         
-        $.post("{{ URL::to('/admin/jenis/save') }}", $('#myForm').serialize(), function(resp){
+        $.post("{{ URL::to('/admin/faq/save') }}", $('#myForm').serialize(), function(resp){
             if (resp.success) {
                 $('#myModal').modal('hide');
                 table.ajax.reload();

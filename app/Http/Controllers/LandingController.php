@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\faq;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
@@ -13,6 +14,8 @@ use App\Tr_pengaduan;
 class LandingController extends Controller {
     
     public function index(Request $request) {
+        $faq = faq::get();
+        // dd($faq);
         $model = $request->old('pengaduan');
 
         if (empty($model)) {

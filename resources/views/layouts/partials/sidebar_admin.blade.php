@@ -152,20 +152,24 @@
                                             <span data-key="t-apps">Master Data</span>
                                         </a>
                                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                            <li><a href="#">
-                                                <i _ngcontent-uqw-c196="" class="far fa-chart-bar"></i>
-                                                <span data-key="t-invoice-detail">Klasifikasi</span></a>
-                                                            
+                                            <li><a href="{{route('list_mail_template')}}">
+                                                <i _ngcontent-uqw-c196="" class="fas fa-envelope"></i>
+                                                <span data-key="t-invoice-detail">Email Template</span></a>                  
                                             </li>
-                                            <li><a href="#">
+                                            <li><a href="{{route('listpengaduan_klasifikasi')}}">
+                                                <i _ngcontent-uqw-c196="" class="far fa-chart-bar"></i>
+                                                <span data-key="t-invoice-detail">Klasifikasi</span></a>                  
+                                            </li>
+                                            
+                                            <li><a href="{{route('listpengaduan_kategori')}}">
                                                 <i _ngcontent-uqw-c196="" class="far fa-list-alt"></i>
                                                 <span data-key="t-invoice-detail">Kategori</span>
                                                 </a>
                                             </li>
                                             
-                                            <li><a href="#">
-                                                <i _ngcontent-uqw-c196="" class="fab fa-codepen"></i>
-                                                <span data-key="t-invoice-detail">Posisi Pengaduan</span>
+                                            <li><a href="{{route('listpengaduan_jenis')}}">
+                                                <i _ngcontent-uqw-c196="" class="fas fa-hockey-puck"></i>
+                                                <span data-key="t-invoice-detail">Jenis Pengaduan</span>
                                                 </a>
                                             </li>
                                             <li>
@@ -174,12 +178,12 @@
                                                     <span data-key="t-invoice-detail">Kanal Pengaduan</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#">
+                                            <li><a href="{{route('listpengaduan_status')}}">
                                                 <i _ngcontent-uqw-c196="" class="fab fa-delicious"></i>
                                                 <span data-key="t-invoice-detail">Status Pengaduan</span>
                                                 </a>
                                             </li>
-                                            <li><a href="#">
+                                            <li><a href="{{route('list_faq')}}">
                                                 <i _ngcontent-uqw-c196="" class="fab fa-codiepie"></i>
                                                 <span data-key="t-invoice-detail">FAQ</span>
                                             </a>

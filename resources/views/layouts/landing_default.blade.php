@@ -10,11 +10,16 @@
     <!-- Preloader Start -->
     <div class="se-pre-con" style="display: none;"></div>
     <!-- Preloader Ends -->
-
+ 
     <!-- Header 
     ============================================= -->
+    <header id="home">
+     	@include('layouts.partials.mainheader_landing')	
+    </header>
        
-	@yield('main-content-mailsent')
+	 	@yield('main-content-mailsent')
+	
+    @include('layouts.partials.footer_landing_default')
 
 @section('scripts')
     @include('layouts.partials.scripts_landing')

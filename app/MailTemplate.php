@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Mail\Message;
 
 class MailTemplate extends Model {
+        public $timestamps = false;
     protected $table = 'mail_template';
     protected $primaryKey = 'id';
     protected $fillable = [ 'id','name', 'subject', 'body' ];

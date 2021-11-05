@@ -17,11 +17,51 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
         Route::post('/save','Admin\Pengaduan_kanalController@save');
         Route::post('/delete', 'Admin\Pengaduan_kanalController@delete');
     });
+
+	// master pengaduan_status
     Route::prefix('pengaduan_status')->group(function(){
         Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');
         Route::get('/list','Admin\Pengaduan_statusController@list');
         Route::post('/save','Admin\Pengaduan_statusController@save');
         Route::post('/delete', 'Admin\Pengaduan_statusController@delete');
+    });
+
+	// Master pengaduan klasifikasi
+    Route::prefix('klasifikasi')->group(function(){
+        Route::get('/','Admin\Pengaduan_klasifikasiController@index')->name('listpengaduan_klasifikasi');
+        Route::get('/list','Admin\Pengaduan_klasifikasiController@list');
+        Route::post('/save','Admin\Pengaduan_klasifikasiController@save');
+        Route::post('/delete', 'Admin\Pengaduan_klasifikasiController@delete');
+    });
+
+	// Master pengaduan kategori
+    Route::prefix('kategori')->group(function(){
+        Route::get('/','Admin\Pengaduan_kategoriController@index')->name('listpengaduan_kategori');
+        Route::get('/list','Admin\Pengaduan_kategoriController@list');
+        Route::post('/save','Admin\Pengaduan_kategoriController@save');
+        Route::post('/delete', 'Admin\Pengaduan_kategoriController@delete');
+    });
+
+	// Master pengaduan jenis
+    Route::prefix('jenis')->group(function(){
+        Route::get('/','Admin\Pengaduan_jenisController@index')->name('listpengaduan_jenis');
+        Route::get('/list','Admin\Pengaduan_jenisController@list');
+        Route::post('/save','Admin\Pengaduan_jenisController@save');
+        Route::post('/delete', 'Admin\Pengaduan_jenisController@delete');
+    });
+	// Master FaQ
+    Route::prefix('faq')->group(function(){
+        Route::get('/','Admin\FaqController@index')->name('list_faq');
+        Route::get('/list','Admin\FaqController@list');
+        Route::post('/save','Admin\FaqController@save');
+        Route::post('/delete', 'Admin\FaqController@delete');
+    });
+	// Master Mail Template
+    Route::prefix('mail_template')->group(function(){
+        Route::get('/','Admin\Mail_templateController@index')->name('list_mail_template');
+        Route::get('/list','Admin\Mail_templateController@list');
+        Route::post('/save','Admin\Mail_templateController@save');
+        Route::post('/delete', 'Admin\Mail_templateController@delete');
     });
         
     Route::prefix('tr_pengaduan')->group(function () {

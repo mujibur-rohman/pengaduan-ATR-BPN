@@ -14,7 +14,7 @@
             <!--   main  ============================================================== -->  
            
             <div class="panel-heading" style="margin-bottom: 2%">
-                <h1 class="panel-title col-md-5">Master Data Jenis Pengaduan</h1>
+                <h1 class="panel-title col-md-5">Master Data Klasfikasi</h1>
                 <div class="text-right right col-md-4">
                     <a class="btn btn-primary btn-xs" id="btnTambah" ><i class="fa fa-edit"></i> Tambah </a> 
                 </div>
@@ -26,7 +26,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Jenis Pengaduan</th>
+                            <th>Nama Klasifikasi</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -54,11 +54,11 @@
             <div class="modal-body">
                 <form class="form" id="myForm">
                     {{ csrf_field() }}
-                    <input type="hidden" name="jenis_id" id="jenis_id"/>
+                    <input type="hidden" name="klasifikasi_id" id="klasifikasi_id"/>
                     <div class="form-group row">
-                        <label for="staticEmail" class="col-sm-3 col-form-label">Nama jenis</label>
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Nama klasifikasi</label>
                         <div class="col-sm-9">
-                            <input id="nama_jenis" type="text" class="form-control" name="nama_jenis"/>
+                            <input id="nama_klasifikasi" type="text" class="form-control" name="nama_klasifikasi"/>
                         </div>
                     </div>
                 </form>
@@ -79,17 +79,17 @@ $(document).ready(function(){
     function showModal(title, data) {
         $('#myModal .modal-title').html(title);
         
-        $('#nama_jenis').val(data !== null ? data.nama_jenis : '');
-        $('#jenis_id').val(data !== null ? data.jenis_id : '');
+        $('#nama_klasifikasi').val(data !== null ? data.nama_klasifikasi : '');
+        $('#klasifikasi_id').val(data !== null ? data.klasifikasi_id : '');
         $('#myModal').modal('show');
     }
     
     var table = $('#dxdatagrid').DataTable({
         responsive: true,
-        ajax: "{{ URL::to('/admin/jenis/list') }}",
+        ajax: "{{ URL::to('/admin/klasifikasi/list') }}",
         columns: [
-            { "data": "jenis_id", width: '5%', className: 'text-center' },
-            { "data": "nama_jenis" },
+            { "data": "klasifikasi_id", width: '5%', className: 'text-center' },
+            { "data": "nama_klasifikasi" },
             { 
                 "data": null,
                 mRender: function(data, type, full){
@@ -113,12 +113,12 @@ $(document).ready(function(){
     
     $('#dxdatagrid tbody').on( 'click', '.delete', function () {
         var data = table.row( $(this).parents('tr') ).data();
-        if (confirm("Apakah anda ingin menghapus data '" + data.nama_jenis + "'")) {
+        if (confirm("Apakah anda ingin menghapus data '" + data.nama_klasifikasi + "'")) {
             var params = {
                 _token: '{{ csrf_token() }}',
-                jenis_id: data.jenis_id
+                klasifikasi_id: data.klasifikasi_id
             };
-            $.post("{{ URL::to('/admin/jenis/delete') }}", params, function(resp){
+            $.post("{{ URL::to('/admin/klasifikasi/delete') }}", params, function(resp){
                 if (resp.success) {
                     table.ajax.reload();
                     alert('Data berhasil di hapus');
@@ -135,12 +135,12 @@ $(document).ready(function(){
     });
     $('#btnSave').click(function(e){
         e.preventDefault();
-        if ($('#nama_jenis').val() === '') {
-            alert('Nama jenis tidak boleh kosong');
+        if ($('#nama_klasifikasi').val() === '') {
+            alert('Nama klasifikasi tidak boleh kosong');
             return;
         }
         
-        $.post("{{ URL::to('/admin/jenis/save') }}", $('#myForm').serialize(), function(resp){
+        $.post("{{ URL::to('/admin/klasifikasi/save') }}", $('#myForm').serialize(), function(resp){
             if (resp.success) {
                 $('#myModal').modal('hide');
                 table.ajax.reload();

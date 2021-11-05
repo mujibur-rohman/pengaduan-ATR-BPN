@@ -4,42 +4,50 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Pengaduan_klasifikasi;
+use App\Faq;
 use Auth;
 
 
-class Pengaduan_klasifikasiController extends Controller {
+class FaqController extends Controller {
     
-    public function allPengaduan_klasifikasi() {
-        return view('pages.admin.Pengaduan_klasifikasi.index');
+    public function allFaq() {
+        return view('pages.admin.Faq.index');
     }
    
     public function list() {
         echo json_encode([
-            'data' => Pengaduan_klasifikasi::all()
+            'data' => Faq::all()
         ]);
     }
     
     public function index(Request $r) {
-        return view('pages.admin.Pengaduan_klasifikasi.index');
+        return view('pages.admin.Faq.index');
     }
 
     public function save(Request $r) {
         
-        $klasifikasi_id = $r->post('klasifikasi_id');
-        $nama_klasifikasi = $r->post('nama_klasifikasi');
+        $faq_id = $r->post('faq_id');
+        $faq_question = $r->post('faq_question');
+        $faq_answer = $r->post('faq_answer');
         
-        if (empty($nama_klasifikasi)) { 
+        if (empty($faq_question)) { 
             echo json_encode([
                 'success' => false,
-                'message' => 'Nama klasifikasi tidak boleh kosong'
+                'message' => 'Peertanyaan tidak boleh kosong'
+            ]);
+            return;
+        }
+        if (empty($faq_answer)) { 
+            echo json_encode([
+                'success' => false,
+                'message' => 'Jawaban tidak boleh kosong'
             ]);
             return;
         }
         
         $model = null;
-        if (!empty($klasifikasi_id)) {
-            $model = Pengaduan_klasifikasi::find($klasifikasi_id);
+        if (!empty($faq_id)) {
+            $model = Faq::find($faq_id);
             if ($model == null) {
                 echo json_encode([
                     'success' => false,
@@ -48,9 +56,10 @@ class Pengaduan_klasifikasiController extends Controller {
                 return;
             }
         } else {
-            $model = new Pengaduan_klasifikasi();
+            $model = new Faq();
         }
-        $model->nama_klasifikasi = $nama_klasifikasi;
+        $model->faq_question = $faq_question;
+        $model->faq_answer = $faq_answer;
         
         $model->save();
         
@@ -61,9 +70,9 @@ class Pengaduan_klasifikasiController extends Controller {
     }
     
     public function delete(Request $r) {
-        $klasifikasi_id = $r->post('klasifikasi_id', '');
+        $faq_id = $r->post('faq_id', '');
         
-        if (empty($klasifikasi_id)) {
+        if (empty($faq_id)) {
             echo json_encode([
                 'success' => false,
                 'message' => 'Data tidak ditemukan'
@@ -71,7 +80,7 @@ class Pengaduan_klasifikasiController extends Controller {
             return;
         }
         
-        $model = Pengaduan_klasifikasi::find($klasifikasi_id);
+        $model = Faq::find($faq_id);
         if ($model == null) {
             echo json_encode([
                 'success' => false,
