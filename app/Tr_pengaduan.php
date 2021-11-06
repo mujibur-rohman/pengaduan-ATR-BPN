@@ -13,7 +13,7 @@ class Tr_pengaduan extends Model {
         'pekerjaan', 'no_telp', 'obyek_aduan',
         'hubungan', 'no_berkas', 'uraian_pengaduan',
         'leadtime1', 'leadtime2', 'leadtime3',
-        'create_date',
+        'create_date', 'posisi_user_id',
         'verified_email', 'verified_email_date', 'verified_code', 'kode_tiket'
     ];
 

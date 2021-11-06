@@ -112,14 +112,23 @@
                     @endif
                 </fieldset>
                 
+                @if ($respon != null)
+                <div class="border px-4 py-3 rounded mt-3">
+                    <legend>Response atau Tanggapan</legend>
+                    <p class="fs-5">{{ $respon->jawaban }}</p>
+                </div>   
+                @endif
+                
                 @include('pages.admin.tr_pengaduan.view_log_pengaduan', ['id' => $id])
                 
                 <div class="row my-4">
                     <div class="col-md-12">
-                        @if ($model->status->nama_status == 'Laporan Diterima')
+                        @if ($model->status_id == 1)
                             <button id="btnVerifikator" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#verifikatorModal">Verifikator</button>
-                        @else
+                        @elseif ($model->status_id == 2) 
                             <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responderModal">Responder</button>                    
+                        @elseif ($model->status_id == 3)
+                            <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responModal">Beri Tanggapan</button>
                         @endif
                     </div>
                 </div>
@@ -129,8 +138,13 @@
     </div>
 </div>
 
-@include('pages.admin.tr_pengaduan.view_modal_verifikator', ['id' => $id])
-@include('pages.admin.tr_pengaduan.view_modal_responder', ['id' => $id])
+@if ($model->status_id == 1)
+    @include('pages.admin.tr_pengaduan.view_modal_admin', ['id' => $id, 'model' => $model])
+@elseif ($model->status_id == 2) 
+    @include('pages.admin.tr_pengaduan.view_modal_verifikator', ['id' => $id, 'model' => $model])
+@elseif ($model->status_id == 3)
+    @include('pages.admin.tr_pengaduan.view_modal_responder', ['id' => $id, 'model' => $model])
+@endif
 
 @endsection
 @push('script')

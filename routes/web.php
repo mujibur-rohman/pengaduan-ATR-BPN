@@ -68,7 +68,9 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], functio
         Route::get('/view/{id}', 'Admin\Tr_pengaduanController@view')->name('view_pengaduan');
         Route::match(['get', 'post'], '/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
         Route::get('/get_posisi', 'Admin\Tr_pengaduanController@getPosisi');
+        Route::post('/save_admin', 'Admin\Tr_pengaduanController@saveAdmin');
         Route::post('/save_verifikator', 'Admin\Tr_pengaduanController@saveVerifikator');
+        Route::post('/save_responder', 'Admin\Tr_pengaduanController@saveResponder');
         Route::get('/get_log', 'Admin\Tr_pengaduanController@getLog');
         
 //        Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');

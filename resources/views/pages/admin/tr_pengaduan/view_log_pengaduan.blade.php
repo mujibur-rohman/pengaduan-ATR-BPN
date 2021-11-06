@@ -26,14 +26,21 @@ $(document).ready(function(){
     function userName(name) {
         return '<div class="item-title">' + name + '</div>';
     }
-    function keterangan(text, sebelum) {
-        if (text === null) { text = '&nbsp;'; }
+    function keterangan(obj, sebelum) {
+        var text = '&nbsp;';
+        if (obj === null) { text = '&nbsp;'; }
         
         var html = '<div>';
-        if (sebelum !== null) {
-            html+= '<strong>Keterangan dari ' + sebelum.user_name + '</strong><br/>';
+        if (obj.status_id !== 4) {
+            if (sebelum !== null) {
+                html+= '<strong>Keterangan dari ' + sebelum.fullname + '</strong><br/>';
+            }
+            text = obj.keterangan;
+        } else {
+            text = 'Tanggapan sudah di berikan';
         }
-        html+= text;
+        
+        html+= (text === null ? '&nbsp;' : text);
         html+= '</div>';
         return html;
     }
@@ -53,8 +60,8 @@ $(document).ready(function(){
             var html = '', sebelum = null;
             $.each(resp.data, function(index, obj){
                 html+= '<li class="rb-item" ng-repeat="itembx">';
-                html+= header(obj.created_at, obj.status_name, obj.user_name);
-                html+= keterangan(obj.keterangan, sebelum);
+                html+= header(obj.created_at, obj.status_name, obj.fullname);
+                html+= keterangan(obj, sebelum);
                 html+= lampiran(obj.lampiran);
                 html+= '</li>';
                 
