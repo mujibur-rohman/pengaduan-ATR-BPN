@@ -18,9 +18,7 @@ class ViewUserPosisi extends Model {
     }
     
     public static function getResponder($parent_id) {
-        return ViewUserPosisi::where([
-            ['r3', '=', 1]
-        ]);
+        return ViewUserPosisi::where('role_name', 'responder');
     }
     
     public static function getAdmin() {
