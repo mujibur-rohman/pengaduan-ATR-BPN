@@ -516,6 +516,27 @@ class Tr_pengaduanController extends MyController
         }
     }
     
+    public function lock_release(Request $request) {
+        $pengaduan_id = $request->post('pengaduan_id');
+        
+        $model = Tr_pengaduan::find($pengaduan_id);
+        if ($model == null) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Data pengaduan tidak ada'
+            ]);
+            return;
+        }
+        
+        Tr_pengaduan::lockRelease($model);
+        
+        echo json_encode([
+            'success' => true,
+            'message' => 'Unlock success'
+        ]);
+    }
+    
+    
     public function alltr_pengaduan()
     {
         return view('pages.admin.tr_pengaduan.index');

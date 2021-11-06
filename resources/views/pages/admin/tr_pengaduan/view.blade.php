@@ -126,12 +126,15 @@
                 
                 <div class="row my-4">
                     <div class="col-md-12">
-                        @if ($model->status_id == 1)
-                            <button id="btnVerifikator" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#verifikatorModal">Verifikator</button>
-                        @elseif ($model->status_id == 2) 
-                            <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responderModal">Responder</button>                    
-                        @elseif ($model->status_id == 3)
-                            <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responModal">Beri Tanggapan</button>
+                        @if (!$isLocked)
+                            @if ($model->status_id == 1)
+                                <button id="btnVerifikator" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#verifikatorModal">Verifikator</button>
+                            @elseif ($model->status_id == 2) 
+                                <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responderModal">Responder</button>                    
+                            @elseif ($model->status_id == 3)
+                                <button id="btnResponder" class="btn btn-info" type="button" data-bs-toggle="modal" data-bs-target="#responModal">Beri Tanggapan</button>
+                            @endif
+                            <button class="btn btn-warning" type="button" id="btnKembali">Kembali</button>
                         @endif
                     </div>
                 </div>
@@ -141,15 +144,31 @@
     </div>
 </div>
 
-@if ($model->status_id == 1)
-    @include('pages.admin.tr_pengaduan.view_modal_admin', ['id' => $id, 'model' => $model])
-@elseif ($model->status_id == 2) 
-    @include('pages.admin.tr_pengaduan.view_modal_verifikator', ['id' => $id, 'model' => $model])
-@elseif ($model->status_id == 3)
-    @include('pages.admin.tr_pengaduan.view_modal_responder', ['id' => $id, 'model' => $model])
+@if (!$isLocked)
+    @if ($model->status_id == 1)
+        @include('pages.admin.tr_pengaduan.view_modal_admin', ['id' => $id, 'model' => $model])
+    @elseif ($model->status_id == 2) 
+        @include('pages.admin.tr_pengaduan.view_modal_verifikator', ['id' => $id, 'model' => $model])
+    @elseif ($model->status_id == 3)
+        @include('pages.admin.tr_pengaduan.view_modal_responder', ['id' => $id, 'model' => $model])
+    @endif
 @endif
 
 @endsection
 @push('script')
 
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#btnKembali').click(function(e) {
+        var params = {
+            _token: '{{ csrf_token() }}',
+            pengaduan_id: {{ $model->pengaduan_id }}
+        };
+        $.post("{{ URL::to('admin/tr_pengaduan/lock_release') }}", params, function(resp) {
+            console.log(resp);
+            location.href = "{{ URL::to('admin/tr_pengaduan') }}";
+        }, 'json');
+    });
+});
+</script>
 @endpush
