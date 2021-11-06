@@ -19,7 +19,6 @@ class ViewUserPosisi extends Model {
     
     public static function getResponder($parent_id) {
         return ViewUserPosisi::where([
-            ['parent_id', '=', $parent_id],
             ['r3', '=', 1]
         ]);
     }
