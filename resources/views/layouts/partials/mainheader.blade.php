@@ -1,6 +1,5 @@
 <div class="pace-progress-inner"></div>
-</div>
-<div class="pace-activity"></div></div>
+<div class="pace-activity"></div>
 
     <!-- <body data-layout="horizontal"> -->
 
@@ -228,16 +227,15 @@
                                 <img class="rounded-circle header-profile-user" src="{{ asset('assets_back/images/avatar-1.png') }}" alt="Header Avatar">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium">{{Auth::user()->username}} </span>
                                 <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
-                                                           </button>
+                            </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
                                 <a class="dropdown-item" href=""><i class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Profile</a>
                                 <i class="mdi mdi-lock font-size-16 align-middle me-1"></i>
                                 <select id="cmbpilihan">
-                                <option value=1>Admin </option> 
-                                <option value=2>Verifikator</option> 
-                                <option value=3>Responder</option> 
-                                  
+                                    <option value=1>Admin </option> 
+                                    <option value=2>Verifikator</option> 
+                                    <option value=3>Responder</option> 
                                 </select>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url('/logout') }}"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Logout</a>

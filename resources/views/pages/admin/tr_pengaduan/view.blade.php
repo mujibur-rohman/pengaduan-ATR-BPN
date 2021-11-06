@@ -15,6 +15,9 @@
 
             <!-- Content -->
             <div class="panel-body">
+                @if ($isLocked)
+                <div class="alert alert-danger">Data pengaduan ini sedang di proses{{ isset($model->lockedBy) ? ' oleh ' . $model->lockedBy->fullname : '' }}. Anda hanya bisa melihat tanpa bisa memberikan tanggapan.</div>
+                @endif
                 @if ($model == null)
                 <div class="alert alert-danger">Data tidak ditemukan</div>
                 @else

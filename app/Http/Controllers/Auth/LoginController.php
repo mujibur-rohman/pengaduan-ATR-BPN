@@ -39,17 +39,17 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function authenticated()
-    {
-
-        if (Auth::user()->hasRole('Responder')) {
-            return redirect(route('indexResponderAdmin'));
-        }  else  if (Auth::user()->hasRole('Verifikator')) {
-            return redirect(route('indexVerifikatorAdmin'));
-        }  else if (Auth::user()->hasRole('admin')) {
-           return redirect(route('indexPusatAdmin'));
-        } else {
-            return redirect(route('logout'));
-        }
+    public function authenticated() {
+        return redirect(route('indexPusatAdmin'));
+        
+//        if (Auth::user()->hasRole('responder')) {
+//            return redirect(route('indexResponderAdmin'));
+//        }  else  if (Auth::user()->hasRole('verifikator')) {
+//            return redirect(route('indexVerifikatorAdmin'));
+//        }  else if (Auth::user()->hasRole('admin')) {
+//           return redirect(route('indexPusatAdmin'));
+//        } else {
+//            return redirect(route('indexPusatAdmin'));
+//        }
     }
 }

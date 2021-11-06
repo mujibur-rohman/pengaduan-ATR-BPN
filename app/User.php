@@ -41,12 +41,4 @@ class User extends Authenticatable
     public function role(){
         return $this->belongsTo(Role::class,'id_role','id_role');
     }
-
-    public function calonSiswa(){
-        return $this->belongsTo(CalonSiswa::class,'id_user','id_user');
-    }
-
-    public function panitia(){
-        return $this->hasOne(Panitia::class,'id_user','id_user');
-    }
 }

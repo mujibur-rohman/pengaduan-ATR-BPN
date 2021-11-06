@@ -8,7 +8,7 @@ Route::match(['get'], '/verifikasi', 'LandingController@verifikasi');
 Route::match(['get'], '/tiket', 'LandingController@tiket');
 
 //begin group admin
-Route::group(['prefix'=>'admin', 'middleware' => ['auth','role:admin']], function(){
+Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'role:admin']], function(){
     
     // Router untuk master data ms_pengaduan_kanal
     Route::prefix('pengaduan_kanal')->group(function(){
@@ -255,66 +255,17 @@ Route::group(['prefix'=>'log2', 'middleware' => ['auth','role:Responder']], func
 		});
 });
 
-// Route::prefix('/siswa')->group(function(){
-Route::group(['prefix'=>'siswa', 'middleware' => ['auth','role:siswa']], function(){
-	// Route::get('/','Siswa\SiswaController@index')->name('indexSiswa');
-
-	Route::prefix('pendaftaran')->group(function(){
-		Route::get('/','Siswa\PendaftaranController@index')->name('indexPendaftaranSiswa');
-		Route::get('edit','Siswa\PendaftaranController@edit')->name('editPendaftaranSiswa');
-		Route::post('update','Siswa\PendaftaranController@update')->name('updatePendaftaranSiswa');
-	});
-
-	Route::prefix('pembayaran')->group(function(){
-		Route::get('/','Siswa\PembayaranController@index')->name('indexPembayaranSiswa');
-		Route::post('/konfirmasiPembayaran','Siswa\PembayaranController@konfirmasiPembayaran')->name('konfirmasiPembayaranSiswa');
-	});
-
-	Route::prefix('tesseleksi')->group(function(){
-		Route::get('/','Siswa\TesSeleksiAkademikController@index')->name('indexTesSeleksiAkademikSiswa');
-		Route::get('hasil','Siswa\TesSeleksiAkademikController@hasil')->name('hasilTesSeleksiAkademikSiswa');
-		Route::get('detail','Siswa\TesSeleksiAkademikController@detail')->name('detailTesSeleksiAkademikSiswa');
-		
-		Route::prefix('quiz')->group(function(){
-			Route::get('/','Siswa\TesSeleksiAkademikController@quiz')->name('indexQuizTesSeleksiAkademikSiswa');
-			Route::post('/post','Siswa\TesSeleksiAkademikController@postQuiz')->name('postQuizTesSeleksiAkademikSiswa');
-			Route::get('start','Siswa\TesSeleksiAkademikController@startQuiz')->name('startQuizTesSeleksiAkademikSiswa');
-			// Route::post('ajax','Siswa\TesSeleksiAkademikController@quiz')->name('ajaxQuizTesSeleksiAkademikSiswa');
-			// Route::post('q','Siswa\TesSeleksiAkademikController@quiz')->name('pertanyaanQuizTesSeleksiAkademikSiswa');
-			// Route::post('a','Siswa\TesSeleksiAkademikController@quiz')->name('pilihanJawabanQuizTesSeleksiAkademikSiswa');
-		});
-	});
-
-	Route::prefix('hasilpenerimaan')->group(function(){
-		Route::get('/','Siswa\HasilPenerimaanController@index')->name('indexHasilPenerimaanSiswa');
-	});
-
-	Route::prefix('daftarulang')->group(function(){
-		Route::get('/','Siswa\DaftarUlangController@index')->name('indexDaftarUlangSiswa');
-		Route::post('/','Siswa\DaftarUlangController@postIndex')->name('postIndexDaftarUlangSiswa');
-		Route::post('/ajax','Siswa\DaftarUlangController@ajax')->name('ajaxDaftarUlangSiswa');
-	});
-});
-
-
-// Route::prefix('/siswa')->group(function(){
-// 	Route::get('/','SiswaController@index')->name('indexSiswa');
-// });
-//jalan di sini
-
-	Route::get('/form', 'Admin\Tr_pengaduanController@index2')->name('listformpengaduan');
-	Route::get('/datatr_pengaduan', 'Admin\Tr_pengaduanController@get')->name('daftarformpengaduan');
-	Route::get('/datajml2', 'Admin\Tr_pengaduanController@getmax')->name('maxformpengaduan');
+Route::get('/form', 'Admin\Tr_pengaduanController@index2')->name('listformpengaduan');
+Route::get('/datatr_pengaduan', 'Admin\Tr_pengaduanController@get')->name('daftarformpengaduan');
+Route::get('/datajml2', 'Admin\Tr_pengaduanController@getmax')->name('maxformpengaduan');
    // Route::get('/datajml2', 'Admin\Tr_pengaduanController@getmax_form')->name('maxformpengaduan');
 
-	Route::post('/simpantr_pengaduan', 'Admin\Tr_pengaduanController@save')->name('formpengaduan');
-	Route::post('/simpantr_pengaduan2', 'Admin\Tr_pengaduanController@saveform')->name('formpengaduan2');
-	Route::get('/getDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@gettr_pengaduan');
-	Route::post('Admin/editDatatr_pengaduan/{`id`}', 'Admin\Tr_pengaduanController@update');
-	Route::get('/hapusDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@delete');
-	
+Route::post('/simpantr_pengaduan', 'Admin\Tr_pengaduanController@save')->name('formpengaduan');
+Route::post('/simpantr_pengaduan2', 'Admin\Tr_pengaduanController@saveform')->name('formpengaduan2');
+Route::get('/getDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@gettr_pengaduan');
+Route::post('Admin/editDatatr_pengaduan/{`id`}', 'Admin\Tr_pengaduanController@update');
+Route::get('/hapusDatatr_pengaduan/{id}', 'Admin\Tr_pengaduanController@delete');
 
-	
 Route::get('logout', function(){
 	Auth::logout();
 	return redirect(route('login'));

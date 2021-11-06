@@ -39,6 +39,6 @@ class AjaxController extends Controller
                         ->where('tahun_ajarans.id_th_ajaran',$req->id_th_ajaran)
                         ->select('jadwal_pendaftarans.id_jadwal','jadwal_pendaftarans.nama_jadwal')
                         ->get();
-        $return $data;
+        return $data;
     }
 }

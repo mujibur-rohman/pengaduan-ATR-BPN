@@ -68,13 +68,23 @@ class Tr_pengaduanController extends MyController
         $model = Tr_Pengaduan::find($id);
         $posisi = DB::table('ms_pengaduan_posisi')->get();
         $respon = \App\Tr_pengaduan_respon::where('pengaduan_id', $id)->first();
+        $isLocked = Tr_pengaduan::isLocked($model);
+        
+        if ($isLocked) {
+            if ($model->lock_by_id == Auth::id()) {
+                $isLocked = false;
+                Tr_pengaduan::lockNow($model, Auth::id());
+            }
+        } else {
+            Tr_pengaduan::lockNow($model, Auth::id());
+        }
         
         $lampiran = null;
         if ($model != null) {
             $lampiran = $model->lampiran->all();
         }
 
-        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran', 'posisi', 'respon'));
+        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran', 'posisi', 'respon', 'isLocked'));
     }
 
     public function getPosisi(Request $request) {
@@ -179,6 +189,8 @@ class Tr_pengaduanController extends MyController
                 }
             }
 
+            Tr_pengaduan::lockRelease($model);
+            
             $modelLog->save();
             DB::commit();
             
@@ -278,6 +290,8 @@ class Tr_pengaduanController extends MyController
                 }
             }
 
+            Tr_pengaduan::lockRelease($model);
+            
             $modelLog->save();
             DB::commit();
             
@@ -399,6 +413,8 @@ class Tr_pengaduanController extends MyController
                 }
             }
 
+            Tr_pengaduan::lockRelease($model);
+            
             $modelLog->save();
             DB::commit();
             
