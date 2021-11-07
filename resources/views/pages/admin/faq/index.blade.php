@@ -28,6 +28,7 @@
                             <th>ID</th>
                             <th>Pertanyaan</th>
                             <th>Jawaban</th>
+                            <th>Kategori</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -57,15 +58,24 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="faq_id" id="faq_id"/>
                     <div class="form-group">
-                        <label for="staticEmail" class="col-form-label">Pertanyaan</label>
+                        <label for="faq_question" class="col-form-label">Pertanyaan</label>
                         <div>
                             <textarea name="faq_question" id="faq_question" cols="10" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="staticEmail" class="col-form-label">Jawaban</label>
+                        <label for="faq_answer" class="col-form-label">Jawaban</label>
                         <div>
                             <textarea name="faq_answer" id="faq_answer" cols="10" rows="5" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="faq_kategori" class="col-form-label">Kategori</label>
+                        <div>
+                            <select class="form-control form-select" name="faq_kategori" id="faq_kategori">
+                                <option value="Internal">Internal</option>
+                                <option value="Eksternal">Eksternal</option>
+                            </select>
                         </div>
                     </div>
                 </form>
@@ -88,6 +98,7 @@ $(document).ready(function(){
         
         $('#faq_question').val(data !== null ? data.faq_question : '');
         $('#faq_answer').val(data !== null ? data.faq_answer : '');
+        $('#faq_kategori').val(data !== null ? data.faq_kategori : '');
         $('#faq_id').val(data !== null ? data.faq_id : '');
         $('#myModal').modal('show');
     }
@@ -99,6 +110,7 @@ $(document).ready(function(){
             { "data": "faq_id", width: '5%', className: 'text-center' },
             { "data": "faq_question" },
             { "data": "faq_answer" },
+            { "data": "faq_kategori" },
             { 
                 "data": null,
                 mRender: function(data, type, full){

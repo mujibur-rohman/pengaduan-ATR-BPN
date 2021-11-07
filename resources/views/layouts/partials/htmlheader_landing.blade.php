@@ -13,7 +13,11 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     
     <!-- ========== Favicon Icon ========== -->
-    <link rel="shortcut icon" href=" " type="images/x-icon">
+    <link rel="shortcut icon" href=" " type="images/x-icon"> 
+
+    <link href="{{ asset('assets_back/css/site.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
+    
+    <link href="{{ asset('assets_back/css/bootstrap.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
 
     <!-- ========== Start Stylesheet ========== -->
     <link href="{{ asset('assets_fron/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -28,16 +32,20 @@
     <link href="{{ asset('assets_fron/css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_fron/css/responsive.css') }}" rel="stylesheet" />
     <!-- ========== End Stylesheet ========== -->
-
+ 
 
     <!-- ========== Google Fonts ========== -->
     <link href="{{ asset('assets_fron/css/css.css') }}" rel="stylesheet">
     <link href="{{ asset('assets_fron/css/css_002.css') }}" rel="stylesheet">
+    
+    {{-- LIGHTBOX --}}
+    <link href="{{ asset('assets_back/css/lightbox.css') }}" id="app-style" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets_back/css/lightbox.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
 
     <script type="text/javascript">
     var base_url = 'https://Pengaduan.atrbpn.go.id';
     </script>
-
+    <script src="{{ asset('assets_back/js/bootstrap.js') }}"></script>
     <style type="text/css">
       #submit:enabled,
         button[enabled]{

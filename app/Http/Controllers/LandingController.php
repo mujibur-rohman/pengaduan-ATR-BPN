@@ -14,7 +14,7 @@ use App\Tr_pengaduan;
 class LandingController extends Controller {
     
     public function index(Request $request) {
-        $faq = faq::get();
+        $faq = faq::where('faq_kategori', 'Eksternal')->get();
         // dd($faq);
         $model = $request->old('pengaduan');
 
@@ -32,8 +32,8 @@ class LandingController extends Controller {
                 'uraian' => ''
             ];
         }
-
-        return view('pages.landing.index', compact('model'));
+        // dd($faq);
+        return view('pages.landing.index', compact('model', 'faq'));
     }
 
     public function simpan(Request $request) {

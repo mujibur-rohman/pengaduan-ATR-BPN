@@ -100,32 +100,15 @@
             <div class="faq-component">
                 <img src="{{asset('assets_fron/images/faq-image.png')}}" alt="faq" class="faq-image">
                 <div class="faq-accordion">
+                    @foreach ($faq as $f)                      
                     <div class="faq-accordion-items ">
                         <i class="faq-icon fas fa-plus"></i>
-                        <h3>Bagaimana saya mengirim pengaduan kepada kementrian ATR/BPN</h3>
-                    </div>
+                        <h3>{{$f->faq_question}}</h3>
+                    </div>               
                     <div class="faq-panel">
-                        <p>Anda dapat menggunakan sosial media yang anda miliki seperti Facebook, Twitter dan Instagram dengan terlebih dulu mengikuti akun official Kementerian ATR/BPN dan menggunakan PengaduanATRBPN , untuk Pengaduanan yang diajukan ke kantor wilayah Kementerian ATR/BPN.</p>
+                        <p>{{$f->faq_answer}}</p>
                     </div>
-                    <div class="faq-accordion">
-                        <div class="faq-accordion-items">
-                            <i class="faq-icon fas fa-plus"></i>
-                            <h3>Berapa lama saya menunggu pengaduan saya dijawab?</h3>
-                        </div>
-                        <div class="faq-panel">
-                            <p>Kami akan segera merespon perPengaduanan maupun aspirasi anda secara cepat dan apabila diluar jam operasional, kami tetap akan melayani dengan sistem auto-replay dan akan segera ditindak lanjuti pada jam operasional.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="faq-accordion">
-                        <div class="faq-accordion-items">
-                            <i class="faq-icon fas fa-plus"></i>
-                            <h3>Saya ada perPengaduanan khusus untuk kantor wilayah Kementerian ATR/BPN di kota tempat tinggal saya, apakah bisa via sosial media?</h3>
-                        </div>
-                        <div class="faq-panel">
-                            <p>Tentu saja, kami akan langsung meneruskan Pengaduanan anda pada kantor wilayah kami yang akan diproses dengan sistem aplikasi PengaduanATRBPN anda.</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -4651,6 +4651,13 @@ footer.demo .copyright {
   }
 }
 
+/* PAGES TIKET */
+
+#tiket {
+  padding: 0 5rem;
+  margin-top: 10rem;
+}
+
 /* ======FOOTER====== */
 .footer-landing {
   padding: 3rem 2rem;

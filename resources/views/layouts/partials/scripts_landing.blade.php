@@ -18,6 +18,10 @@
     <script src="{{ asset('assets_fron/js/script.js') }}	"></script>
     <script type="text/javascript" src="{{ asset('assets_back/js/jquery.validate.js') }}"></script>
      <script type="text/javascript" src="{{ asset('assets_back/js/validate.min.js') }}"></script>
+     <script src="{{ asset('assets_back/js/lightbox-plus-jquery.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox-plus-jquery.min.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox.js') }}"></script>
+    <script src="{{ asset('assets_back/js/lightbox.min.js') }}"></script>
     <script>
         $(document).ready(function(){
           $(".owl-carousel").owlCarousel({

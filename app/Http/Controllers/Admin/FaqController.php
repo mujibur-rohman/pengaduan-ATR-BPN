@@ -19,7 +19,7 @@ class FaqController extends Controller {
             'data' => Faq::all()
         ]);
     }
-    
+     
     public function index(Request $r) {
         return view('pages.admin.Faq.index');
     }
@@ -29,6 +29,7 @@ class FaqController extends Controller {
         $faq_id = $r->post('faq_id');
         $faq_question = $r->post('faq_question');
         $faq_answer = $r->post('faq_answer');
+        $faq_kategori = $r->post('faq_kategori');
         
         if (empty($faq_question)) { 
             echo json_encode([
@@ -60,6 +61,7 @@ class FaqController extends Controller {
         }
         $model->faq_question = $faq_question;
         $model->faq_answer = $faq_answer;
+        $model->faq_kategori = $faq_kategori;
         
         $model->save();
         

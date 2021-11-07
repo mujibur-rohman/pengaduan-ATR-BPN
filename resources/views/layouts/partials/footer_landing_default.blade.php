@@ -1,7 +1,7 @@
 
 <!-- Start Footer    baru   ============================================= -->
 
-<footer class="footer-landing">
+<footer class="footer-landing" >
     <div class="footer-items">
         <h2 class="footer-title">Social</h2>
         <div class="footer-social">
@@ -11,7 +11,7 @@
             </a>
             <a href="#" class="footer-social-items">
                 <i class="fab fa-instagram"></i>
-                <p>Instagram</p>
+                <p>Instagram</p> 
             </a>
             <a href="#" class="footer-social-items">
                 <i class="fab fa-twitter"></i>
