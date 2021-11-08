@@ -22,7 +22,7 @@ class MailTemplate extends Model {
         Mail::send([], [], function(Message $message) use ($html, $to, $tpl) {
             $message->to($to)
                 ->subject($tpl->subject)
-                ->from(config('mail.from.address'))
+                ->from(\App\Settings::getValue('admin_email'))
                 ->setBody($html, 'text/html');
         });
     }

@@ -120,15 +120,18 @@
                             <td class="text-capitalize"> {{ $tr_p->nama }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_kanal }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_posisi }}</td>
-                            @if($tr_p->nama_status == "Proses Verifikasi")
-                            <td class="text-capitalize" style="background-color:#FFCCFF" > {{ $tr_p->nama_status }}</td>
-                            @else  
-                              @if($tr_p->nama_status == "Laporan Diterima")
-                              <td class="text-capitalize" style="background-color:#FFFFCC" > {{ $tr_p->nama_status }}</td>
-                              @else
-                              <td class="text-capitalize" style="color:#ffffff;background-color:#99FF00" > {{ $tr_p->nama_status }}</td>
-                            @endif
-                            @endif
+                            @php
+                                $class = "";
+                                switch($tr_p->status_id) {
+                                    case 1: $class = "diterima"; break;
+                                    case 2: $class = "verifikasi"; break;
+                                    case 3: $class = "responder"; break;
+                                    case 4: $class = "respon"; break;
+                                    case 5: $class = "selesai"; break;
+                                }
+                                
+                                echo '<td class="text-capitalize status_' . $class . '" >' . $tr_p->nama_status . '</td>';
+                            @endphp
                             <td class="text-center">
                                 <a href="{{ URL::to('/admin/tr_pengaduan/view/' . $tr_p->pengaduan_id) }}"><i class="fa fa-eye"></i></a>
                             </td>
@@ -139,7 +142,6 @@
                 </table>
             </div>
             <!-- end main============================================================== -->
-                    
         </div>
     </div>
 </div>
@@ -155,6 +157,7 @@
 #formfilter .form-group.row {
     margin-bottom: 10px;
 }
+{{ \App\Settings::getPengaduanColorCss('status') }}
 </style>
 <script type="text/javascript">
 $(document).ready(function() {

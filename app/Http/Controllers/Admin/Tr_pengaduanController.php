@@ -34,7 +34,7 @@ class Tr_pengaduanController extends MyController
             ->join('ms_pengaduan_status', 'tr_pengaduan.status_id', 'ms_pengaduan_status.status_id')
             ->leftjoin('users', 'tr_pengaduan.create_by', 'users.id_user')
             ->select('tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
-                'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status',
+                'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status', 'tr_pengaduan.status_id',
                 'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
                 'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
             ->where('tr_pengaduan.verified_email', 'Y')
