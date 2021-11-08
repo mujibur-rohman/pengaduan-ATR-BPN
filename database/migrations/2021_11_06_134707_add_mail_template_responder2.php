@@ -13,7 +13,7 @@ class AddMailTemplateResponder2 extends Migration
      */
     public function up()
     {
-       DB::table('mail_template')->insert(
+        DB::table('mail_template')->insert(
             array(
                 'name' => 'memberikan_respon',
                 'subject' => 'Tanggapan atas pengaduan anda',

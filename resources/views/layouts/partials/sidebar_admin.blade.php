@@ -176,11 +176,11 @@
 
                                 <!-- starts manager user -->
                                 <li>
-                                    <a href="javascript: void(0);" class="has-arrow">
-                                         <i _ngcontent-xeb-c237="" class="fab fa-stack-exchange"></i>                                   
-                                        <span data-key="t-apps">Konfigurasi</span>
+                                    <a href="{{ url('admin/settings') }}"> 
+                                        <i class="fas fa-users"></i>
+                                        <span data-key="t-invoice-detail">Setting</span>
                                     </a>
-                                    <ul class="sub-menu mm-collapse" aria-expanded="false">
+<!--                                    <ul class="sub-menu mm-collapse" aria-expanded="false">
                                         <li><a href="#"> <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
                                             <span  data-key="t-invoice-detail">Setting Akses Menu & Page</span>
                                          </a>
@@ -194,13 +194,12 @@
                                             <span data-key="t-invoice-detail">Parameter System</span>
                                             </a>
                                         </li>
-                                            <li><a href="#"> <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
+                                        <li><a href="#"> <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
                                             <span data-key="t-invoice-detail">Log Pengaduan</span>
                                             </a>
                                         </li>
                                  
-                                    </li>
-                                    
+                                    </li>-->
                                 </li>
                                 <!-- moduls konfigurasi -->
                                 <!---  --->

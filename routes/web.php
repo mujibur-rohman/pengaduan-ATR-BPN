@@ -9,6 +9,7 @@ Route::match(['get'], '/tiket', 'LandingController@tiket');
 
 //begin group admin
 Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'role:admin']], function(){
+    Route::match(['get', 'post'], '/settings', 'Admin\SettingsController@index');
     
     // Router untuk master data ms_pengaduan_kanal
     Route::prefix('pengaduan_kanal')->group(function(){
