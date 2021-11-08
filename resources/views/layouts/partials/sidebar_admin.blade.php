@@ -1,6 +1,5 @@
 <!-- ========== Left Sidebar Start menu ========== -->
 <div class="vertical-menu mm-active">
-
     <div data-simplebar="init" class="h-100 mm-show">
         <div class="simplebar-wrapper" style="margin: 0px;">
             <div class="simplebar-height-auto-observer-wrapper">
@@ -26,104 +25,58 @@
                                             </span>
                                         </a>
                                     </li>
-<!-- dashboard end -->
-
-
-                                    <!-- to do list -->
+                                    
                                     <li>
-                                        <a href="javascript: void(0);" class="has-arrow">
-                                            <i _ngcontent-xeb-c237="" class="far fa-window-restore"></i>
-                                            <span data-key="t-apps">To Do List</span>
-                                        </a>
-                                    </li>
-
-                                    <!-- end to do list -->
-
-
-<!--pengaduan masuk start-->    
-                                    <li>
-
-
                                         <a href="javascript: void(0);" class="has-arrow">
                                             <i _ngcontent-xeb-c237="" class="fas fa-address-card"></i>
                                             <span data-key="t-apps">Pengaduan Masuk</span>
                                         </a>
                                         <ul class="sub-menu mm-collapse" aria-expanded="false">
-                                                    
-                                        @if(Auth::user()->hasRole('Verifikator'))
-                                          <li> <a href="{{ url('log1/Verifikator/tr_pengaduan/1/5') }}">
-                                            <i _ngcontent-uqw-c90="" class="fas fa-box"></i>
-                                                        <span data-key="t-apps">All</span>
-                                            </a></li>
-                                        @else 
-                                          @if(Auth::user()->hasRole('admin'))
-                                            <li> <a href="{{ route('listtr_pengaduan') }}">
-                                            <i _ngcontent-uqw-c90="" class="fas fa-box"></i>
-                                                        <span data-key="t-apps">All</span>
-                                            </a></li>
-                                        @else 
-                                            <li> <a href="{{ url('log2/Responder/tr_pengaduan/1/5') }}">
-                                            <i _ngcontent-uqw-c90="" class="fas fa-box"></i>
-                                                        <span data-key="t-apps">All</span>
-                                            </a></li>
-                                        @endif
-                                    @endif
-          
-
-
-
-                                                    <li><a href="{{ route('list_twitter') }}">
-                                                         <i _ngcontent-uqw-c90="" class="fab fa-twitter"></i>
-                                                            <span data-key="t-twitter">Twitter</span>
-                                                         </a>
-                                                    </li>
-                                                    <li><a href="{{ route('list_facebook') }}">
-                                                        <i _ngcontent-uqw-c196="" class="fab fa-facebook"></i>
-                                                            <span data-key="t-facabook">Facebook</span>
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ route('list_instagram') }}">
-                                                        <i _ngcontent-uqw-c196="" class="fab fa-instagram"></i>
-                                                            <span data-key="t-instagram">Instagram</a>
-                                                    </li>
-                                                    <li><a href="{{ route('list_youtube') }}">
-                                                        <i _ngcontent-uqw-c196="" class="fab fa-youtube"></i>
-                                                            <span data-key="t-youtube">YouTube</span>
-                                                        </a>
-                                                            
-                                                    </li>
-                                                    <li><a href="{{ route('list_email') }}">
-                                                         <i _ngcontent-uqw-c196="" class="fab fa-google"></i>
-                                                            <span data-key="t-facabook">Email</span>
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ route('list_surat') }}">
-                                                         <i _ngcontent-uqw-c196="" class="far fa-newspaper"></i>
-                                                            <span data-key="t-surat">Surat</span>
-                                                        </a>
-                                                    </li>
-                                                                @if(Auth::user()->hasRole('Verifikator'))
-                                                    <li> <a href="{{ url('log1/Verifikator/tr_pengaduan/non_medsos') }}">
-                                                    <i _ngcontent-uqw-c196="" class="fas fa-user-friends"></i>
-                                                            <span data-key="t-portal">Portal Pengaduan</span></a></li>
-                                                    @else 
-                                                    @if(Auth::user()->hasRole('admin'))
-                                                        <li> <a href="{{ route('tampil_filter') }}">                                                       
-                                                        <i _ngcontent-uqw-c196="" class="fas fa-user-friends"></i>
-                                                            <span data-key="t-portal">Portal Pengaduan</span> </a></li>
-                                                    @else 
-                                                        <li> <a href="{{ url('log2/Responder/tr_pengaduan/non_medsos') }}">                                                        
-                                                        <i _ngcontent-uqw-c196="" class="fas fa-user-friends"></i>
-                                                            <span data-key="t-portal">Portal Pengaduan</span></a></li>
-                                                    @endif
-                                                @endif
-
-
-                                                    
-                                                </ul>
+                                            <li> <a href="{{ url('admin/tr_pengaduan') }}">
+                                                <i _ngcontent-uqw-c90="" class="fas fa-box"></i>
+                                                <span data-key="t-apps">All</span>
+                                                </a>
                                             </li>
+                                            
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=1">
+                                                 <i _ngcontent-uqw-c90="" class="fab fa-twitter"></i>
+                                                    <span data-key="t-twitter">Twitter</span>
+                                                 </a>
+                                            </li>
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=2">
+                                                <i _ngcontent-uqw-c196="" class="fab fa-facebook"></i>
+                                                    <span data-key="t-facabook">Facebook</span>
+                                                </a>
+                                            </li>
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=3">
+                                                <i _ngcontent-uqw-c196="" class="fab fa-instagram"></i>
+                                                    <span data-key="t-instagram">Instagram</a>
+                                            </li>
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=4">
+                                                <i _ngcontent-uqw-c196="" class="fab fa-youtube"></i>
+                                                    <span data-key="t-youtube">YouTube</span>
+                                                </a>
+
+                                            </li>
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=7">
+                                                 <i _ngcontent-uqw-c196="" class="fab fa-google"></i>
+                                                    <span data-key="t-facabook">Email</span>
+                                                </a>
+                                            </li>
+                                            <li><a href="{{ url('admin/tr_pengaduan') }}?kanal_id=8">
+                                                 <i _ngcontent-uqw-c196="" class="far fa-newspaper"></i>
+                                                    <span data-key="t-surat">Surat</span>
+                                                </a>
+                                            </li>
+                                            <li> 
+                                                <a href="{{ url('admin/tr_pengaduan') }}?kanal_id=5">
+                                                    <i _ngcontent-uqw-c196="" class="fas fa-user-friends"></i>
+                                                    <span data-key="t-portal">Portal Pengaduan</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                     
-<!--end pengaduan masuk -->
                                     <!-- start faq internal -->
                                     <li>
                                         <a href="javascript: void(0);" class="has-arrow">
@@ -140,9 +93,6 @@
                                         </a>
                                     </li>
                                     <!-- end faq internal -->
-                                            
-
-                                        
                                     
                                     <!-- menu master -->
 
@@ -222,8 +172,6 @@
                                 </li>
                                 </ul>
                                 </li>
-
-                                
                                 <!-- end manager user --->
 
                                 <!-- starts manager user -->
