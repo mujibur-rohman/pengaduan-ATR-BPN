@@ -74,6 +74,8 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'role:admin']], functi
         Route::post('/save_responder', 'Admin\Tr_pengaduanController@saveResponder');
         Route::get('/get_log', 'Admin\Tr_pengaduanController@getLog');
         Route::post('/lock_release', 'Admin\Tr_pengaduanController@lock_release');
+        Route::match(['get', 'post'], '/create', 'Admin\Tr_pengaduanController@create');
+        Route::post('/save_create', 'Admin\Tr_pengaduanController@save_create');
         
 //        Route::get('/', 'Admin\Tr_pengaduanController@index')->name('listtr_pengaduan');
         

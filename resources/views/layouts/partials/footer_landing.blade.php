@@ -4,7 +4,7 @@
     <!-- Side Bg --> 
     <h1 class="text-center form__title">form pengaduan</h1>
     <form id="formSave" method="POST" enctype="multipart/form-data" action="{{ URL::to('/simpan') }}">
-    {{ csrf_field() }}      
+    {{ csrf_field() }}
         
     <div class="form_layouts">
 

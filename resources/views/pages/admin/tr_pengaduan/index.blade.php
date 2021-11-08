@@ -100,6 +100,11 @@
                 
             <!-- Isi Content -->					
             <div class="panel-body table-responsive">
+                @if (in_array($kanal_id, [7, 8]))
+                <div style="margin-bottom: 20px;">
+                    <a href="{{ URL::to('admin/tr_pengaduan/create') }}?kanal_id={{ $kanal_id }}" class="btn btn-primary">Buat Pengaduan {{ \App\Pengaduan_kanal::getName($kanal_id) }}</a>
+                </div>
+                @endif
                 <table id="dxdatagrid" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
                     <thead>
                         <tr>

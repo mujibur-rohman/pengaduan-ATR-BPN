@@ -21,6 +21,11 @@
                 @if ($model == null)
                 <div class="alert alert-danger">Data tidak ditemukan</div>
                 @else
+                @if ($message = Session::get('message'))
+                <div class="alert alert-success alert-block">
+                    <strong>{{ $message }}</strong>
+                </div>
+                @endif
                 <fieldset class="border rounded py-3 px-4">
                     <div class="row">
                         <div class="col-md-6 col-lg-4">
