@@ -13,7 +13,7 @@
             <!--   main  ============================================================== -->
             <div class="panel-heading" style="margin-bottom:2%">
                 <div class="panel-title col-md-12">
-                    <h4 class="col-md-4">Transaksi Pengaduan ALL</h4>
+                    <h4 class="col-md-4">Transaksi Pengaduan {{ $kanal_name }}</h4>
                 </div>
             </div>
             <div class="box-filter border p-4 rounded mb-3">
@@ -102,7 +102,7 @@
             <div class="panel-body table-responsive">
                 @if (in_array($kanal_id, [7, 8]))
                 <div style="margin-bottom: 20px;">
-                    <a href="{{ URL::to('admin/tr_pengaduan/create') }}?kanal_id={{ $kanal_id }}" class="btn btn-primary">Buat Pengaduan {{ \App\Pengaduan_kanal::getName($kanal_id) }}</a>
+                    <a href="{{ URL::to('admin/tr_pengaduan/create') }}?kanal_id={{ $kanal_id }}" class="btn btn-primary">Buat Pengaduan {{ $kanal_name }}</a>
                 </div>
                 @endif
                 <table id="dxdatagrid" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
@@ -211,32 +211,6 @@ $(document).ready(function() {
         vall = $(this).closest('tr').find('td');
         $('#modalEditkembali').modal('show');
     });
-    
-//    $('#formfilter').attr("action", "{{ route('tampil_filter') }}");
-
-//    $('#formfilter').submit(function(e) {
-//        e.preventDefault();
-//
-//        var link = $('#formfilter').attr('action');
-//        var request = new FormData(this);
-//         console.log(request)
-//         console.log(link)
-//         $.ajax({
-//            url: link,
-//            method: "post",
-//            data: request,
-//            contentType: false,
-//            cache: false,
-//            processData: false,
-//            success: function(response) {
-//                   console.log(response);
-//                alert("Data anda berhasil di Kirim")  
-//                   // $('#alert-success').html('Data User Berhasil Disimpan').fadeIn().delay(4000).fadeOut('slow');
-//              //     kosongdata();  
-//
-//            }
-//        });
-//    });
 });
 </script>
 @endpush

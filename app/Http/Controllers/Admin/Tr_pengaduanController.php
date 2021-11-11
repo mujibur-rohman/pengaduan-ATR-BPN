@@ -185,10 +185,13 @@ class Tr_pengaduanController extends MyController {
             ->wheredate('tr_pengaduan.created_at', '<=', $txttglakhir)   
             ->orderby('pengaduan_id', 'ASC')->get();
 
+        $kanal_name = $kanal_id == 0 ? "Semua" : \App\Pengaduan_kanal::getName($kanal_id);
+        
         return view('pages.admin.tr_pengaduan.index', compact(
             'tr_pengaduans',
             'txttglawal', 'txttglakhir',
-            'kanal_id', 'status_id', 'klasifikasi_id', 'kategori_id'
+            'kanal_id', 'status_id', 'klasifikasi_id', 'kategori_id',
+            'kanal_name'
         ));
     }
     
