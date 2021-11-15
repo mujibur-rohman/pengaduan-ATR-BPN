@@ -17,9 +17,6 @@
                 <a href="#form" class="btn btn-color btn-laporan">Buat Laporan/Pengaduan</a>
             </div>
         </div>
-        <div class="section-2">
-            <img src="{{ asset('assets_fron/images/partner.png') }}" alt="kpk" class="partner-logo">
-        </div>
         <div class="section-3" id="tentang">
             <div class="text-about">
                 <h1 class="title-home" style="color: #BE9054">Tentang Portal Pengaduan Kementerian ATR / BPN</h1>

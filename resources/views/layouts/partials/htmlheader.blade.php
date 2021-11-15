@@ -44,5 +44,6 @@
     
     <link href="{{ asset('assets_back/css/bootstrap.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css">
     <script src="{{ asset('assets_back/js/bootstrap.js') }}"></script>
+    
 </head>
 <!-- end head -->

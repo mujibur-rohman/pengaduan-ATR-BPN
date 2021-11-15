@@ -197,6 +197,7 @@ class Tr_pengaduanController extends MyController {
         $posisi = DB::table('ms_pengaduan_posisi')->get();
         $respon = \App\Tr_pengaduan_respon::where('pengaduan_id', $id)->first();
         $isLocked = Tr_pengaduan::isLocked($model);
+        dd($model);
         
         if ($isLocked) {
             if ($model->lock_by_id == Auth::id()) {

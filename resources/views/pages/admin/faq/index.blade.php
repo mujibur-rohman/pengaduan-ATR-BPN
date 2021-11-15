@@ -26,9 +26,12 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Parent ID</th>
+                            <th>Jenis</th>
                             <th>Pertanyaan</th>
                             <th>Jawaban</th>
-                            <th>Kategori</th>
+                            <th>Judul Topik</th>
+                            <th>Posisi</th>
                             <th>&nbsp;</th>
                         </tr>
                     </thead>
@@ -57,22 +60,62 @@
                 <form class="form" id="myForm">
                     {{ csrf_field() }}
                     <input type="hidden" name="faq_id" id="faq_id"/>
+                    <input type="hidden" name="parent_id" id="parent_id"/>
                     <div class="form-group">
+                        <label for="jenis" class="col-form-label">Jenis</label>
+                        <div>
+                            <select class="form-control form-select" name="faq_kategori" id="jenis">
+                                <option>--Pilih Jenis--</option>
+                                <option value="Kategori">Kategori</option>
+                                <option value="Topik">Topik</option>
+                                <option value="Pertanyaan">Pertanyaan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="parentKategori">
+                        <label for="kategori" class="col-form-label">Kategori</label>
+                        <div>
+                            <select class="form-control form-select" name="parent_id" id="kategori">
+                                {{-- <option value="0">--Pilih Kategori--</option> --}}
+                                @foreach ($kategori as $ktg)
+                                    <option value="{{$ktg->faq_id}}">{{$ktg->faq_topik}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="parentTopik">
+                        <label for="topik" class="col-form-label">Topik</label>
+                        <div>
+                            <select class="form-control form-select" name="parent_id" id="topik">
+                                    {{-- <option value="0">--Pilih Topik--</option> --}}
+                                @foreach ($topik as $tpk)
+                                    <option value="{{$tpk->faq_id}}">{{$tpk->faq_topik}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="pertanyaan">
                         <label for="faq_question" class="col-form-label">Pertanyaan</label>
                         <div>
                             <textarea name="faq_question" id="faq_question" cols="10" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="jawaban">
                         <label for="faq_answer" class="col-form-label">Jawaban</label>
                         <div>
                             <textarea name="faq_answer" id="faq_answer" cols="10" rows="5" class="form-control"></textarea>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="faq_kategori" class="col-form-label">Kategori</label>
+                    <div class="form-group" id="judul">
+                        <label for="faq_topik" class="col-form-label">Judul</label>
                         <div>
-                            <select class="form-control form-select" name="faq_kategori" id="faq_kategori">
+                            <input name="faq_topik" type="text" id="faq_topik" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group" id="posisi">
+                        <label for="faq_posisi" class="col-form-label">Posisi</label>
+                        <div>
+                            <select class="form-control form-select" name="faq_posisi" id="faq_posisi">
                                 <option value="Internal">Internal</option>
                                 <option value="Eksternal">Eksternal</option>
                             </select>
@@ -96,9 +139,12 @@ $(document).ready(function(){
     function showModal(title, data) {
         $('#myModal .modal-title').html(title);
         
-        $('#faq_question').val(data !== null ? data.faq_question : '');
-        $('#faq_answer').val(data !== null ? data.faq_answer : '');
+        $('#parent_id').val(data !== null ? data.parent_id : 0);
+        $('#faq_question').val(data !== null ? data.faq_question : '-');
+        $('#faq_answer').val(data !== null ? data.faq_answer : '-');
         $('#faq_kategori').val(data !== null ? data.faq_kategori : '');
+        $('#faq_topik').val(data !== null ? data.faq_topik : '-');
+        $('#faq_posisi').val(data !== null ? data.faq_posisi : '');
         $('#faq_id').val(data !== null ? data.faq_id : '');
         $('#myModal').modal('show');
     }
@@ -108,9 +154,12 @@ $(document).ready(function(){
         ajax: "{{ URL::to('/admin/faq/list') }}",
         columns: [
             { "data": "faq_id", width: '5%', className: 'text-center' },
+            { "data": "parent_id", width: '5%', className: 'text-center' },
+            { "data": "faq_kategori" },
             { "data": "faq_question" },
             { "data": "faq_answer" },
-            { "data": "faq_kategori" },
+            { "data": "faq_topik" },
+            { "data": "faq_posisi" },
             { 
                 "data": null,
                 mRender: function(data, type, full){
@@ -167,7 +216,7 @@ $(document).ready(function(){
         
         $.post("{{ URL::to('/admin/faq/save') }}", $('#myForm').serialize(), function(resp){
             if (resp.success) {
-                $('#myModal').modal('hide');
+                $('#myModal').modal('hide')
                 table.ajax.reload();
                 alert(resp.message);
             } else {
@@ -176,5 +225,58 @@ $(document).ready(function(){
         }, 'json');
     });
 });
+</script>
+
+<script>
+const jenis = document.getElementById('jenis');
+const kategori = document.getElementById('parentKategori');
+const topik = document.getElementById('parentTopik');
+const pertanyaan = document.getElementById('pertanyaan');
+const jawaban = document.getElementById('jawaban');
+const judul = document.getElementById('judul');
+const posisi = document.getElementById('posisi');
+
+// DISPLAY NONE
+kategori.style.display = 'none';
+topik.style.display = 'none';
+pertanyaan.style.display = 'none';
+jawaban.style.display = 'none';
+judul.style.display = 'none';
+posisi.style.display = 'none';
+
+function showParent(){
+    posisi.style.display = 'inherit';
+
+    if (jenis.value === 'Kategori') {
+        topik.style.display = 'none';
+        kategori.style.display = 'none'
+        pertanyaan.style.display = 'none';
+        jawaban.style.display = 'none';
+        judul.style.display = 'inherit';
+        topik.querySelector('#topik').removeAttribute('name');
+        kategori.querySelector('#kategori').removeAttribute('name');
+    }
+    if (jenis.value === 'Topik') {
+        kategori.style.display = 'inherit';
+        topik.style.display = 'none';
+        pertanyaan.style.display = 'none';
+        jawaban.style.display = 'none';
+        judul.style.display = 'inherit';
+        topik.querySelector('#topik').removeAttribute('name');
+        kategori.querySelector('#kategori').setAttribute('name', 'parent_id');
+    }
+    if (jenis.value === 'Pertanyaan') {
+        pertanyaan.style.display = 'inherit';
+        jawaban.style.display = 'inherit';
+        judul.style.display = 'none';
+        topik.style.display = 'inherit';
+        kategori.style.display = 'none';
+        kategori.querySelector('#kategori').removeAttribute('name');
+        topik.querySelector('#topik').setAttribute('name', 'parent_id');
+    }
+}
+
+jenis.addEventListener('change', showParent);
+
 </script>
 @endpush

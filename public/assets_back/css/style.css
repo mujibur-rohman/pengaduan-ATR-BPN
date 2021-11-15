@@ -38,7 +38,7 @@
 
 .rb-container ul.rb li:hover::before {
   border-color: white;
-  background: #5156be;
+  background: #a9aeff;
   transition: all 500ms ease-in-out;
 }
 
@@ -86,9 +86,6 @@ ul.rb li .timestamp {
 
 /* DASHBOARD */
 
-.box-pengaduan-2 {
-  margin-bottom: 2rem;
-}
 
 .box-pengaduan-item {
   box-shadow: 10px 3px 17px 0px rgba(186,186,186,0.75);

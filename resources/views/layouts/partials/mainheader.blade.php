@@ -17,7 +17,7 @@
                                     <img src="{{ asset('assets_back/images/logo.png') }}" alt="" height="24">
                                 </span>
                                 <span class="logo-lg">
-                                    <img src="{{ asset('assets_back/images/logo.png') }}" alt="" height="24"> <span class="logo-txt">ATR BPN</span>
+                                    <img src="{{ asset('assets_back/images/logo-atr2.png') }}" alt="" height="50">
                                 </span>
                             </a>
 

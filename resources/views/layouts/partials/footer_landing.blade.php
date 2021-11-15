@@ -168,6 +168,10 @@
                     <input type="email" name="" class="form-control">
                     <button>Kirim</button>
                 </div>
+                <div class="img-footer">
+                    <a href="{{Redirect::intended('https://kws.kpk.go.id')}}"><img src="{{asset('assets_fron/images/kpk.png')}}" class="logo-footer"></a>
+                    <img src="{{asset('assets_fron/images/lapor.png')}}" class="logo-footer">
+                </div>
             </div>
             <div class="footer-items alamat">
                 <h2 class="footer-title">Alamat Kami</h2>
@@ -188,6 +192,9 @@
                     </div>
                 </div>
             </div>
+        </footer>
+        <footer class="label-footer">
+            <p style="margin: 0">&copy 2021 Kementrian ATR/BPN</p>
         </footer>
 <style type="text/css">
 .error {

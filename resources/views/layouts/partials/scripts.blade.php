@@ -26,13 +26,7 @@
     <script src="{{ asset('assets_back/js/lightbox.js') }}"></script>
     <script src="{{ asset('assets_back/js/lightbox.min.js') }}"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.3/sc-2.0.5/sb-1.3.0/datatables.min.js"></script>
-
-    {{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
-    <script src="{{ asset('assets_back/js/chart.min.js') }}"></script>
-    <script src="{{ asset('assets_back/js/chart.js') }}"></script>
-    
-
-
+    <script src="{{ asset('assets_back/js/canvasjs.min.js') }}"></script>
 
   <!--  end  JAVASCRIPT -->
 
@@ -41,9 +35,9 @@
 $(function(){
     $('#preloader').fadeOut('slow');
 
-
-
 });
 </script>
+
+
 @stack('script')
 

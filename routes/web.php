@@ -52,10 +52,10 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'role:admin']], functi
     });
 	// Master FaQ
     Route::prefix('faq')->group(function(){
-        Route::get('/','Admin\FaqController@index')->name('list_faq');
-        Route::get('/list','Admin\FaqController@list');
-        Route::post('/save','Admin\FaqController@save');
-        Route::post('/delete', 'Admin\FaqController@delete');
+        Route::get('/','Admin\MsFaqsController@index')->name('list_faq');
+        Route::get('/list','Admin\MsFaqsController@list');
+        Route::post('/save','Admin\MsFaqsController@save');
+        Route::post('/delete', 'Admin\MsFaqsController@delete');
     });
 	// Master Mail Template
     Route::prefix('mail_template')->group(function(){
@@ -142,7 +142,8 @@ Route::group(['prefix'=>'admin', 'middleware' => ['auth', 'role:admin']], functi
 	
 	Route::prefix('pusat')->group(function(){
 		Route::get('/','Admin\PusatController@index')->name('indexPusatAdmin');
-		Route::post('/','Admin\PusatController@postIndex')->name('postIndexPusatAdmin');
+		Route::post('/','Admin\PusatController@postIndex')->name('postIndexPusatAdmin'); 
+        Route::get('/list','Admin\PusatController@list');
 	});
 	
 		
