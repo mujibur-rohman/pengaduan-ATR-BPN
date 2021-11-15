@@ -199,7 +199,7 @@ class LandingController extends Controller {
                 Cookie::queue('ticket', $cJson, 120);
                 
                 $params = [
-                    '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
+                    '{url}' => URL::to('/tiket?kode=' . $model->kode_tiket),
                     '{kode_tiket}' => $kode_tiket
                 ];
                 MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
