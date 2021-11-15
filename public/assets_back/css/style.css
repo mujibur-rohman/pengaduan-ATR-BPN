@@ -142,3 +142,43 @@ ul.rb li .timestamp {
 .box-pengaduan-2 .box-pengaduan-item:nth-child(4){
   background-image: linear-gradient(to right top, #f953c6, #ea45b0, #da389b, #ca2b86, #b91d73);
 }
+
+
+/* Accordion FAQ */
+
+.kategori {
+  border: 2px solid rgba(190, 190, 190, 0.4);
+  border-left: 10px solid #5b86e5;
+  width: 100%;
+  display: block;
+  padding: 1rem;
+  border-radius: .5rem;
+  font-size: 1rem;
+  margin-bottom: .6rem;
+}
+.childKategori {
+  padding-left: 3rem;
+}
+
+.topik, .question {
+  width: 100%;
+  display: block;
+  border: 2px solid rgba(190, 190, 190, 0.4);
+  padding: .7rem 1rem;
+  font-size: 1rem;
+  border-radius: .5rem;
+  border-left: 10px solid #82e55b;
+  margin-bottom: 1rem;
+}
+
+.question {
+  border-left: 10px solid #975be5;
+}
+
+.panah {
+  transition: .4s;
+}
+
+.rotatePanah {
+  transform: rotate(90deg);
+}

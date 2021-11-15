@@ -179,6 +179,7 @@ $(document).ready(function(){
     $('#dxdatagrid tbody').on( 'click', '.update', function () {
         var data = table.row( $(this).parents('tr') ).data();
         showModal('Update Data', data);
+        
     } );
     
     $('#dxdatagrid tbody').on( 'click', '.delete', function () {

@@ -77,6 +77,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
         Route::post('/delete', 'Admin\MsFaqsController@delete');
     });
     
+    Route::get('/daftarfaq','Admin\MsFaqsController@daftarfaq');
+
+    
     // menu master mail template
     Route::prefix('mail_template')->group(function(){
         Route::get('/','Admin\Mail_templateController@index')->name('list_mail_template');
