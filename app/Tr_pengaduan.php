@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Auth;
 
 class Tr_pengaduan extends Model {   
     protected $table = "tr_pengaduan";  
@@ -85,5 +86,24 @@ class Tr_pengaduan extends Model {
     
     public function generatePassword($password) {
         $this->password_hash = base64_encode(md5($this->pengaduan_id . $password));
+    }
+    
+    public function checkPermission($permission) {
+        $is_valid_permission = false;
+        if ($permission == 'verifikator') {
+            $is_valid_permission = $this->status_id == 2;
+        } else if ($permission == 'responder') {
+            $is_valid_permission = in_array($this->status_id, [3, 4, 5]);
+        } else if ($permission == 'admin') {
+            $is_valid_permission = $this->status_id == 1;
+        }
+        
+        if ($is_valid_permission) {
+            // harus sesuai user yg disposisikan
+            if (in_array($this->status_id, [2,3,4,5])) {
+                $is_valid_permission = $this->posisi_user_id == Auth::user()->id_user;
+            }
+        }
+        return $is_valid_permission;
     }
 }

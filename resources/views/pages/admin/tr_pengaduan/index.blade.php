@@ -13,7 +13,7 @@
             <!--   main  ============================================================== -->
             <div class="panel-heading" style="margin-bottom:2%">
                 <div class="panel-title col-md-12">
-                    <h4 class="col-md-4">Transaksi Pengaduan {{ $kanal_name }}</h4>
+                    <h4 class="col-md-4">Transaksi Pengaduan {{ $kanal_name }} - {{ $permission }}</h4>
                 </div>
             </div>
             <div class="box-filter border p-4 rounded mb-3">
@@ -53,11 +53,8 @@
                             <label class="form-label">Status Pengaduan</label>
                             <div class="d-flex">
                                 <select id="cmbstatuspengaduan" name="status_id" class="form-control form-select">
-                                    <option value="0">Semua data</option>
-                                    @foreach (\App\Pengaduan_status::select('status_id','nama_status')->get() as $status)
-                                    <option value="{{ $status->status_id }}" {{ $status->status_id == $status_id ? 'selected' : '' }}>
-                                    {{ $status->nama_status }}
-                                    </option>
+                                    @foreach (\App\User::getStatus() as $index => $status)
+                                    <option value="{{ $index }}" {{ $index == $status_id ? 'selected' : '' }}>{{ $status }}</option>
                                     @endforeach
                                 </select>
                             </div>

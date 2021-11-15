@@ -155,6 +155,21 @@ class Tr_pengaduanController extends MyController {
         $klasifikasi_id = (int) $request->get('klasifikasi_id', 0);
         $kategori_id = (int) $request->get('kategori_id', 0);
         
+        $role_name = Auth::user()->role->name;
+        $permission = \App\User::getActivePermission();
+        
+        switch ($permission) {
+            case "admin":
+                break;
+            case "verifikator":
+                $status_id = 2;
+                break;
+            case "responder":
+                if (!in_array($status_id, [3, 4, 5])) {
+                    $status_id = 3;
+                }
+                break;
+        }
         $tr_pengaduans = DB::table('tr_pengaduan')
             ->join('ms_pengaduan_jenis', 'tr_pengaduan.jenis_id', 'ms_pengaduan_jenis.jenis_id')
             ->join('ms_pengaduan_kanal', 'tr_pengaduan.kanal_id', 'ms_pengaduan_kanal.kanal_id')
@@ -169,7 +184,7 @@ class Tr_pengaduanController extends MyController {
             ->where(function($q) use ($kanal_id) {
                 return $kanal_id != 0 ? $q->where('tr_pengaduan.kanal_id', $kanal_id) : '';
             })
-            ->where(function($q) use ($status_id) {
+            ->where(function($q) use ($status_id, $role_name) {
                 return $status_id != 0 ? $q->where('tr_pengaduan.status_id', $status_id) : '';
             })
             ->where(function($q) use ($posisi_id) {
@@ -191,7 +206,7 @@ class Tr_pengaduanController extends MyController {
             'tr_pengaduans',
             'txttglawal', 'txttglakhir',
             'kanal_id', 'status_id', 'klasifikasi_id', 'kategori_id',
-            'kanal_name'
+            'kanal_name', 'permission'
         ));
     }
     
@@ -200,15 +215,18 @@ class Tr_pengaduanController extends MyController {
         $posisi = DB::table('ms_pengaduan_posisi')->get();
         $respon = \App\Tr_pengaduan_respon::where('pengaduan_id', $id)->first();
         $isLocked = Tr_pengaduan::isLocked($model);
-        dd($model);
+        $permission = \App\User::getActivePermission();
+        $is_valid_permission = $model->checkPermission($permission);
         
-        if ($isLocked) {
-            if ($model->lock_by_id == Auth::id()) {
-                $isLocked = false;
+        if ($is_valid_permission) {
+            if ($isLocked) {
+                if ($model->lock_by_id == Auth::id()) {
+                    $isLocked = false;
+                    Tr_pengaduan::lockNow($model, Auth::id());
+                }
+            } else {
                 Tr_pengaduan::lockNow($model, Auth::id());
             }
-        } else {
-            Tr_pengaduan::lockNow($model, Auth::id());
         }
         
         $lampiran = null;
@@ -216,7 +234,10 @@ class Tr_pengaduanController extends MyController {
             $lampiran = $model->lampiran->all();
         }
 
-        return view('pages.admin.tr_pengaduan.view', compact('id', 'model', 'lampiran', 'posisi', 'respon', 'isLocked'));
+        return view('pages.admin.tr_pengaduan.view', compact(
+            'id', 'model', 'lampiran', 'posisi', 
+            'respon', 'isLocked', 'permission', 'is_valid_permission'
+        ));
     }
 
     public function getPosisi(Request $request) {

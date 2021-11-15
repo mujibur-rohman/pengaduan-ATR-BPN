@@ -230,12 +230,10 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-end">
                                 <!-- item-->
-                                <a class="dropdown-item" href=""><i class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Profile</a>
+                                <a class="dropdown-item" href="#"><i class="mdi mdi-face-profile font-size-16 align-middle me-1"></i> Profile</a>
                                 <i class="mdi mdi-lock font-size-16 align-middle me-1"></i>
-                                <select id="cmbpilihan">
-                                    <option value=1>Admin </option> 
-                                    <option value=2>Verifikator</option> 
-                                    <option value=3>Responder</option> 
+                                <select id="select_role_name">
+                                    {!! \App\User::getRoleDropdown() !!}
                                 </select>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ url('/logout') }}"><i class="mdi mdi-logout font-size-16 align-middle me-1"></i> Logout</a>
@@ -247,8 +245,17 @@
             </header>
 <!--end main head -->
 
-
-
-
-
-
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#select_role_name').change(function(){
+        var data = {
+            _token: '{{ csrf_token() }}',
+            permission: $(this).val()
+        };
+        $.post("{{ URL::to('/admin/change_permission') }}", data, function(result){
+            console.log(result);
+            location.reload();
+        }, 'json');
+    });
+});
+</script>

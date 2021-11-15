@@ -104,6 +104,15 @@
                 </ul>
                 @endif
             </fieldset>
+            
+            <fieldset class="border px-4 py-3 rounded mt-3">
+                <h3>Tindak Lanjut</h3>
+                @if (empty($tangapan))
+                <div class="alert alert-warning">Tidak ada lampiran</div> 
+                @else
+                
+                @endif
+            </fieldset>
         </div>
     </div>
     @endif

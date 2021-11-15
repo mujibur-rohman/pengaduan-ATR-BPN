@@ -74,6 +74,7 @@ $(document).ready(function(){
         $.post("{{ URL::to('/verifikasi') }}?token={{ $token }}", data, function(result){
             if (result.success) {
                 alert('Berhasil simpan');
+                window.location = "{{ URL::to('/tiket') }}";
             } else {
                 alert(result.message);
             }

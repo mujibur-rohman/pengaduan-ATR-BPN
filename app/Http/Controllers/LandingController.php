@@ -7,11 +7,26 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Cookie;
 use App\MailTemplate;
 use App\Tr_pengaduan;
 
-
 class LandingController extends Controller {
+    
+    private function getAuthModel(Request $request) {
+        $cJson = $request->cookie('ticket');
+        if (empty($cJson)) { return redirect('/tiket_login'); }
+        
+        $json = json_decode($cJson);
+        $kode_tiket = $json->kode_tiket;
+        
+        if (empty($kode_tiket)) { return redirect('/tiket_login'); }
+        
+        $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
+        if ($model == null) { return redirect('/tiket_login'); }
+        
+        return $model;
+    }
     
     public function index(Request $request) {
         $faq = faq::where('faq_kategori', 'Eksternal')->get();
@@ -178,13 +193,16 @@ class LandingController extends Controller {
                 $model->verified_email = 'Y';
                 $model->save();
                 
-//                $params = [
-//                    '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
-//                    '{kode_tiket}' => $kode_tiket
-//                ];
-//                MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
+                $cJson = json_encode([
+                    'kode_tiket' => $model->kode_tiket,
+                ]);
+                Cookie::queue('ticket', $cJson, 120);
                 
-                sleep(3);
+                $params = [
+                    '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
+                    '{kode_tiket}' => $kode_tiket
+                ];
+                MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
                 
                 return $this->asJson(true, [], "Berhasil disimpan");
             } else {
@@ -205,20 +223,45 @@ class LandingController extends Controller {
         }
     }
 
-    public function tiket(Request $request) {
-        $kode_tiket = $request->get('kode');
-
-        $lampiran = null;
+    public function tiket_login(Request $request) {
         $model = null;
         
-        if (!empty($kode_tiket)) {
-            $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
+        if ($request->method() == "POST") {
+            $kode_tiket = $request->post('kode_tiket', null);
+            $password = $request->post('password', null);
             
-            if ($model != null) {
-                $lampiran = $model->lampiran->all();
+            if (!empty($kode_tiket) && !empty($password)) {
+                $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
+                
+                $error = false;
+                if ($model == null) { 
+                    return redirect()->route('tiket_login')
+                        ->with('error', "Kode tiket atau password salah");
+                }
+                
+                $password_hash = base64_encode(md5($model->pengaduan_id . $password));
+                if ($model->password_hash != $password_hash) {
+                    return redirect()->route('tiket_login')
+                        ->with('error', "Kode tiket atau password salah");
+                }
             }
+            
+            $cJson = json_encode([
+                'kode_tiket' => $model->kode_tiket,
+            ]);
+            Cookie::queue('ticket', $cJson, 120);
+            
+            return redirect()->route('tiket');
         }
         
-        return view('pages.landing.tiket', compact('model', 'lampiran', 'kode_tiket'));
+        return view('pages.landing.tiket_login', compact('model'));
+    }
+    
+    public function tiket(Request $request) {
+        $model = $this->getAuthModel($request);
+        $lampiran = $model->lampiran->all();
+        $tangapan = \App\Tr_pengaduan_respon::where('pengaduan_id', $model->pengaduan_id)->get();
+        
+        return view('pages.landing.tiket', compact('model', 'lampiran', 'tangapan'));
     }
 }
