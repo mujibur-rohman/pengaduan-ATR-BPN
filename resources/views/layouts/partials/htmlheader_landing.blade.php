@@ -41,7 +41,7 @@
     {{-- LIGHTBOX --}}
     <link href="{{ asset('assets_back/css/lightbox.css') }}" id="app-style" rel="stylesheet" type="text/css">
     <link href="{{ asset('assets_back/css/lightbox.min.css') }}" id="app-style" rel="stylesheet" type="text/css">
-
+    <script type="text/javascript" src="{{ asset('assets_form/js/jquery-3.2.1.min.js') }}"></script>
     <script type="text/javascript">
     var base_url = 'https://Pengaduan.atrbpn.go.id';
     </script>

@@ -146,30 +146,63 @@ class LandingController extends Controller {
         }
     }
     
+    public function asJson($success, $data, $message = "") {
+        $json = [
+            'success' => $success
+        ];
+        
+        if (!empty($data)) { $json['data'] = $data; }
+        if (!empty($message)) { $json['message'] = $message; }
+        
+        return response()->json($json);
+    }
+    
     public function verifikasi(Request $request) {
         $token = $request->get('token');
         
         $kode_tiket = '';
         $model = Tr_pengaduan::where('verified_code', $token)->first();
         if ($model != null) {
-            $kode_tiket = substr(base64_encode(md5(date('YmdHis') . $model->email . rand(10, 99) . rand(10, 99))), 0, 8);
             
-            $model->kode_tiket = $kode_tiket;
-            $model->verified_code = '';
-            $model->verified_email_date = date('Y-m-d H:i:s');
-            $model->verified_email = 'Y';
-            $model->save();
-
-            $params = [
-                '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
-                '{kode_tiket}' => $kode_tiket
-            ];
-            MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
+            if ($request->ajax()) {
+                $password = $request->post('password');
+                $password_repeat = $request->post('password_repeat');
+                
+                if ($password == "") { return $this->asJson(false, null, 'Password tidak boleh kosong'); }
+                if (strlen($password) < 7) { return $this->asJson(false, null, 'Panjang password minimal 10 karakter'); }
+                if ($password != $password_repeat) { return $this->asJson(false, null, 'Password dan ulangi password tidak sama'); }
+                
+                $model->generatePassword($password);
+                $model->verified_code = '';
+                $model->verified_email_date = date('Y-m-d H:i:s');
+                $model->verified_email = 'Y';
+                $model->save();
+                
+//                $params = [
+//                    '{url}' => URL::to('/tiket?kode=' . $kode_tiket),
+//                    '{kode_tiket}' => $kode_tiket
+//                ];
+//                MailTemplate::sendWith('pengaduan_kode_tiket', $model->email, $params);
+                
+                sleep(3);
+                
+                return $this->asJson(true, [], "Berhasil disimpan");
+            } else {
+                $kode_tiket = substr(base64_encode(md5(date('YmdHis') . $model->email . rand(10, 99) . rand(10, 99))), 0, 8);
+                
+                $model->kode_tiket = empty($model->kode_tiket) ? $kode_tiket : $model->kode_tiket;
+                $model->save();
+            }
+            
         } else {
             $token = null;
         }
         
-        return view('pages.landing.verifikasi', compact('token', 'kode_tiket'));
+        if (empty($model->password_hash)) {
+            return view('pages.landing.password', compact('token', 'kode_tiket', 'model'));
+        } else {
+            return view('pages.landing.verifikasi', compact('token', 'kode_tiket', 'model'));
+        }
     }
 
     public function tiket(Request $request) {
