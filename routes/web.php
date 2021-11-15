@@ -92,7 +92,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
         Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
         Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
     });
-<<<<<<< HEAD
 
 	Route::get('/','Admin\AdminController@index')->name('indexAdmin');
 
@@ -269,6 +268,3 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
-=======
-});
->>>>>>> b3c15b4eabb139c014c3ce308d42c2fb9c5c8410
