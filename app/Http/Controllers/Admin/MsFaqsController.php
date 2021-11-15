@@ -19,6 +19,12 @@ class MsFaqsController extends Controller {
             'data' => ms_faqs::all()
         ]);
     }
+
+    public function daftarfaq(){
+        $faqs = ms_faqs::where('parent_id', 0)->with('children.children')->get();
+        // dd($faqs[0]->children[0]);
+        return view('pages.admin.ms_faq.index', compact('faqs')); 
+    }
      
     public function index(Request $r) {
         $kategori = ms_faqs::where('faq_kategori', 'kategori')->get();
@@ -65,10 +71,10 @@ class MsFaqsController extends Controller {
         } else {
             $model = new ms_faqs();
         }
+        $model->faq_kategori = $faq_kategori;
         $model->parent_id = intval($parent_id);
         $model->faq_question = $faq_question;
         $model->faq_answer = $faq_answer;
-        $model->faq_kategori = $faq_kategori;
         $model->faq_topik = $faq_topik;
         $model->faq_posisi = $faq_posisi;
         

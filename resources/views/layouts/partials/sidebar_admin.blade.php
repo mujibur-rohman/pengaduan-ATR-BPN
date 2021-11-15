@@ -79,11 +79,12 @@
                                     
                                     <!-- start faq internal -->
                                     <li>
-                                        <a href="javascript: void(0);" class="has-arrow">
+                                        <a href="{{url('admin/daftarfaq')}}" >
                                             <i _ngcontent-xeb-c237="" class="fas fa-walking"></i>
                                             <span data-key="t-apps">FAQ Internal</span>
-                                        </a>
+                                        </a>    
                                     </li>
+                    
                                     <!-- end faq internal -->
                                     <!-- start faq internal -->
                                     <li>
