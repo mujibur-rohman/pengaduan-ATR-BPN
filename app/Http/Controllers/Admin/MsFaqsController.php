@@ -16,7 +16,8 @@ class MsFaqsController extends Controller {
    
     public function list() {
         echo json_encode([
-            'data' => ms_faqs::all()
+            'data' => ms_faqs::all(),
+            'kategori' => ms_faqs::where('faq_kategori', 'kategori')->get()
         ]);
     }
 

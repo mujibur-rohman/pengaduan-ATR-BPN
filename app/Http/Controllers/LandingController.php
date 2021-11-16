@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\faq;
+use App\ms_faqs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
@@ -29,7 +29,7 @@ class LandingController extends Controller {
     }
     
     public function index(Request $request) {
-        $faq = faq::where('faq_kategori', 'Eksternal')->get();
+        $faq = ms_faqs::where('faq_posisi', 'Eksternal')->get();
         // dd($faq);
         $model = $request->old('pengaduan');
 

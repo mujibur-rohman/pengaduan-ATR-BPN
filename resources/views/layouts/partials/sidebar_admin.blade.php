@@ -81,7 +81,7 @@
                                     <li>
                                         <a href="{{url('admin/daftarfaq')}}" >
                                             <i _ngcontent-xeb-c237="" class="fas fa-walking"></i>
-                                            <span data-key="t-apps">FAQ Internal</span>
+                                            <span data-key="t-apps">FAQ</span>
                                         </a>    
                                     </li>
                     

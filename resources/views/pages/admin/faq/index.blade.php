@@ -280,4 +280,17 @@ function showParent(){
 jenis.addEventListener('change', showParent);
 
 </script>
+
+<script>
+    $.ajax({
+        type: 'GET',
+        data: '',
+        url: "{{URL::to('/admin/faq/list')}}",
+        success: function(result){
+            objResult = JSON.parse(result);
+            // kategori = objResult.kategori;
+            console.log(objResult.kategori)
+        }
+    });
+</script>
 @endpush
