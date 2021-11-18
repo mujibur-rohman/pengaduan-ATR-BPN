@@ -57,15 +57,14 @@
 
 <script>
     const acc = document.querySelectorAll('a[data-toggle="collapse"]');
+    console.log('haha');
     
     for (let i = 0; i < acc.length; i++) {
         acc[i].addEventListener('click', function(){
             this.querySelector('.panah').classList.toggle('rotatePanah');
         })
-        
     }
 </script>
-
 
 
 @endpush

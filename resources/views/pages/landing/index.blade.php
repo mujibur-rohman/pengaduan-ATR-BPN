@@ -92,22 +92,39 @@
             </div>
         </div>
 
+
+
         <div class="section-6" id="faq">
             <h1 class="title-section">faq</h1>
-            <div class="faq-component">
-                <img src="{{asset('assets_fron/images/faq-image.png')}}" alt="faq" class="faq-image">
-                <div class="faq-accordion">
-                    @foreach ($faq as $f)                      
-                    <div class="faq-accordion-items ">
-                        <i class="faq-icon fas fa-plus"></i>
-                        <h3>{{$f->faq_question}}</h3>
-                    </div>               
-                    <div class="faq-panel">
-                        <p>{{$f->faq_answer}}</p>
+            @foreach ($faqs as $faq)                 
+                <a class="kategori" data-toggle="collapse" href="#collapse{{$faq->faq_id}}" role="button" aria-expanded="false" aria-controls="collapse{{$faq->faq_id}}">
+                    <i class="panah fas fa-chevron-right px-2"></i>
+                    {{$faq->faq_topik}}
+                </a>
+
+                <div class="collapse childKategori" id="collapse{{$faq->faq_id}}">
+                    @foreach ($faq->children as $topik)
+                        <a class="topik" data-toggle="collapse" href="#collapse{{$topik->faq_id}}" role="button" aria-expanded="false" aria-controls="collapse{{$topik->faq_id}}">
+                            <i class="panah fas fa-chevron-right px-2"></i>
+                            {{$topik->faq_topik}}
+                        </a>
+
+                        <div class="childKategori collapse" id="collapse{{$topik->faq_id}}">
+                        @foreach ($topik->children as $question)
+                        
+                        <a class="question" data-toggle="collapse" href="#collapse{{$question->faq_id}}" role="button" aria-expanded="false" aria-controls="collapse{{$question->faq_id}}">
+                        <i class="panah fas fa-chevron-right px-2"></i>
+                        {{$question->faq_question}}
+                        <div class="collapse mt-3 px-5" id="collapse{{$question->faq_id}}">
+                            {{$question->faq_answer}}
+                        </div>
+                        </a>    
+                        @endforeach
                     </div>
                     @endforeach
                 </div>
-            </div>
+         
+            @endforeach
         </div>
     </div>
     <!-- End Faq  -->

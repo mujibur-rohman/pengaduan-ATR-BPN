@@ -30,5 +30,6 @@
           });
         $('#formtambahan').hide();
     }); 
-   </script>     
+   </script> 
+   
 @stack('script')

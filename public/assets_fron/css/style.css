@@ -4557,98 +4557,55 @@ footer.demo .copyright {
 
 .section-6 {
   padding: 0 2rem;
-  padding-top: 7rem;
+  padding-top: 8rem;
 }
 
-.faq-component {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+/* Accordion FAQ */
 
-.faq-accordion{
-  display: flex;
-  flex-direction: column;
-}
-
-.faq-accordion-items {
+.kategori {
+  border: 2px solid rgba(190, 190, 190, 0.4);
+  border-left: 10px solid #5b86e5;
   width: 100%;
+  display: block;
   padding: 1rem;
-  border: 2px solid #BE9054;
-  border-radius: 50px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+  border-radius: .5rem;
+  font-size: 1rem;
+  margin-bottom: .6rem;
+  font-size: 1.5rem;
+}
+.childKategori {
+  padding-left: 3rem;
 }
 
-.faq-accordion-items h3 {
-  margin: 0;
+.topik, .question {
+  width: 100%;
+  display: block;
+  border: 2px solid rgba(190, 190, 190, 0.4);
+  padding: .7rem 1rem;
+  font-size: 1rem;
+  border-radius: .5rem;
+  border-left: 10px solid #82e55b;
+  margin-bottom: 1rem;
   font-size: 1.5rem;
 }
 
-.faq-icon {
-  color: #BE9054;
-  font-size: 1rem;
-  font-weight: bold;
-  border-radius: 50%;
-  border: 2px solid #BE9054;
-  padding: 8px;
-  margin-right: 1rem;
+.question {
+  border-left: 10px solid #975be5;
 }
 
-.faq-panel p {
-  font-size: 1.2rem;
-  padding: 0 1rem;
-  border-left: 1px solid #BE9054;
-  margin-left: 2rem;
-  text-align: justify;
-  overflow: hidden;
-  transition: all .3s ease-in;
-  max-height: 0;
+.panah {
+  transition: .4s;
 }
 
-.faq-active p {
-  max-height: 20rem;
+.rotatePanah {
+  transform: rotate(90deg);
 }
 
-.acc-active {
-  background-color: #BE9054;
-  color: white;
+@media screen and (min-width : 992px) {
+  .section-6 {
+  padding: 0 5rem;
+  padding-top: 8rem;
 }
-
-.acc-active h3, .acc-active i {
-  color: white;
-}
-
-.faq-image {
-  display: none;
-}
-
-@media screen and (min-width: 768px) {
-  .faq-image {
-    display: inherit;
-    max-width: 40rem;
-  }
-
-  .faq-component {
-    flex-direction: row;
-  }
-
-  .faq-accordion-items {
-    /* font-size: 1.2rem; */
-    padding: 5px 8px;
-  }
-
-  .faq-accordion {
-    flex: 2;
-  }
-}
-
-@media screen and (min-width: 992px) {
-  .faq-image {
-    display: inherit;
-    max-width: 50rem;
-  }
 }
 
 /* PAGES TIKET */

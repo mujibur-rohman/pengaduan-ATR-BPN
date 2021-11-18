@@ -282,15 +282,25 @@ jenis.addEventListener('change', showParent);
 </script>
 
 <script>
-    $.ajax({
+
+        $.ajax({
         type: 'GET',
         data: '',
         url: "{{URL::to('/admin/faq/list')}}",
         success: function(result){
             objResult = JSON.parse(result);
-            // kategori = objResult.kategori;
-            console.log(objResult.kategori)
+            let kategori = objResult.kategori;
+            let textOption = [];
+            const selectKategori = document.getElementById('kategori');
+            for (let i = 0; i < kategori.length; i++) {
+                textOption.push(`<option value='${kategori[i].faq_topik}'>${kategori[i].faq_topik}</option>`);
+            }
+            for (let i = 0; i < textOption.length; i++) {
+                console.log(textOption[i]);
+                selectKategori.appendChild(textOption);
+            }
+            console.log(selectKategori);
         }
-    });
+        });
 </script>
 @endpush

@@ -130,27 +130,11 @@ $.ajax({
         objResult = JSON.parse(result);
         
         // Grafik Kategori
-        let kategori = objResult.kategori;
-        let disiplinPLength = objResult.disiplinP.length;
-        let sengketaPLength = objResult.sengketa.length;
-        let konflikPLength = objResult.konflikP.length;
-        let informasiPlength = objResult.informasiP.length;
+        let data = objResult.data;
         
-        kategoriLabel = kategori.map(element => {
-            let value;
-            if (element.nama_kategori == 'Disiplin Pegawai') {
-                value = disiplinPLength;
-            } else if (element.nama_kategori == 'Sengketa') {
-                value = sengketaPLength;
-            } else if (element.nama_kategori == 'Konflik Pertanahan'){
-                value = konflikPLength;
-            } else {
-                value = informasiPlength;
-            }
-
-
-            return {label: element.nama_kategori, y: value};
-        });
+		console.log(data[0].kategori_id);
+        // kategoriLabel = kategori.map(element => {
+        // });
       
 
 
@@ -165,7 +149,9 @@ $.ajax({
                     // Change type to "doughnut", "line", "splineArea", etc.
                     type: "column",
                     color: '#5156be',
-                    dataPoints: kategoriLabel
+                    dataPoints: [
+						{label: 'haha', y: 18}
+					]
                 }
 		    ]
 	    });

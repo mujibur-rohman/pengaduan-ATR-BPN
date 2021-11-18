@@ -29,8 +29,8 @@ class LandingController extends Controller {
     }
     
     public function index(Request $request) {
-        $faq = ms_faqs::where('faq_posisi', 'Eksternal')->get();
-        // dd($faq);
+        $faqs = ms_faqs::where([['faq_posisi', 'Eksternal'], ['parent_id', 0]])->with('children.children')->get();
+        // dd($faqs);
         $model = $request->old('pengaduan');
 
         if (empty($model)) {
@@ -48,7 +48,7 @@ class LandingController extends Controller {
             ];
         }
         // dd($faq);
-        return view('pages.landing.index', compact('model', 'faq'));
+        return view('pages.landing.index', compact('model', 'faqs'));
     }
 
     public function simpan(Request $request) {
