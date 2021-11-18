@@ -130,13 +130,25 @@ $.ajax({
         objResult = JSON.parse(result);
         
         // Grafik Kategori
-        let data = objResult.data;
-        
-		console.log(data[0].kategori_id);
-        // kategoriLabel = kategori.map(element => {
-        // });
-      
+        let kategori = objResult.kategori;
+		let data = objResult.data;
+		console.log(data)
 
+		sengketa = data.filter(element => {
+			return element.kategori.nama_kategori == 'Sengketa';
+		})
+		
+		disiplinP = data.filter(element => {
+			return element.kategori.nama_kategori == 'Disiplin Pegawai';
+		})
+
+		konflikP = data.filter(element => {
+			return element.kategori.nama_kategori == 'Konflik Pertahanan';
+		})
+
+		informasiP = data.filter(element => {
+			return element.kategori.nama_kategori == 'Informasi dan Pelayanan Pertanahan';
+		})
 
         window.onload = function () {
 	        var chart = new CanvasJS.Chart("chartKategori", {
@@ -150,7 +162,10 @@ $.ajax({
                     type: "column",
                     color: '#5156be',
                     dataPoints: [
-						{label: 'haha', y: 18}
+						{label: 'Disiplin Pagawai', y: disiplinP.length},
+						{label: 'Sengketa', y: sengketa.length},
+						{label: 'Konflik Pertahanan', y: konflikP.length},
+						{label: 'Informasi dan Pelayanan Pertanahan', y: informasiP.length}
 					]
                 }
 		    ]
@@ -158,6 +173,13 @@ $.ajax({
 	    chart.render();
 
 // Chart Klasifikasi
+	bPengawasan = data.filter(element => {
+			return element.klasifikasi.nama_klasifikasi == 'Berkadar Pengawasan';
+	})
+	tidakBPengawasan = data.filter(element => {
+			return element.klasifikasi.nama_klasifikasi == 'Tidak berkadar Pengawasan';
+	})
+
     var chart = new CanvasJS.Chart("chartKlasifikasi", {
 		title:{
 			text: "Klasifikasi Pengaduan",
@@ -169,8 +191,8 @@ $.ajax({
 			type: "column",
             color: '#a9aeff',
 			dataPoints: [
-				{ label: "Berkadar Pengawasan",  y: 10  },
-				{ label: "Tidak Berkadar Pengawasan", y: 15  },
+				{ label: "Berkadar Pengawasan",  y: bPengawasan.length  },
+				{ label: "Tidak Berkadar Pengawasan", y: tidakBPengawasan.length  },
 			]
 		}
 		]
