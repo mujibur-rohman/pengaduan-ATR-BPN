@@ -179,6 +179,11 @@ class LandingController extends Controller {
                 $model->verified_email = 'Y';
                 $model->save();
                 
+                $message = 'Pengaduan terbaru. Kode tiket #' . $model->kode_tiket;
+                $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
+                
+                \App\Notification::addToAdmin($message, $url);
+                
                 $cJson = json_encode([
                     'kode_tiket' => $model->kode_tiket,
                 ]);
@@ -260,6 +265,7 @@ class LandingController extends Controller {
     }
     
     public function tiket(Request $request) {
+        
         $model = $this->getAuthModel($request);
         
         if ($model == null) { return redirect('/tiket_login'); }
@@ -307,6 +313,12 @@ class LandingController extends Controller {
                 $respon->update_by = $model->posisi_user_id;
                 $respon->is_from_pengadu = 'Y';
                 $respon->save();
+                
+                $message = 'Pengadu memberikan tangapan. Kode tiket #' . $model->kode_tiket;
+                $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
+                
+                \App\Notification::add($model->posisi_user_id, $message, $url);
+                
             } else if ($action == "logout") {
                 setcookie('ticket', 'Expired', time() - 100000, '/');
                 
@@ -327,6 +339,11 @@ class LandingController extends Controller {
                 $log->keterangan = '';
                 $log->user_id = $model->posisi_user_id;
                 $log->save();
+                
+                $message = 'Pengadu sudah menyelesaikan pengaduan. Kode tiket #' . $model->kode_tiket;
+                $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
+                
+                \App\Notification::add($model->posisi_user_id, $message, $url);
                 
                 echo json_encode([
                     'success' => true,
