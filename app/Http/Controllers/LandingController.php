@@ -8,25 +8,11 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 use App\MailTemplate;
 use App\Tr_pengaduan;
 
 class LandingController extends Controller {
-    
-    private function getAuthModel(Request $request) {
-        $cJson = $request->cookie('ticket');
-        if (empty($cJson)) { return redirect('/tiket_login'); }
-        
-        $json = json_decode($cJson);
-        $kode_tiket = $json->kode_tiket;
-        
-        if (empty($kode_tiket)) { return redirect('/tiket_login'); }
-        
-        $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
-        if ($model == null) { return redirect('/tiket_login'); }
-        
-        return $model;
-    }
     
     public function index(Request $request) {
         $faqs = ms_faqs::where([['faq_posisi', 'Eksternal'], ['parent_id', 0]])->with('children.children')->get();
@@ -223,9 +209,25 @@ class LandingController extends Controller {
         }
     }
 
+    private function getAuthModel(Request $request) {
+        $cJson = $request->cookie('ticket');
+        
+        if (empty($cJson)) { return null; }
+        
+        $json = json_decode($cJson);
+        $kode_tiket = $json->kode_tiket;
+        
+        if (empty($kode_tiket)) { return null; }
+        
+        $model = Tr_pengaduan::where('kode_tiket', $kode_tiket)->first();
+        if ($model == null) { return null; }
+        
+        return $model;
+    }
+    
     public function tiket_login(Request $request) {
         $model = null;
-        
+            
         if ($request->method() == "POST") {
             $kode_tiket = $request->post('kode_tiket', null);
             $password = $request->post('password', null);
@@ -249,7 +251,7 @@ class LandingController extends Controller {
             $cJson = json_encode([
                 'kode_tiket' => $model->kode_tiket,
             ]);
-            Cookie::queue('ticket', $cJson, 120);
+            Cookie::queue(Cookie::make('ticket', $cJson, 120));
             
             return redirect()->route('tiket');
         }
@@ -259,9 +261,84 @@ class LandingController extends Controller {
     
     public function tiket(Request $request) {
         $model = $this->getAuthModel($request);
+        
+        if ($model == null) { return redirect('/tiket_login'); }
+        $old_jawaban = $request->old('tangapan');
+        
+        if ($request->method() == "POST") {
+            $pengaduan_id = $request->post("pengaduan_id");
+            $action = $request->post("action");
+            $jawaban = $request->post("tangapan");
+            
+            if ($action == "save_tangapan") {
+                // validate pengaduan_id
+                if ($pengaduan_id != $model->pengaduan_id) {
+                    return redirect()->route('tiket')
+                        ->with('error', "Gagal menyimpan. Pengaduan ID salah");
+                }
+                
+                if ($model->status_id != 4) {
+                    return redirect()->route('tiket')
+                        ->with('error', "Gagal menyimpan. Status pengaduan salah");
+                }
+                
+                if ($jawaban == "") {
+                    return redirect()->route('tiket')
+                        ->with('error', "Tanggapan tidak boleh kosong");
+                }
+                
+                $min_word_count = \App\Settings::getValue('min_word_tanggapan', 5);
+                $word_count = str_word_count($jawaban, 0);
+                if ($word_count < $min_word_count) {
+                    return redirect()->route('tiket')
+                        ->with('error', "Minimal tanggapan adalah 3 kata")
+                        ->withInput();
+                }
+                
+                // simpan data
+                $respon = new \App\Tr_pengaduan_respon();
+                $respon->pengaduan_id = $model->pengaduan_id;
+                $respon->user_id = $model->posisi_user_id;
+                $respon->posisi_id = $model->posisi_id;
+                $respon->jawaban = $jawaban;
+                $respon->create_date = date('Y-m-d H:i:s');
+                $respon->create_by = $model->posisi_user_id;
+                $respon->update_date = date('Y-m-d H:i:s');
+                $respon->update_by = $model->posisi_user_id;
+                $respon->is_from_pengadu = 'Y';
+                $respon->save();
+            } else if ($action == "logout") {
+                setcookie('ticket', 'Expired', time() - 100000, '/');
+                
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Berhasil logout'
+                ]);
+                exit();
+            } else if ($action == "close_ticket") {
+                $model->status_id = 5;
+                $model->save();
+                
+                $log = new \App\Tr_pengaduan_log();
+                $log->pengaduan_id = $model->pengaduan_id;
+                $log->id_status = 5;
+                $log->id_posisi = $model->posisi_id;
+                $log->waktu = date('Y-m-d H:i:s');
+                $log->keterangan = '';
+                $log->user_id = $model->posisi_user_id;
+                $log->save();
+                
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Terima kasih'
+                ]);
+                exit();
+            }
+        }
+        
         $lampiran = $model->lampiran->all();
         $tangapan = \App\Tr_pengaduan_respon::where('pengaduan_id', $model->pengaduan_id)->get();
         
-        return view('pages.landing.tiket', compact('model', 'lampiran', 'tangapan'));
+        return view('pages.landing.tiket', compact('model', 'lampiran', 'tangapan', 'old_jawaban'));
     }
 }

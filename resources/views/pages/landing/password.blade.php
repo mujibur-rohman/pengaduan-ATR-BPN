@@ -23,8 +23,8 @@
                 <form method="post" id="form-password">
                     <div class="form-group">
                         <div class="alert alert-info">
-                            <p>Silahkan buat 6 digit PIN untuk melihat status pengaduan anda. 
-                                Mohon menyimpan Kode Tiket &amp; PIN tersebut di tempat aman dan jangan memberikan pada siapapun. 
+                            <p>Silahkan buat 6 digit password untuk melihat status pengaduan anda. 
+                                Mohon menyimpan Kode Tiket &amp; password tersebut di tempat aman dan jangan memberikan pada siapapun. 
                                 Kode Tiket &amp; PIN bersifat rahasia.
                             </p>
                         </div>

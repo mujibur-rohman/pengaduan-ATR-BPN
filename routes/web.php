@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 Route::match(['get'], '/', 'LandingController@index');
 Route::match(['get', 'post'], '/simpan', 'LandingController@simpan');
 Route::match(['get', 'post'], '/verifikasi', 'LandingController@verifikasi');
-Route::match(['get'], '/tiket', 'LandingController@tiket')->name('tiket');
+Route::match(['get', 'post'], '/tiket', 'LandingController@tiket')->name('tiket');
 Route::match(['get', 'post'], '/tiket_login', 'LandingController@tiket_login')->name('tiket_login');
 
 Route::middleware(['auth'])->prefix('admin')->group(function(){

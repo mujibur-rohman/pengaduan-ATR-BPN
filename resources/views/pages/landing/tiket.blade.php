@@ -17,12 +17,12 @@
             <fieldset class="border rounded py-3 px-4">
                 <div class="row">
                     <div class="col-md-12 col-lg-12">
-                        <h3 style="margin: 0">Detail Pengaduan #{{ $model->pengaduan_id }}</h3><br/>
+                        <h3 style="margin: 0">Nomor Tiket Pengaduan #{{ $model->kode_tiket }}</h3><br/>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-lg-4">
-                        <h5 class="fs-2 fw-bold">Nomor Pengaduan</h5>
+                        <h5 class="fs-2 fw-bold">No Berkas Permohonan</h5>
                         <p class="fs-3">{{ $model->no_berkas }}</p>
                     </div>
                     <div class="col-md-6 col-lg-4">
@@ -50,7 +50,7 @@
             </fieldset>
             
             <fieldset style="margin-top: 20px;" class="border rounded py-3 px-4">
-                <h3>Informasi Pengirim</h3>
+                <h3>Informasi Pengadu</h3>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="fs-2 fw-bold"><strong>Nama</strong></div>
@@ -108,13 +108,100 @@
             <fieldset class="border px-4 py-3 rounded mt-3">
                 <h3>Tindak Lanjut</h3>
                 @if (empty($tangapan))
-                <div class="alert alert-warning">Tidak ada lampiran</div> 
+                    <div class="alert alert-info">Sedang menunggu tindak lanjut</div>
                 @else
-                
+                    <ul>
+                    @foreach($tangapan as $row)
+                        <li>
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        @if ($row->is_from_pengadu == "N")
+                                            {{ $row->responOleh->posisi->nama_posisi }}
+                                        @else
+                                            Pengadu
+                                        @endif
+                                    </h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                        @if ($row->is_from_pengadu == "N")
+                                            {{ $row->responOleh->fullname }} 
+                                        @else
+                                            {{ $model->nama }}
+                                        @endif
+                                        pada {{ $row->create_date }}
+                                    </h6>
+                                    <p class="card-text">{{ $row->jawaban }}</p>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                    </ul>
+                    @if ($model->status_id == 4)
+                    <div class="tangapan-pengadu-form">
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger alert-block">
+                                <button type="button" class="close" data-dismiss="alert">×</button>    
+                                <strong>{{ $message }}</strong>
+                            </div>
+                        @endif
+                        <form method="post" id="form-password" action="{{ URL::to('tiket') }}">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="pengaduan_id" value="{{ $model->pengaduan_id }}"/>
+                            <input type="hidden" name="action" value="save_tangapan"/>
+                            <div class="form-group">
+                                <label class="form__labels">Tanggapan Anda</label>
+                                <textarea required class="form-control" name="tangapan" rows="5">{{ $old_jawaban }}</textarea><br/>
+                            </div>
+                            <div class="form-group">
+                                <button id="btnSubmit" type="submit" class="btn btn-primary">Kirim</button>
+                            </div>
+                        </form>
+                    </div>
+                    @endif
                 @endif
+            </fieldset>
+            
+            <fieldset class="border px-4 py-3 rounded mt-3">
+                @if ($model->status_id == 4)
+                <button type="button" id="btnClose" class="btn btn-danger">Tutup Tiket</button>
+                @endif
+                <button type="button" id="btnLogout" class="btn btn-warning">Logout</button>
             </fieldset>
         </div>
     </div>
     @endif
 </div>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#btnLogout').click(function(e){
+        var data = {
+            _token: '{{ csrf_token() }}',
+            action: 'logout'
+        };
+        
+        if (confirm('Anda ingin logout?') === true) {
+            $.post("{{ URL::to('/tiket') }}", data, function(result){
+                if (result.success) {
+                    location.reload();
+                }
+            }, 'json');
+        }
+    });
+    
+    $('#btnClose').click(function(e){
+        var data = {
+            _token: '{{ csrf_token() }}',
+            action: 'close_ticket'
+        };
+        
+        if (confirm('Apakah pengaduan anda sudah selesai?') === true) {
+            $.post("{{ URL::to('/tiket') }}", data, function(result){
+                if (result.success) {
+                    location.reload();
+                }
+            }, 'json');
+        }
+    });
+});
+</script>
 @endsection
