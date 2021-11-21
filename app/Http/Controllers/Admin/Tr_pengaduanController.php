@@ -17,7 +17,7 @@ class Tr_pengaduanController extends MyController {
     public function save_create(Request $request) {
         $kanal_id = $request->post('kanal_id');
         
-        if (!in_array($kanal_id, [7,8])) {
+        if ($request->method() == "GET" && !in_array($kanal_id, [7,8])) {
             return redirect('admin/tr_pengaduan/create?kanal_id=' . $kanal_id);
         }
         
@@ -66,7 +66,7 @@ class Tr_pengaduanController extends MyController {
 
         if ($isDuplicate != null) {
             $validator->errors()->add('duplicate', 'Data pengaduan sudah pernah dibuat');
-            return redirect('admin/tr_pengaduan/create')
+            return redirect('admin/tr_pengaduan/create?kanal_id=' . $kanal_id)
                         ->withErrors($validator)
                         ->withInput();
         }
