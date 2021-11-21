@@ -403,6 +403,11 @@ class Tr_pengaduanController extends MyController {
                 }
             }
 
+            $message = 'Disposisi verifikator. Kode tiket #' . $model->kode_tiket;
+            $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
+
+            \App\Notification::add($id_user, $message, $url);
+                
             Tr_pengaduan::lockRelease($model);
             
             $modelLog->save();
@@ -504,6 +509,11 @@ class Tr_pengaduanController extends MyController {
                 }
             }
 
+            $message = 'Disposisi responder. Kode tiket #' . $model->kode_tiket;
+            $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
+
+            \App\Notification::add($id_user, $message, $url);
+            
             Tr_pengaduan::lockRelease($model);
             
             $modelLog->save();
