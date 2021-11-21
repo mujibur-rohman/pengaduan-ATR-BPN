@@ -22,7 +22,7 @@ $(document).ready(function(){
     function header(data) {
         var html = '<div class="timestamp">' + data.created_at + '<br/><span class="disposisi btn-secondary rounded">' + data.status_name + '</span>';
         
-        if (data.status !== 5) {
+        if (data.status_id !== 5) {
             html+= ' oleh ' + data.fullname + '</div>';
         }
         return html;
