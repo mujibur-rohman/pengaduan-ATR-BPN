@@ -126,7 +126,7 @@
                 
                 @if ($tangapan != null)
                 <div class="border px-4 py-3 rounded mt-3">
-                    <legend>Response atau Tanggapan</legend>
+                    <legend>Tindak Lanjut atau Tangapan</legend>
                     @if (empty($tangapan))
                         <div class="alert alert-info">Sedang menunggu tindak lanjut</div>
                     @else
