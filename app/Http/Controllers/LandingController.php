@@ -104,6 +104,7 @@ class LandingController extends Controller {
         $model->verified_email = 'N';
         $model->verified_code = $code;
         $model->kode_tiket = '';
+        $model->sex = $data['sex'];
         $model->save();
         
         // log pengaduan
@@ -313,6 +314,9 @@ class LandingController extends Controller {
                 $respon->update_by = $model->posisi_user_id;
                 $respon->is_from_pengadu = 'Y';
                 $respon->save();
+                
+                $model->updated_at = date('Y-m-d H:i:s');
+                $model->save();
                 
                 $message = 'Pengadu memberikan tangapan. Kode tiket #' . $model->kode_tiket;
                 $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);

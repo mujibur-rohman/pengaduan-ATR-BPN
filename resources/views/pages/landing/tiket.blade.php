@@ -85,6 +85,10 @@
                         <div class="fs-2 fw-bold"><strong>Hubungan</strong></div>
                         <div class="fs-3 mb-3">{{ $model->hubungan }}</div>  
                     </div>
+                    <div class="col-md-6">
+                        <div class="fs-2 fw-bold"><strong>Jenis Kelamin</strong></div>
+                        <div class="fs-3 mb-3">{{ $model->sex == "M" ? "Pria" : "Wanita" }}</div>  
+                    </div>
                 </div>                                
             </fieldset>
             

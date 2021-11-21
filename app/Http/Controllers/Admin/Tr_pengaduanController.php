@@ -213,7 +213,6 @@ class Tr_pengaduanController extends MyController {
     public function view($id) {
         $model = Tr_Pengaduan::find($id);
         $posisi = DB::table('ms_pengaduan_posisi')->get();
-        $respon = \App\Tr_pengaduan_respon::where('pengaduan_id', $id)->first();
         $isLocked = Tr_pengaduan::isLocked($model);
         $permission = \App\User::getActivePermission();
         $is_valid_permission = $model->checkPermission($permission);
@@ -230,13 +229,17 @@ class Tr_pengaduanController extends MyController {
         }
         
         $lampiran = null;
+        $tangapan = null;
+        $old_jawaban = "";
+        
         if ($model != null) {
             $lampiran = $model->lampiran->all();
+            $tangapan = \App\Tr_pengaduan_respon::where('pengaduan_id', $model->pengaduan_id)->get();
         }
 
         return view('pages.admin.tr_pengaduan.view', compact(
-            'id', 'model', 'lampiran', 'posisi', 
-            'respon', 'isLocked', 'permission', 'is_valid_permission'
+            'id', 'model', 'lampiran', 'posisi', 'old_jawaban',
+            'tangapan', 'isLocked', 'permission', 'is_valid_permission',
         ));
     }
 
@@ -256,6 +259,55 @@ class Tr_pengaduanController extends MyController {
         return json_encode([
             'data' => $data,
         ]);
+    }
+    
+    public function save_tangapan(Request $request) {
+        $pengaduan_id = $request->post('pengaduan_id');
+        $jawaban = $request->post('tangapan');
+        
+        $model = Tr_Pengaduan::find($pengaduan_id);
+        if ($model == null) {
+            return redirect()->route('/admin/tr_pengaduan/view/')
+                ->with('error', "Gagal menyimpan. Data tidak ditemukan");
+        }
+        
+        if ($model->status_id != 4) {
+            return redirect()->route('view_pengaduan', ['id' => $pengaduan_id])
+                ->with('error', "Gagal menyimpan. Status pengaduan salah");
+        }
+
+        if ($jawaban == "") {
+            return redirect()->route('view_pengaduan', ['id' => $pengaduan_id])
+                ->with('error', "Tanggapan tidak boleh kosong");
+        }
+
+        $min_word_count = \App\Settings::getValue('min_word_tanggapan', 5);
+        $word_count = str_word_count($jawaban, 0);
+        if ($word_count < $min_word_count) {
+            return redirect()->route('view_pengaduan', ['id' => $pengaduan_id])
+                ->with('error', "Minimal tanggapan adalah 3 kata")
+                ->withInput();
+        }
+
+        // simpan data
+        $respon = new \App\Tr_pengaduan_respon();
+        $respon->pengaduan_id = $model->pengaduan_id;
+        $respon->user_id = $model->posisi_user_id;
+        $respon->posisi_id = $model->posisi_id;
+        $respon->jawaban = $jawaban;
+        $respon->create_date = date('Y-m-d H:i:s');
+        $respon->create_by = $model->posisi_user_id;
+        $respon->update_date = date('Y-m-d H:i:s');
+        $respon->update_by = $model->posisi_user_id;
+        $respon->is_from_pengadu = 'N';
+        $respon->save();
+        
+        $model->updated_at = date('Y-m-d H:i:s');
+        $model->save();
+        
+        return redirect()->route('view_pengaduan', ['id' => $pengaduan_id])
+                ->with('success', "Berhasil menyimpan tanggapan")
+                ->withInput();
     }
     
     /**

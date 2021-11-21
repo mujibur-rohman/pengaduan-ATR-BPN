@@ -9,7 +9,7 @@
         <div class="container-fluid">
             <div class="panel-heading" style="margin-bottom:2%">
                 <div class="panel-title col-md-12">
-                    <h3 class="col-md-4">Detail Pengaduan #{{ $id }}</h3>
+                    <h3 class="col-md-4">Detail Pengaduan #{{ $model->kode_tiket }}</h3>
                 </div>
             </div>
 
@@ -100,6 +100,10 @@
                             <div class="fs-5"><strong>Hubungan</strong></div>
                             <div class="fs-5 mb-3">{{ $model->hubungan }}</div>  
                         </div>
+                        <div class="col-md-6">
+                            <div class="fs-5"><strong>Jenis Kelamin</strong></div>
+                            <div class="fs-5 mb-3">{{ $model->sex == "M" ? "Pria" : "Wanita" }}</div>  
+                        </div>
                     </div>                                
                 </fieldset>
 
@@ -120,10 +124,59 @@
                     @endif
                 </fieldset>
                 
-                @if ($respon != null)
+                @if ($tangapan != null)
                 <div class="border px-4 py-3 rounded mt-3">
                     <legend>Response atau Tanggapan</legend>
-                    <p class="fs-5">{{ $respon->jawaban }}</p>
+                    @if (empty($tangapan))
+                        <div class="alert alert-info">Sedang menunggu tindak lanjut</div>
+                    @else
+                        <ul class="list-respon">
+                        @foreach($tangapan as $row)
+                            <li>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            @if ($row->is_from_pengadu == "N")
+                                                {{ $row->responOleh->posisi->nama_posisi }}
+                                            @else
+                                                Pengadu
+                                            @endif
+                                        </h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">
+                                            @if ($row->is_from_pengadu == "N")
+                                                {{ $row->responOleh->fullname }} 
+                                            @else
+                                                {{ $model->nama }}
+                                            @endif
+                                            pada {{ $row->create_date }}
+                                        </h6>
+                                        <p class="card-text">{{ $row->jawaban }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                        </ul>
+                        @if ($model->status_id == 4)
+                        <div class="tangapan-pengadu-form">
+                            @if ($message = Session::get('error'))
+                                <div class="alert alert-danger alert-block">
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @endif
+                            <form method="post" id="form-password" action="{{ URL::to('/admin/tr_pengaduan/save_tangapan') }}">
+                                {{ csrf_field() }}
+                                <input type="hidden" name="pengaduan_id" value="{{ $model->pengaduan_id }}"/>
+                                <div class="form-group">
+                                    <label class="form__labels">Tanggapan Anda</label>
+                                    <textarea required class="form-control" name="tangapan" rows="5">{{ $old_jawaban }}</textarea><br/>
+                                </div>
+                                <div class="form-group">
+                                    <button id="btnSubmit" type="submit" class="btn btn-primary">Kirim</button>
+                                </div>
+                            </form>
+                        </div>
+                        @endif
+                    @endif
                 </div>   
                 @endif
                 
@@ -165,7 +218,10 @@
 
 @endsection
 @push('script')
-
+<style type="text/css">
+ul.list-respon{ padding: 0px; }
+ul.list-respon > li { list-style-type: none; }
+</style>
 <script type="text/javascript">
 $(document).ready(function(){
     $('#btnKembali').click(function(e) {

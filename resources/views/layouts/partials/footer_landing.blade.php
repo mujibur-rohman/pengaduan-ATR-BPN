@@ -50,7 +50,7 @@
             @endif
         </div>
         <div class="row">
-            <div class="form-group col-sm-6 col-lg-4">
+            <div class="form-group col-sm-3 col-lg-3">
                 <label class="form__labels" for="email">Email <span style="color: red">*</span></label>
                 <input name="pengaduan[email]" value="{{ $model['email']}}" type="text" class="form-control form__items" id="email" placeholder="Email" required>
                 @if ($errors->has('email'))
@@ -59,7 +59,7 @@
                 </div>
                 @endif
             </div>
-            <div class="form-group col-sm-6 col-lg-4">
+            <div class="form-group col-sm-3 col-lg-3">
                 <label class="form__labels" for="phone">No Telepon <span style="color: red">*</span></label>
                 <input name="pengaduan[phone]" value="{{ $model['phone'] }}" type="text" class="form-control form__items" id="phone" placeholder="Phone" required>
                 @if ($errors->has('phone'))
@@ -68,12 +68,24 @@
                 </div>
                 @endif
             </div>
-            <div class="form-group col-sm-12 col-lg-4">
+            <div class="form-group col-sm-3 col-lg-3">
                 <label class="form__labels" for="profession">Pekerjaan <span style="color: red">*</span></label>
                 <input name="pengaduan[pekerjaan]" value="{{ $model['pekerjaan'] }}" type="text" class="form-control form__items" id="profession" placeholder="Pekerjaan" required>
                 @if ($errors->has('pekerjaan'))
                 <div class="form-text error">
                     {{ $errors->first('pekerjaan') }}
+                </div>
+                @endif
+            </div>
+            <div class="form-group col-sm-3 col-lg-3">
+                <label class="form__labels" for="profession">Jenis Kelamin <span style="color: red">*</span></label>
+                <select name="pengaduan[sex]" class="form-control form__items">
+                    <option value="M">Laki-Laki</option>
+                    <option value="F">Perempuan</option>
+                </select>
+                @if ($errors->has('pekerjaan'))
+                <div class="form-text error">
+                    {{ $errors->first('sex') }}
                 </div>
                 @endif
             </div>

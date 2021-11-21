@@ -22,6 +22,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
         Route::post('/lock_release', 'Admin\Tr_pengaduanController@lock_release');
         Route::match(['get', 'post'], '/create', 'Admin\Tr_pengaduanController@create');
         Route::post('/save_create', 'Admin\Tr_pengaduanController@save_create');
+        Route::post('/save_tangapan', 'Admin\Tr_pengaduanController@save_tangapan');
     });
     
    Route::prefix('pusat')->group(function(){

@@ -16,7 +16,7 @@ class Tr_pengaduan extends Model {
         'leadtime1', 'leadtime2', 'leadtime3',
         'create_date', 'posisi_user_id',
         'verified_email', 'verified_email_date', 'verified_code', 'kode_tiket',
-        'lock_datetime', 'lock_by_id', 'password_hash'
+        'lock_datetime', 'lock_by_id', 'password_hash', 'sex'
     ];
 
     public function kanal() {
