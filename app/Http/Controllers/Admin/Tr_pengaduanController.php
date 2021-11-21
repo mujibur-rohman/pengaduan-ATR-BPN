@@ -62,6 +62,15 @@ class Tr_pengaduanController extends MyController {
 
         $data = $request->post('pengaduan');
         
+        $isDuplicate = Tr_pengaduan::isDuplicate($data['nik'], $data['email'], $data['objek_aduan']);
+
+        if ($isDuplicate != null) {
+            $validator->errors()->add('duplicate', 'Data pengaduan sudah pernah dibuat');
+            return redirect('admin/tr_pengaduan/create')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        
         $model = new Tr_pengaduan();
         $model->jenis_id = 1;
         $model->kanal_id = $kanal_id;
