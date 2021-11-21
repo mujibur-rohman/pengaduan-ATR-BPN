@@ -105,7 +105,8 @@
                 <table id="dxdatagrid" class="table table-bordered table-responsive  bordered px-2 py-4 nowrap" style="width:100%;">
                     <thead>
                         <tr>
-                            <th>No Pengadu</th>
+                            <th>No Pengaduan</th>
+                            <th>Kode Tiket</th>
                             <th>Nama </th>
                             <th>Kanal Pengaduan</th>
                             <th>Lokasi Pengaduan</th>
@@ -119,6 +120,7 @@
                             @foreach($tr_pengaduans as $no=>$tr_p)
                         <tr>
                             <td class="text-capitalize"> {{ $tr_p->pengaduan_id }}</td>
+                            <td class="text-capitalize"> {{ $tr_p->kode_tiket }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_kanal }}</td>
                             <td class="text-capitalize"> {{ $tr_p->nama_posisi }}</td>

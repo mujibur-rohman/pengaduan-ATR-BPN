@@ -193,7 +193,7 @@ class LandingController extends Controller {
                 $message = 'Pengaduan terbaru. Kode tiket #' . $model->kode_tiket;
                 $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
                 
-                \App\Notification::addToAdmin($message, $url);
+                \App\Notification::addToAdmin($message, $url, 'tr_pengaduan', $model->pengaduan_id);
                 
                 $cJson = json_encode([
                     'kode_tiket' => $model->kode_tiket,
@@ -331,7 +331,7 @@ class LandingController extends Controller {
                 $message = 'Pengadu memberikan tangapan. Kode tiket #' . $model->kode_tiket;
                 $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
                 
-                \App\Notification::add($model->posisi_user_id, $message, $url);
+                \App\Notification::add($model->posisi_user_id, $message, $url, 'tr_pengaduan', $model->pengaduan_id);
                 
             } else if ($action == "logout") {
                 setcookie('ticket', 'Expired', time() - 100000, '/');

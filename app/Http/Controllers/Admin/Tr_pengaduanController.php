@@ -185,7 +185,7 @@ class Tr_pengaduanController extends MyController {
             ->join('ms_pengaduan_posisi', 'tr_pengaduan.posisi_id', 'ms_pengaduan_posisi.posisi_id')
             ->join('ms_pengaduan_status', 'tr_pengaduan.status_id', 'ms_pengaduan_status.status_id')
             ->leftjoin('users', 'tr_pengaduan.create_by', 'users.id_user')
-            ->select('tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
+            ->select('tr_pengaduan.kode_tiket', 'tr_pengaduan.pengaduan_id', 'ms_pengaduan_jenis.nama_jenis', 'ms_pengaduan_kanal.nama_kanal',
                 'ms_pengaduan_posisi.nama_posisi', 'ms_pengaduan_status.nama_status', 'tr_pengaduan.status_id',
                 'nama', 'alamat', 'tr_pengaduan.email', 'pekerjaan', 'no_telp', 'obyek_aduan', 'hubungan', 'no_berkas', 'uraian_pengaduan', 'users.username',
                 'leadtime1', 'leadtime2', 'leadtime3', 'tr_pengaduan.created_at' )
@@ -244,6 +244,8 @@ class Tr_pengaduanController extends MyController {
         if ($model != null) {
             $lampiran = $model->lampiran->all();
             $tangapan = \App\Tr_pengaduan_respon::where('pengaduan_id', $model->pengaduan_id)->get();
+            
+            \App\Notification::release(Auth::id(), 'tr_pengaduan', $model->pengaduan_id);
         }
 
         return view('pages.admin.tr_pengaduan.view', compact(
@@ -406,7 +408,7 @@ class Tr_pengaduanController extends MyController {
             $message = 'Disposisi verifikator. Kode tiket #' . $model->kode_tiket;
             $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
 
-            \App\Notification::add($id_user, $message, $url);
+            \App\Notification::add($id_user, $message, $url, 'tr_pengaduan', $model->pengaduan_id);
                 
             Tr_pengaduan::lockRelease($model);
             
@@ -512,7 +514,7 @@ class Tr_pengaduanController extends MyController {
             $message = 'Disposisi responder. Kode tiket #' . $model->kode_tiket;
             $url = URL::to('/admin/tr_pengaduan/view/' . $model->pengaduan_id);
 
-            \App\Notification::add($id_user, $message, $url);
+            \App\Notification::add($id_user, $message, $url, 'tr_pengaduan', $model->pengaduan_id);
             
             Tr_pengaduan::lockRelease($model);
             
