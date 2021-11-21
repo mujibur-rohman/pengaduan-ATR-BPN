@@ -31,4 +31,18 @@ class Notification extends Model {
             }
         }
     }
+    
+    public static function getNotif($user_id) {
+        $model = Notification::where('user_id', $user_id)
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+        
+        return $model == null ? [] : $model;
+    }
+    
+    public static function getTotalUnread($user_id) {
+        return Notification::where('user_id', $user_id)
+            ->where('is_read', 'N')->count();
+    }
 }

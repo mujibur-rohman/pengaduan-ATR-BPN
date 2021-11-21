@@ -10,6 +10,7 @@ Route::match(['get', 'post'], '/tiket_login', 'LandingController@tiket_login')->
 Route::middleware(['auth'])->prefix('admin')->group(function(){
     Route::match(['get', 'post'], '/settings', 'Admin\SettingsController@index');
     Route::match(['post'], '/change_permission', 'Admin\SettingsController@change_permission');
+    Route::get('/load_notif', 'Admin\AdminController@load_notif');
     
     Route::prefix('tr_pengaduan')->group(function () {
         Route::get('/view/{id}', 'Admin\Tr_pengaduanController@view')->name('view_pengaduan');
