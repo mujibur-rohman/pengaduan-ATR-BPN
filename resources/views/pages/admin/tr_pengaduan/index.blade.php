@@ -13,7 +13,7 @@
             <!--   main  ============================================================== -->
             <div class="panel-heading" style="margin-bottom:2%">
                 <div class="panel-title col-md-12">
-                    <h4 class="col-md-4">Transaksi Pengaduan {{ $kanal_name }} - {{ $permission }}</h4>
+                    <h4 class="col-md-4">Transaksi Pengaduan {{ $kanal_name }}</h4>
                 </div>
             </div>
             <div class="box-filter border p-4 rounded mb-3">
