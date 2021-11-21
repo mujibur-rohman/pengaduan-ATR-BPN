@@ -106,4 +106,22 @@ class Tr_pengaduan extends Model {
         }
         return $is_valid_permission;
     }
+    
+    /**
+     * Check apakah pengaduan duplicate atau tidak
+     * 
+     * @param type $nik
+     * @param type $email
+     * @param type $aduan
+     * @return type
+     */
+    public static function isDuplicate($nik, $email, $aduan) {
+        // nik+email+object pengaduan
+        $model = Tr_pengaduan::where('nik', $nik)
+            ->where('email', $email)
+            ->where('obyek_aduan', $aduan)
+            ->first();
+        
+        return $model != null;
+    }
 }

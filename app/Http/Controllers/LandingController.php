@@ -76,8 +76,18 @@ class LandingController extends Controller {
                         ->withErrors($validator)
                         ->withInput();
         }
-
+        
         $data = $request->post('pengaduan');
+        
+        $isDuplicate = Tr_pengaduan::isDuplicate($data['nik'], $data['email'], $data['objek_aduan']);
+
+        if ($isDuplicate != null) {
+            $validator->errors()->add('duplicate', 'Data pengaduan sudah pernah dibuat');
+            return redirect('/#form')
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        
         $code = md5(date('YmdHis') . $data['email'] . rand(10, 99) . rand(10, 99)) . '_' . time();
         
         $model = new Tr_pengaduan();
