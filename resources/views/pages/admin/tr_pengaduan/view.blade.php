@@ -50,7 +50,7 @@
                             <p class="fs-5">{{ $model->status->nama_status }}</p>
                         </div>
                         <div class="col-md-6 col-lg-4">
-                            <h5>Posisi Pengaduan</h5>
+                            <h5>Lokasi Pengaduan</h5>
                             <p class="fs-5">{{ $model->posisi->nama_posisi }}</p>
                         </div>
                         <div class="col-md-6 col-lg-4">

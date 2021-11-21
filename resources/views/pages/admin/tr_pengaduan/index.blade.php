@@ -60,7 +60,7 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <label class="form-label">Posisi Pengaduan</label>
+                            <label class="form-label">Lokasi Pengaduan</label>
                             <div class="d-flex mb-3">
                                 <select id="posisi_select2" name="posisi_id" class="form-control form-select">
                                     <option value="0">Semua data</option>
@@ -108,7 +108,7 @@
                             <th>No Pengadu</th>
                             <th>Nama </th>
                             <th>Kanal Pengaduan</th>
-                            <th>Posisi Pengaduan</th>
+                            <th>Lokasi Pengaduan</th>
                             <th>Status Pengaduan</th>
                             <th width="5%">&nbsp;</th>
                         </tr>
