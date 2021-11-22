@@ -58,7 +58,7 @@
             <div class="modal-body">
                 <form class="form" id="myForm">
                     {{ csrf_field() }}
-                    <input type="hidden" name="id_user" id="id_user"/>
+                    <input type="hidden" name="id_user" id="id_user" value=""/>
                     <div class="form-group row" style="margin-bottom: 10px;">
                         <label for="staticEmail" class="col-sm-3 col-form-label">Email</label>
                         <div class="col-sm-9">
@@ -103,6 +103,20 @@
                             <input type="checkbox" name="users[akses][2]" value="Y"/> Responder<br/>
                         </div>
                     </div>
+                    
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Password</label>
+                        <div class="col-sm-9">
+                            <input id="users-password" type="password" class="form-control" name="users[password]"/>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Ulangi Password</label>
+                        <div class="col-sm-9">
+                            <input id="users-ulangi_password" type="password" class="form-control" name="users[ulangi_password]"/>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -118,11 +132,19 @@
 @push('script')
 <script type="text/javascript">
 $(document).ready(function(){
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
     function showModal(title, data) {
         $('#myModal .modal-title').html(title);
         
-        $('#nama_status').val(data !== null ? data.nama_status : '');
-        $('#status_id').val(data !== null ? data.status_id : '');
+        $('#id_user').val(data !== null ? data.id_user : '');
+        $('#users-fullname').val(data !== null ? data.fullname : '');
+        $('#users-email').val(data !== null ? data.email : '');
+        $('#users-posisi_id').val(data !== null ? data.posisi_id : '');
+        $('#users-id_role').val(data !== null ? data.id_role : '');
         $('#myModal').modal('show');
     }
     
@@ -133,7 +155,7 @@ $(document).ready(function(){
             { "data": "id_user", width: '5%', className: 'text-center' },
             { "data": "fullname" },
             { "data": "email" },
-            { "data": "role_name" },
+            { "data": "role_desc" },
             { "data": "nama_posisi" },
             { "data": "flag_role" },
             { 
@@ -177,22 +199,73 @@ $(document).ready(function(){
     
     $('#btnTambah').click(function(e){
         e.preventDefault();
+        $('#id_user').val('');
         showModal('Tambah User', null);
     });
     $('#btnSave').click(function(e){
         e.preventDefault();
-        if ($('#nama_status').val() === '') {
-            alert('Nama status tidak boleh kosong');
+        var id_user = $('#id_user').val(),
+            email = $('#users-email').val(),
+            fullname = $('#users-fullname').val(),
+            password = $('#users-password').val(),
+            ulangi_password = $('#users-ulangi_password').val();
+            
+        if (email === '') {
+            alert('Email tidak boleh kosong');
             return;
         }
         
-        $.post("{{ URL::to('/admin/pengaduan_status/save') }}", $('#myForm').serialize(), function(resp){
+        if (!validateEmail(email)) {
+            alert('Format email salah');
+            return;
+        }
+        
+        if (fullname === '') {
+            alert('Nama user tidak boleh kosong');
+            return;
+        }
+        
+        if (id_user === '') {
+            if (password === '') {
+                alert('Password tidak boleh kosong');
+                return;
+            }
+
+            if (password.length < 7) {
+                alert('Panjang password minimal 7 karakter');
+                return;
+            }
+
+            if (password !== ulangi_password) {
+                alert('Password dan ulangi password tidak sama');
+                return;
+            }
+        } else {
+            if (password !== '') {
+                if (password === '') {
+                    alert('Password tidak boleh kosong');
+                    return;
+                }
+
+                if (password.length < 7) {
+                    alert('Panjang password minimal 7 karakter');
+                    return;
+                }
+
+                if (password !== ulangi_password) {
+                    alert('Password dan ulangi password tidak sama');
+                    return;
+                }
+            }
+        }
+        
+        $.post("{{ URL::to('/admin/register/save') }}", $('#myForm').serialize(), function(resp){
             if (resp.success) {
                 $('#myModal').modal('hide');
                 table.ajax.reload();
                 alert(resp.message);
             } else {
-                alert('message: ' + resp.message);
+                alert(resp.message);
             }
         }, 'json');
     });

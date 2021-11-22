@@ -100,12 +100,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
     
     Route::prefix('register')->group(function(){
         Route::get('/','Admin\Register2Controller@index')->name('listregister');
-        Route::get('/dataregister', 'Admin\Register2Controller@get')->name('daftarregister');
-        Route::get('/datajml', 'Admin\Register2Controller@getmax')->name('maxregister');
-        Route::post('/simpanregister', 'Admin\Register2Controller@save')->name('simpanregister');
-        Route::get('/getDataregister/{id}', 'Admin\Register2Controller@getregister');
-        Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
-        Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
+        Route::get('/list', 'Admin\Register2Controller@list');
+        Route::post('/save', 'Admin\Register2Controller@save');
     });
 
 	Route::get('/','Admin\AdminController@index')->name('indexAdmin');
@@ -199,12 +195,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
      Route::post('/updateProfiledisposisi/{id}', 'DisposisiController@updateProfile');
      Route::get('/getidkaryawan/{id}', 'DisposisiController@getkaryawan');
     }); 
-
-
-	Route::prefix('register')->group(function(){
-            Route::get('/','Admin\Register2Controller@index')->name('listregister');
-            Route::get('/list', 'Admin\Register2Controller@list');
-        });
 
 			// Route::prefix('pengaduan_status')->group(function(){
 			// 	Route::get('/','Admin\Pengaduan_statusController@index')->name('listpengaduan_status');
