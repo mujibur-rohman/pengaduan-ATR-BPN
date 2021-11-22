@@ -31,6 +31,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
         Route::post('/','Admin\PusatController@postIndex')->name('postIndexPusatAdmin');
     }); 
     
+    // master pengaduan_posisi
+    Route::prefix('posisi')->group(function(){
+        Route::get('/','Admin\Pengaduan_posisiController@index')->name('listpengaduan_posisi');
+        Route::get('/list','Admin\Pengaduan_posisiController@list');
+        Route::post('/save','Admin\Pengaduan_posisiController@save');
+        Route::post('/delete', 'Admin\Pengaduan_posisiController@delete');
+    });
+    
     // Router untuk master data ms_pengaduan_kanal
     Route::prefix('pengaduan_kanal')->group(function(){
         Route::get('/','Admin\Pengaduan_kanalController@index')->name('listpengaduan_kanal');

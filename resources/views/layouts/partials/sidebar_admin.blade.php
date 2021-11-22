@@ -118,6 +118,12 @@
                                                 </a>
                                             </li>
                                             
+                                            <li><a href="{{route('listpengaduan_posisi')}}">
+                                                <i _ngcontent-uqw-c196="" class="far fa-list-alt"></i>
+                                                <span data-key="t-invoice-detail">Lokasi Pengaduan</span>
+                                                </a>
+                                            </li>
+                                            
                                             <li><a href="{{route('listpengaduan_jenis')}}">
                                                 <i _ngcontent-uqw-c196="" class="fas fa-hockey-puck"></i>
                                                 <span data-key="t-invoice-detail">Jenis Pengaduan</span>
