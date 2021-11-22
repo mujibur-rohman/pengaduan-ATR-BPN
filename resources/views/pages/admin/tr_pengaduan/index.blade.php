@@ -62,14 +62,13 @@
                         <div class="col-4">
                             <label class="form-label">Lokasi Pengaduan</label>
                             <div class="d-flex mb-3">
-                                <select id="posisi_select2" name="posisi_id" class="form-control form-select">
+                                <select class="form-control form-select" name="posisi_id" id="posisi_select2">
                                     <option value="0">Semua data</option>
-                                    <option value="1">Humas Pusat ATR BPN</option>
-                                    <option value="2">Itjen 7 Pusat ATR BPN</option>
-                                    <option value="3">Verifikator Pusat ATR BPN</option>
-                                    <option value="4">Admin Kanwil Jawa Barat</option>
-                                    <option value="5">Verifikator Kanwil Jawa Barat</option>
-                                    <option value="6">Responder Kanwil Jawa Barat</option>
+                                    @foreach (\App\Pengaduan_posisi::select('posisi_id','nama_posisi')->get() as $posisi)
+                                    <option value="{{ $posisi->posisi_id }}">
+                                    {{ $posisi->nama_posisi }}
+                                    </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <label class="form-label">Klasifikasi Pengaduan</label>

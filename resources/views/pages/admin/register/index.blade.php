@@ -95,6 +95,14 @@
                             </select>
                         </div>
                     </div>
+                    <div class="form-group row" style="margin-bottom: 10px;">
+                        <label for="staticEmail" class="col-sm-3 col-form-label">Hak Akses</label>
+                        <div class="col-sm-9">
+                            <input type="checkbox" name="users[akses][0]" value="Y"/> Admin<br/>
+                            <input type="checkbox" name="users[akses][1]" value="Y"/> Verifikator<br/>
+                            <input type="checkbox" name="users[akses][2]" value="Y"/> Responder<br/>
+                        </div>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
