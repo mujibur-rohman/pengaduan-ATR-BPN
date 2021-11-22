@@ -60,6 +60,7 @@
                         <label for="staticEmail" class="col-sm-3 col-form-label">Parent</label>
                         <div class="col-sm-9">
                             <select class="form-control" name="parent_id" id="parent_id">
+                                <option value="0">Root</option>
                                 @foreach (\App\Pengaduan_posisi::select('posisi_id','nama_posisi')->get() as $posisi)
                                 <option value="{{ $posisi->posisi_id }}">
                                 {{ $posisi->nama_posisi }}

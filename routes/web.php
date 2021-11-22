@@ -203,12 +203,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function(){
 
 	Route::prefix('register')->group(function(){
             Route::get('/','Admin\Register2Controller@index')->name('listregister');
-            Route::get('/dataregister', 'Admin\Register2Controller@get')->name('daftarregister');
-            Route::get('/datajml', 'Admin\Register2Controller@getmax')->name('maxregister');
-            Route::post('/simpanregister', 'Admin\Register2Controller@save')->name('simpanregister');
-            Route::get('/getDataregister/{id}', 'Admin\Register2Controller@getregister');
-            Route::post('Admin/editDataregister/{id}', 'Admin\Register2Controller@update');
-            Route::get('/hapusDataregister/{id}', 'Admin\Register2Controller@delete');
+            Route::get('/list', 'Admin\Register2Controller@list');
         });
 
 			// Route::prefix('pengaduan_status')->group(function(){

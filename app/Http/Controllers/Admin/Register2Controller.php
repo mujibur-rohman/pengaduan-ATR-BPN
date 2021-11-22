@@ -4,25 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-
 use App\Users;
 use App\Roles;
 use DB;
 
+class Register2Controller extends Controller {
+    private $users;
+    private $roles;
 
-class Register2Controller extends Controller
-{
-    private $users;private $roles;
-
-
-	
-    public function allRegister()
-    {
-        return view('pages.admin.register.index');
+    public function list() {
+        $model = DB::table('users as t')
+            ->select('t.id_user', 't.fullname', 't.email', 't.posisi_id', 'r.description as role_name', 'p.nama_posisi', 't.flag_role')
+            ->leftJoin('roles as r', 't.id_role', 'r.id_role')
+            ->leftJoin('ms_pengaduan_posisi as p', 't.posisi_id', 'p.posisi_id')
+            ->get();
+        
+        echo json_encode([
+            'data' => $model
+        ]);
     }
-
-   
+    
     public function index(){
         $roles = Roles::all();
         return view('pages.admin.register.index', compact('roles'));

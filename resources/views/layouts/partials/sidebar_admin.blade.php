@@ -161,23 +161,12 @@
 
                                     <ul class="sub-menu mm-collapse" aria-expanded="false">
                                         <li><a href="{{ route('listregister') }}">
-                                        <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
-                                            <span data-key="t-invoice-detail">Users
-                                            </span>
-                                        </a>
-                                        </li>
-                                        <li><a href="#"> 
                                             <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
-                                            <span  data-key="t-invoice-detail">User Role</span>
+                                                <span data-key="t-invoice-detail">Users
+                                                </span>
                                             </a>
                                         </li>
-                                        <li class="sub-menu mm-collapse" aria-expanded="false">
-                                        <li><a href="#"> <i _ngcontent-xeb-c237="" class="fas fa-users"></i>
-                                            <span  data-key="t-invoice-detail">Role Authorization</span>
-                                            </a>
-                                        </li>
-                                </li>
-                                </ul>
+                                    </ul>
                                 </li>
                                 <!-- end manager user --->
 
